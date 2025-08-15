@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <div class="box">
+                    <h1 class="title has-text-centered has-text-danger">Excluir Conta</h1>
+                    
+                    <div class="notification is-warning">
+                        <p><strong>Atenção!</strong> Esta ação não pode ser desfeita.</p>
+                        <p>Ao excluir sua conta:</p>
+                        <ul style="margin-left: 1.5em; margin-top: 0.5em; list-style-type: disc;">
+                            <li>Todos os seus dados pessoais serão removidos</li>
+                            <li>Suas tarefas e comentários serão excluídos</li>
+                            <li>Você será removido de todos os grupos</li>
+                            <li>Seu histórico financeiro será apagado</li>
+                        </ul>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="notification {% if message.tags == 'error' %}is-danger{% else %}is-{{ message.tags }}{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="field">
+                            <label class="label">{{ form.password.label }}</label>
+                            <div class="control">
+                                {{ form.password }}
+                            </div>
+                            {% if form.password.errors %}
+                                <p class="help is-danger">{{ form.password.errors.0 }}</p>
+                            {% endif %}
+                            {% if form.password.help_text %}
+                                <p class="help">{{ form.password.help_text }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox">
+                                    {{ form.confirm_deletion }}
+                                    {{ form.confirm_deletion.label }}
+                                </label>
+                            </div>
+                            {% if form.confirm_deletion.errors %}
+                                <p class="help is-danger">{{ form.confirm_deletion.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="field is-grouped is-grouped-centered">
+                            <div class="control">
+                                <button type="submit" class="button is-danger">
+                                    <span class="icon">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span>Excluir Minha Conta</span>
+                                </button>
+                            </div>
+                            <div class="control">
+                                <a href="{% url 'perfil' %}" class="button is-light">Cancelar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

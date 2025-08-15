@@ -1,0 +1,158 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-8">
+        <div class="box">
+            <div class="columns">
+                <!-- Foto e informações básicas -->
+                <div class="column is-4">
+                    <div class="has-text-centered">
+                        <figure class="image is-128x128 mx-auto mb-4">
+                            {% if user.perfil.avatar %}
+                                <img class="is-rounded" src="{{ user.perfil.avatar.url }}" alt="{{ user.get_full_name }}">
+                            {% else %}
+                                <img class="is-rounded" src="{% static 'img/default-avatar.png' %}" alt="Avatar padrão">
+                            {% endif %}
+                        </figure>
+                        
+                        <h1 class="title is-4">{{ user.get_full_name }}</h1>
+                        <p class="subtitle is-6">@{{ user.username }}</p>
+                        
+                        {% if user.perfil.bio %}
+                            <p class="has-text-grey">{{ user.perfil.bio }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Formulário de edição -->
+                <div class="column is-8">
+                    <h2 class="title is-4 mb-5">Editar Perfil</h2>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="notification is-{{ message.tags }}">
+                                <button class="delete"></button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="field">
+                            <label class="label">Foto de Perfil</label>
+                            <div class="control">
+                                <div class="file has-name">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="avatar" accept="image/*">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">Escolher arquivo...</span>
+                                        </span>
+                                        <span class="file-name" id="filename">Nenhum arquivo selecionado</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Nome</label>
+                            <div class="control">
+                                <input class="input" type="text" name="first_name" value="{{ user.first_name }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Sobrenome</label>
+                            <div class="control">
+                                <input class="input" type="text" name="last_name" value="{{ user.last_name }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="email" name="email" value="{{ user.email }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">Sobre mim</label>
+                            <div class="control">
+                                <textarea class="textarea" name="bio" rows="3">{{ user.perfil.bio }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h3 class="title is-5 mb-4">Configurações</h3>
+                        
+                        <div class="field">
+                            <label class="label">Tema</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="tema">
+                                        <option value="claro" {% if user.perfil.tema == 'claro' %}selected{% endif %}>Claro</option>
+                                        <option value="escuro" {% if user.perfil.tema == 'escuro' %}selected{% endif %}>Escuro</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="checkbox">
+                                <input type="checkbox" name="notificacoes_email" {% if user.perfil.notificacoes_email %}checked{% endif %}>
+                                Receber notificações por email
+                            </label>
+                        </div>
+                        
+                        <div class="field is-grouped mt-5">
+                            <div class="control">
+                                <button type="submit" class="button is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-save"></i>
+                                    </span>
+                                    <span>Salvar Alterações</span>
+                                </button>
+                            </div>
+                            <div class="control">
+                                <a href="{% url 'excluir_conta' %}" class="button is-danger is-light">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    <span>Excluir Conta</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Atualizar nome do arquivo selecionado
+        const fileInput = document.querySelector('.file-input');
+        const fileName = document.querySelector('.file-name');
+        
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+            } else {
+                fileName.textContent = 'Nenhum arquivo selecionado';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Notificações{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8 is-offset-2">
+        <h1 class="title">Notificações</h1>
+
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h2 class="subtitle">
+                        {% if notificacoes %}
+                            {{ notificacoes.count }} notificação{{ notificacoes.count|pluralize }}
+                        {% else %}
+                            Nenhuma notificação
+                        {% endif %}
+                    </h2>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <a href="{% url 'configurar_notificacoes' %}" class="button is-light">
+                        <span class="icon"><i class="fas fa-cog"></i></span>
+                        <span>Configurar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% for notificacao in notificacoes %}
+        <div class="notification {% if not notificacao.lida %}is-info{% else %}is-light{% endif %}">
+            <button class="delete" aria-label="delete"></button>
+            <div class="level is-mobile">
+                <div class="level-left">
+                    <div class="level-item">
+                        <span class="icon">
+                            {% if notificacao.tipo == 'tarefa_proxima' %}
+                                <i class="fas fa-clock"></i>
+                            {% elif notificacao.tipo == 'mencao' %}
+                                <i class="fas fa-at"></i>
+                            {% elif notificacao.tipo == 'convite_grupo' %}
+                                <i class="fas fa-users"></i>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="level-item">
+                        {{ notificacao.conteudo }}
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <small class="has-text-grey">
+                            {{ notificacao.criado_em|timesince }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="has-text-centered has-text-grey-light">
+            <p class="is-size-4 mb-4">📭</p>
+            <p>Você não tem notificações no momento</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Deletar notificações
+    document.querySelectorAll('.notification .delete').forEach(($delete) => {
+        $delete.addEventListener('click', () => {
+            const $notification = $delete.closest('.notification');
+            $notification.classList.add('is-hidden');
+
+            // Enviar requisição para marcar como lida
+            const notificacaoId = $notification.dataset.notificacaoId;
+            fetch(`/notificacoes/${notificacaoId}/ler/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({})
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

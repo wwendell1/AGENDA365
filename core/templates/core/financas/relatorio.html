@@ -1,0 +1,126 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load core_extras %}
+
+{% block title %}Relatório Financeiro{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-10 is-offset-1">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h1 class="title">Relatório Financeiro</h1>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <div class="select">
+                                <select id="mes" name="mes">
+                                    {% now "Y" as current_year %}
+                                    {% for m in "123456789101112"|make_list %}
+                                        <option value="{{ forloop.counter }}" 
+                                                {% if forloop.counter == mes|default:1 %}selected{% endif %}>
+                                            {% with m|add:"0"|stringformat:"02d" as month_num %}
+                                                {{ month_num|add:"/01/"|add:current_year|date:"F" }}
+                                            {% endwith %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="select">
+                                <select id="ano" name="ano">
+                                    {% now "Y" as current_year %}
+                                    {% with current_year|add:"-2" as start_year %}
+                                    {% with current_year|add:"2" as end_year %}
+                                        {% for year in start_year|get_range:end_year %}
+                                            <option value="{{ year }}" 
+                                                    {% if year == ano|default:current_year %}selected{% endif %}>
+                                                {{ year }}
+                                            </option>
+                                        {% endfor %}
+                                    {% endwith %}
+                                    {% endwith %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <button class="button is-info" id="filtrar">Filtrar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <button class="button is-success" id="exportar">
+                        <span class="icon"><i class="fas fa-file-excel"></i></span>
+                        <span>Exportar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <!-- Gráfico de Receitas x Despesas -->
+            <div class="column is-6">
+                <div class="box">
+                    <h3 class="title is-4">Receitas x Despesas</h3>
+                    <canvas id="balanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico de Categorias -->
+            <div class="column is-6">
+                <div class="box">
+                    <h3 class="title is-4">Despesas por Categoria</h3>
+                    <canvas id="categoriasChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela Detalhada -->
+        <div class="box">
+            <h3 class="title is-4">Detalhamento por Categoria</h3>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Receitas</th>
+                        <th>Despesas</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria, valores in categorias.items %}
+                    <tr>
+                        <td>{{ categoria }}</td>
+                        <td class="has-text-success">R$ {{ valores.receitas|floatformat:2 }}</td>
+                        <td class="has-text-danger">R$ {{ valores.despesas|floatformat:2 }}</td>
+                        <td class="{% if valores.receitas > valores.despesas %}has-text-success{% else %}has-text-danger{% endif %}">
+                            R$ {{ valores.receitas|sub:valores.despesas|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Dados seguros em JSON -->
+<script id="chart-data" type="application/json">{{ chart_data_safe }}</script>
+
+<!-- Parse dos dados -->
+<script>
+const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+</script>
+
+<!-- Carrega o arquivo JS principal -->
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}

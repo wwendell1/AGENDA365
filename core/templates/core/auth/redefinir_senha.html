@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <div class="box">
+                    <h1 class="title has-text-centered">Redefinir Senha</h1>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="notification {% if message.tags == 'error' %}is-danger{% else %}is-{{ message.tags }}{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="field">
+                            <label class="label">{{ form.new_password1.label }}</label>
+                            <div class="control">
+                                {{ form.new_password1 }}
+                            </div>
+                            {% if form.new_password1.errors %}
+                                <p class="help is-danger">{{ form.new_password1.errors.0 }}</p>
+                            {% endif %}
+                            {% if form.new_password1.help_text %}
+                                <p class="help">{{ form.new_password1.help_text }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">{{ form.new_password2.label }}</label>
+                            <div class="control">
+                                {{ form.new_password2 }}
+                            </div>
+                            {% if form.new_password2.errors %}
+                                <p class="help is-danger">{{ form.new_password2.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">Redefinir Senha</button>
+                            </div>
+                        </div>
+                        
+                        <div class="has-text-centered mt-4">
+                            <a href="{% url 'login' %}" class="has-text-grey">Voltar para o login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

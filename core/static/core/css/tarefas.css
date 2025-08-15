@@ -1,0 +1,141 @@
+.semana-container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.dia-coluna {
+    flex: 1;
+    min-width: 250px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dia-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.dia-header h3 {
+    margin: 0;
+    color: #495057;
+    font-size: 1.2rem;
+}
+
+.dia-data {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.post-it {
+    background: #fff;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Cores para diferentes dias da semana */
+.dia-segunda .post-it { background-color: #ffecb3; }
+.dia-terca .post-it { background-color: #c8e6c9; }
+.dia-quarta .post-it { background-color: #bbdefb; }
+.dia-quinta .post-it { background-color: #f8bbd0; }
+.dia-sexta .post-it { background-color: #d1c4e9; }
+.dia-sabado .post-it { background-color: #b2dfdb; }
+.dia-domingo .post-it { background-color: #ffccbc; }
+
+.post-it:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.post-it.concluida {
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+
+.post-it.atrasada {
+    border-left: 4px solid #dc3545;
+}
+
+.tarefa-titulo {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #212529;
+}
+
+.tarefa-info {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.tarefa-grupo {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.tarefa-prioridade {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.prioridade-alta { background-color: #ffebee; color: #c62828; }
+.prioridade-media { background-color: #fff3e0; color: #ef6c00; }
+.prioridade-baixa { background-color: #f1f8e9; color: #558b2f; }
+
+.adicionar-tarefa {
+    width: 100%;
+    padding: 0.5rem;
+    text-align: center;
+    background: rgba(0,0,0,0.05);
+    border: 2px dashed #dee2e6;
+    border-radius: 4px;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.adicionar-tarefa:hover {
+    background: rgba(0,0,0,0.1);
+    color: #495057;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .semana-container {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1rem;
+    }
+
+    .dia-coluna {
+        flex: 0 0 85%;
+        scroll-snap-align: start;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.post-it {
+    animation: fadeIn 0.3s ease-out;
+}

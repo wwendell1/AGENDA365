@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtiva - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'dashboard' %}">
+                <strong>Produtiva</strong>
+            </a>
+
+            {% if user.is_authenticated %}
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="{% url 'semana_tarefas' %}" class="navbar-item">
+                    <span class="icon"><i class="fas fa-tasks"></i></span>
+                    <span>Tarefas</span>
+                </a>
+                <a href="{% url 'lista_grupos' %}" class="navbar-item">
+                    <span class="icon"><i class="fas fa-users"></i></span>
+                    <span>Grupos</span>
+                </a>
+                <a href="{% url 'lista_transacoes' %}" class="navbar-item">
+                    <span class="icon"><i class="fas fa-money-bill"></i></span>
+                    <span>Finanças</span>
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a href="{% url 'lista_notificacoes' %}" class="navbar-link">
+                        <span class="icon">
+                            <i class="fas fa-bell"></i>
+                        </span>
+                    </a>
+                    <div class="navbar-dropdown is-right">
+                        <a href="{% url 'configurar_notificacoes' %}" class="navbar-item">
+                            <span class="icon"><i class="fas fa-cog"></i></span>
+                            <span>Configurações</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span class="icon"><i class="fas fa-user"></i></span>
+                        <span>{{ user.username }}</span>
+                    </a>
+                    <div class="navbar-dropdown is-right">
+                        <a href="{% url 'perfil' %}" class="navbar-item">
+                            <span class="icon"><i class="fas fa-user-circle"></i></span>
+                            <span>Perfil</span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a href="{% url 'logout' %}" class="navbar-item">
+                            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                            <span>Sair</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+
+    <!-- Mensagens -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="notification is-{{ message.tags }}">
+            <button class="delete"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Conteúdo Principal -->
+    <main class="section">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

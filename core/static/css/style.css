@@ -1,0 +1,60 @@
+/* Estilos gerais */
+.navbar {
+    margin-bottom: 1rem;
+}
+
+/* Estilos para tarefas */
+.tarefas-dia {
+    min-height: 200px;
+}
+
+.tarefa-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #dbdbdb;
+}
+
+.tarefa-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tarefa-card.has-background-success-light {
+    border-left-color: #48c774;
+}
+
+.tarefa-card.has-background-danger-light {
+    border-left-color: #f14668;
+}
+
+.tarefa-checkbox {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.5em;
+    cursor: pointer;
+}
+
+/* Cores de prioridade */
+.tag.is-danger {
+    background-color: #ff3860;
+    color: white;
+}
+
+.tag.is-warning {
+    background-color: #ffdd57;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.tag.is-success {
+    background-color: #23d160;
+    color: white;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .columns {
+        margin: 0;
+    }
+    .column {
+        padding: 0.5rem;
+    }
+}

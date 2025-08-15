@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Finanças{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8">
+        <h1 class="title">Finanças</h1>
+        
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <a href="{% url 'nova_transacao' %}" class="button is-primary">
+                        <span class="icon"><i class="fas fa-plus"></i></span>
+                        <span>Nova Transação</span>
+                    </a>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="buttons">
+                        <a href="{% url 'relatorio_mensal' %}" class="button is-info">
+                            <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                            <span>Relatório</span>
+                        </a>
+                        <a href="?export=excel" class="button is-success">
+                            <span class="icon"><i class="fas fa-file-excel"></i></span>
+                            <span>Exportar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <table class="table is-fullwidth is-striped">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Valor</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transacao in transacoes %}
+                    <tr>
+                        <td>{{ transacao.data|date:"d/m/Y" }}</td>
+                        <td>{{ transacao.descricao }}</td>
+                        <td>
+                            <span class="tag">{{ transacao.categoria }}</span>
+                        </td>
+                        <td class="{% if transacao.tipo == 'receita' %}has-text-success{% else %}has-text-danger{% endif %}">
+                            R$ {{ transacao.valor|floatformat:2 }}
+                        </td>
+                        <td>
+                            <div class="buttons are-small">
+                                <a href="{% url 'editar_transacao' transacao.id %}" class="button is-info">
+                                    <span class="icon"><i class="fas fa-edit"></i></span>
+                                </a>
+                                <button class="button is-danger modal-trigger" data-target="delete-modal-{{ transacao.id }}">
+                                    <span class="icon"><i class="fas fa-trash"></i></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="column is-4">
+        <!-- Resumo Financeiro -->
+        <div class="box">
+            <h3 class="title is-4">Resumo</h3>
+            <div class="content">
+                <p class="has-text-success">
+                    <span class="icon"><i class="fas fa-arrow-up"></i></span>
+                    Receitas: R$ {{ receitas|floatformat:2 }}
+                </p>
+                <p class="has-text-danger">
+                    <span class="icon"><i class="fas fa-arrow-down"></i></span>
+                    Despesas: R$ {{ despesas|floatformat:2 }}
+                </p>
+                <hr>
+                <p class="title is-5">Saldo: R$ {{ saldo|floatformat:2 }}</p>
+            </div>
+        </div>
+
+        <!-- Gráfico de Categorias -->
+        <div class="box">
+            <h3 class="title is-4">Despesas por Categoria</h3>
+            <canvas id="categoriasChart"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Código do gráfico Chart.js aqui
+</script>
+{% endblock %}

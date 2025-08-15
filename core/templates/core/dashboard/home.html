@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="section">
+    <div class="columns is-multiline">
+        <!-- Tarefas Pendentes -->
+        <div class="column is-6">
+            <div class="box">
+                <h2 class="title is-4">Tarefas Pendentes</h2>
+                {% for tarefa in tarefas_pendentes %}
+                <div class="card mb-2">
+                    <div class="card-content">
+                        <p>{{ tarefa.titulo }}</p>
+                        <small>Vence em: {{ tarefa.data_limite|date:"d/m/Y" }}</small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="has-text-grey">Nenhuma tarefa pendente</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Resumo Financeiro -->
+        <div class="column is-6">
+            <div class="box">
+                <h2 class="title is-4">Resumo Financeiro</h2>
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Receitas</p>
+                            <p class="title has-text-success">R$ {{ resumo_financeiro.receitas|default:0|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Despesas</p>
+                            <p class="title has-text-danger">R$ {{ resumo_financeiro.despesas|default:0|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atividade dos Grupos -->
+        <div class="column is-12">
+            <div class="box">
+                <h2 class="title is-4">Grupos</h2>
+                <div class="columns is-multiline">
+                    {% for grupo in atividade_grupos %}
+                    <div class="column is-3">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-5">{{ grupo.nome }}</p>
+                                <p class="subtitle is-6">{{ grupo.tarefas_pendentes }} tarefas pendentes</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="column is-12">
+                        <p class="has-text-grey">Você não participa de nenhum grupo</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

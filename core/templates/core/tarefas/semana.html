@@ -1,0 +1,311 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/tarefas.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label for="grupo" class="form-label">Grupo</label>
+                    <select name="grupo" id="grupo" class="form-select">
+                        <option value="">Todos</option>
+                        {% for grupo in grupos %}
+                        <option value="{{ grupo.id }}" {% if filtro_grupo == grupo.id|stringformat:"s" %}selected{% endif %}>
+                            {{ grupo.nome }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="responsavel" class="form-label">Responsável</label>
+                    <select name="responsavel" id="responsavel" class="form-select">
+                        <option value="">Todos</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}" {% if filtro_responsavel == user.id|stringformat:"s" %}selected{% endif %}>
+                            {{ user.username }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>Pendente</option>
+                        <option value="concluida" {% if filtro_status == 'concluida' %}selected{% endif %}>Concluída</option>
+                        <option value="atrasada" {% if filtro_status == 'atrasada' %}selected{% endif %}>Atrasada</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Semana -->
+    <div class="semana-container">
+        {% for dia in dias_semana %}
+        <div class="dia-coluna dia-{{ dia.nome|lower }}">
+            <div class="dia-header">
+                <h3>{{ dia.nome }}</h3>
+                <div class="dia-data">{{ dia.data|date:"d/m" }}</div>
+            </div>
+            
+            {% for tarefa in dia.tarefas %}
+            <div class="post-it {% if tarefa.status == 'concluida' %}concluida{% elif tarefa.status == 'atrasada' %}atrasada{% endif %}" 
+                 draggable="true" 
+                 data-tarefa-id="{{ tarefa.id }}">
+                <div class="d-flex align-items-center mb-2">
+                    <input type="checkbox" 
+                           {% if tarefa.status == 'concluida' %}checked{% endif %}
+                           onchange="atualizarStatus(this, '{{ tarefa.id }}')">
+                    <h4 class="tarefa-titulo ms-2 mb-0">{{ tarefa.titulo }}</h4>
+                </div>
+                
+                <div class="tarefa-info mt-2">
+                    {% if tarefa.responsavel %}
+                    <div class="mb-1">
+                        <i class="fas fa-user"></i> {{ tarefa.responsavel.username }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex align-items-center gap-2">
+                        <span><i class="fas fa-clock"></i> {{ tarefa.data_limite|time:"H:i" }}</span>
+                        
+                        {% if tarefa.grupo %}
+                        <span class="tarefa-grupo">
+                            <i class="fas fa-users me-1"></i> {{ tarefa.grupo.nome }}
+                        </span>
+                        {% endif %}
+                        
+                        <span class="tarefa-prioridade prioridade-{{ tarefa.prioridade }}">
+                            {% if tarefa.prioridade == 'alta' %}
+                            <i class="fas fa-exclamation-circle"></i> Alta
+                            {% elif tarefa.prioridade == 'media' %}
+                            <i class="fas fa-exclamation"></i> Média
+                            {% else %}
+                            <i class="fas fa-arrow-down"></i> Baixa
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if tarefa.anexos.exists %}
+                    <div class="mt-1">
+                        <i class="fas fa-paperclip"></i> {{ tarefa.anexos.count }} anexo(s)
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center text-muted py-3">
+                <i class="fas fa-tasks fa-2x mb-2"></i>
+                <p class="mb-0">Nenhuma tarefa</p>
+            </div>
+            {% endfor %}
+            
+            <button class="button is-primary is-light is-fullwidth adicionar-tarefa mt-3" data-data="{{ dia.data|date:'Y-m-d' }}">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span>Adicionar Tarefa</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal de Nova Tarefa -->
+<div class="modal fade" id="novaTarefaModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nova Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'criar_tarefa' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="data" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="data" name="data" required>
+                        </div>
+                        <div class="col">
+                            <label for="hora" class="form-label">Hora</label>
+                            <input type="time" class="form-control" id="hora" name="hora" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="grupo" class="form-label">Grupo</label>
+                        <select class="form-select" id="grupo" name="grupo">
+                            <option value="">Nenhum</option>
+                            {% for grupo in grupos %}
+                            <option value="{{ grupo.id }}">{{ grupo.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="responsavel" class="form-label">Responsável</label>
+                        <select class="form-select" id="responsavel" name="responsavel">
+                            <option value="">Nenhum</option>
+                            {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioridade" class="form-label">Prioridade</label>
+                        <select class="form-select" id="prioridade" name="prioridade">
+                            <option value="baixa">Baixa</option>
+                            <option value="media" selected>Média</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="anexos" class="form-label">Anexos</label>
+                        <input type="file" class="form-control" id="anexos" name="anexos" multiple>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Botão Flutuante para Nova Tarefa -->
+<button class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4" 
+        style="width: 60px; height: 60px;"
+        data-bs-toggle="modal" 
+        data-bs-target="#novaTarefaModal">
+    <i class="fas fa-plus"></i>
+</button>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function atualizarStatus(checkbox, tarefaId) {
+    const status = checkbox.checked ? 'concluida' : 'pendente';
+    fetch(`/tarefas/${tarefaId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const postIt = checkbox.closest('.post-it');
+            if (status === 'concluida') {
+                postIt.classList.add('concluida');
+            } else {
+                postIt.classList.remove('concluida');
+            }
+        } else {
+            checkbox.checked = !checkbox.checked;
+            alert('Erro ao atualizar status da tarefa');
+        }
+    })
+    .catch(error => {
+        checkbox.checked = !checkbox.checked;
+        alert('Erro ao atualizar status da tarefa');
+    });
+}
+
+function abrirModalNovaTarefa(data) {
+    document.getElementById('data').value = data;
+    const modal = new bootstrap.Modal(document.getElementById('novaTarefaModal'));
+    modal.show();
+}
+
+// Adicionar Tarefa
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.adicionar-tarefa').forEach(button => {
+        button.addEventListener('click', function() {
+            const data = this.dataset.data;
+            abrirModalNovaTarefa(data);
+        });
+    });
+
+    // Drag and Drop
+    const postIts = document.querySelectorAll('.post-it');
+    const diaColunas = document.querySelectorAll('.dia-coluna');
+
+    postIts.forEach(postIt => {
+        postIt.addEventListener('dragstart', handleDragStart);
+        postIt.addEventListener('dragend', handleDragEnd);
+    });
+
+    diaColunas.forEach(coluna => {
+        coluna.addEventListener('dragover', handleDragOver);
+        coluna.addEventListener('drop', handleDrop);
+    });
+});
+
+function handleDragStart(e) {
+    e.target.classList.add('dragging');
+    e.dataTransfer.setData('text/plain', e.target.dataset.tarefaId);
+}
+
+function handleDragEnd(e) {
+    e.target.classList.remove('dragging');
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const tarefaId = e.dataTransfer.getData('text/plain');
+    const novaData = e.target.closest('.dia-coluna').querySelector('.dia-data').textContent;
+    
+    // Atualizar a data da tarefa no backend
+    fetch(`/tarefas/${tarefaId}/editar/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ nova_data: novaData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Move o elemento visualmente após sucesso no backend
+            const postIt = document.querySelector(`[data-tarefa-id="${tarefaId}"]`);
+            const targetColuna = e.target.closest('.dia-coluna');
+            const adicionarTarefa = targetColuna.querySelector('.adicionar-tarefa');
+            targetColuna.insertBefore(postIt, adicionarTarefa);
+        } else {
+            alert('Erro ao atualizar a data da tarefa');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao atualizar a data da tarefa');
+    });
+}
+</script>
+{% endblock %}

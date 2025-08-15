@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <div class="box">
+                    <h1 class="title has-text-centered">Recuperar Senha</h1>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="notification {% if message.tags %}is-{{ message.tags }}{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <div class="field">
+                            <label class="label">{{ form.email.label }}</label>
+                            <div class="control has-icons-left">
+                                <input type="email" name="email" class="input" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                            {% if form.email.help_text %}
+                                <p class="help">{{ form.email.help_text }}</p>
+                            {% endif %}
+                            {% if form.email.errors %}
+                                <p class="help is-danger">{{ form.email.errors|join:', ' }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">
+                                    <span class="icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                    <span>Enviar Email de Recuperação</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="has-text-centered mt-4">
+                            <a href="{% url 'login' %}" class="has-text-grey">
+                                Voltar para o Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

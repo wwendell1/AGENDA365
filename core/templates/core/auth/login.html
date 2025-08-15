@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-4">
+        <div class="box">
+            <h1 class="title has-text-centered">Login</h1>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="notification is-{{ message.tags }}">
+                        <button class="delete"></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                
+                <div class="field">
+                    <label class="label">Usuário</label>
+                    <div class="control has-icons-left">
+                        <input class="input" type="text" name="username" required minlength="3" maxlength="150" value="{{ request.POST.username|default:'' }}">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Senha</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input" type="password" name="password" required minlength="8">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <span class="icon is-small is-right password-toggle" style="pointer-events: all; cursor: pointer;">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-fullwidth">
+                            <span class="icon">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                            <span>Entrar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="has-text-centered mt-4">
+                    <p class="mb-2">
+                        <a href="{% url 'recuperar_senha' %}" class="has-text-grey">
+                            Esqueceu sua senha?
+                        </a>
+                    </p>
+                    <p>
+                        Não tem uma conta? 
+                        <a href="{% url 'registro' %}" class="has-text-primary">
+                            Registre-se
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fechar notificações
+        const notifications = document.querySelectorAll('.notification .delete');
+        notifications.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.parentNode.remove();
+            });
+        });
+
+        // Toggle de visualização da senha
+        const passwordToggles = document.querySelectorAll('.password-toggle');
+        passwordToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const input = toggle.parentNode.querySelector('input');
+                const icon = toggle.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

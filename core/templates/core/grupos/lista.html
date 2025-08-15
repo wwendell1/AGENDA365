@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Grupos{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <h1 class="title">Meus Grupos</h1>
+        
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <a href="{% url 'criar_grupo' %}" class="button is-primary">
+                        <span class="icon"><i class="fas fa-users"></i></span>
+                        <span>Novo Grupo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grupos que administro -->
+        <div class="box">
+            <h3 class="title is-4">Grupos que Administro</h3>
+            {% for grupo in grupos_admin %}
+            <div class="card mb-3">
+                <div class="card-content">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <h4 class="title is-5">{{ grupo.nome }}</h4>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="buttons">
+                                <a href="{% url 'convidar_membro' grupo.id %}" class="button is-small is-info">
+                                    <span class="icon"><i class="fas fa-user-plus"></i></span>
+                                    <span>Convidar</span>
+                                </a>
+                                <a href="{% url 'detalhes_grupo' grupo.id %}" class="button is-small">
+                                    <span class="icon"><i class="fas fa-cog"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="subtitle is-6">{{ grupo.descricao }}</p>
+                    <div class="tags">
+                        <span class="tag is-info">{{ grupo.membro_set.count }} membros</span>
+                        <span class="tag is-success">{{ grupo.tarefa_set.count }} tarefas</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="has-text-centered">Você não administra nenhum grupo.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Grupos que participo -->
+        <div class="box">
+            <h3 class="title is-4">Grupos que Participo</h3>
+            {% for grupo in grupos_membro %}
+            <div class="card mb-3">
+                <div class="card-content">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <h4 class="title is-5">{{ grupo.nome }}</h4>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <a href="{% url 'detalhes_grupo' grupo.id %}" class="button is-small">
+                                <span class="icon"><i class="fas fa-eye"></i></span>
+                                <span>Ver</span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="subtitle is-6">{{ grupo.descricao }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p class="has-text-centered">Você não participa de nenhum grupo.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

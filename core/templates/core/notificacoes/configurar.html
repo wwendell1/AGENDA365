@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Configurar Notificações{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-6 is-offset-3">
+        <div class="box">
+            <h1 class="title">Configurações de Notificação</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="field">
+                    <label class="checkbox">
+                        {{ form.receber_emails }}
+                        Receber notificações por email
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label class="checkbox">
+                        {{ form.notificar_tarefas_24h }}
+                        Alertar sobre tarefas 24h antes do prazo
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label class="checkbox">
+                        {{ form.notificar_mencoes }}
+                        Notificar quando for mencionado em comentários
+                    </label>
+                </div>
+
+                <div class="field">
+                    <label class="checkbox">
+                        {{ form.notificar_alteracoes_grupo }}
+                        Notificar sobre alterações nos grupos
+                    </label>
+                </div>
+
+                <div class="field">
+                    <button type="submit" class="button is-primary">
+                        <span class="icon"><i class="fas fa-save"></i></span>
+                        <span>Salvar Preferências</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

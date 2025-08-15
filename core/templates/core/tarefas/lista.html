@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Tarefas{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <h1 class="title">Minhas Tarefas</h1>
+        
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <a href="{% url 'criar_tarefa' %}" class="button is-primary">
+                        <span class="icon"><i class="fas fa-plus"></i></span>
+                        <span>Nova Tarefa</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="level-right">
+                <div class="level-item">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Buscar tarefas...">
+                        </div>
+                        <div class="control">
+                            <button class="button is-info">
+                                <span class="icon"><i class="fas fa-search"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns is-multiline">
+            {% for dia in dias_semana %}
+            <div class="column is-one-third">
+                <div class="box">
+                    <h3 class="title is-5">{{ dia.nome }}</h3>
+                    
+                    {% for tarefa in dia.tarefas %}
+                    <div class="card mb-2 {% if tarefa.status == 'atrasada' %}has-background-danger-light{% endif %}">
+                        <div class="card-content">
+                            <div class="level is-mobile">
+                                <div class="level-left">
+                                    <input type="checkbox" 
+                                           class="mr-2" 
+                                           {% if tarefa.status == 'concluida' %}checked{% endif %}>
+                                    <span class="{% if tarefa.status == 'concluida' %}has-text-grey-light{% endif %}">
+                                        {{ tarefa.titulo }}
+                                    </span>
+                                </div>
+                                
+                                <div class="level-right">
+                                    <div class="dropdown is-hoverable">
+                                        <div class="dropdown-trigger">
+                                            <button class="button is-small">
+                                                <span class="icon"><i class="fas fa-ellipsis-v"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-content">
+                                                <a href="{% url 'editar_tarefa' tarefa.id %}" class="dropdown-item">
+                                                    Editar
+                                                </a>
+                                                <a href="{% url 'excluir_tarefa' tarefa.id %}" 
+                                                   class="dropdown-item has-text-danger">

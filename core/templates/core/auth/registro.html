@@ -1,0 +1,233 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Registro{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para fechar notificações
+    document.querySelectorAll('.notification .delete').forEach(button => {
+        button.addEventListener('click', () => {
+            button.parentElement.remove();
+        });
+    });
+
+    // Toggle de visibilidade da senha
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const input = toggle.parentElement.querySelector('input');
+            const icon = toggle.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+
+    // Validação em tempo real
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.validity.valid) {
+                input.classList.remove('is-danger');
+                input.classList.add('is-success');
+                const helpText = input.parentElement.parentElement.querySelector('.help.is-danger');
+                if (helpText) {
+                    helpText.style.display = 'none';
+                }
+            } else {
+                input.classList.remove('is-success');
+                input.classList.add('is-danger');
+            }
+        });
+    });
+
+    // Validação de senha
+    const password1 = form.querySelector('input[name="password1"]');
+    const password2 = form.querySelector('input[name="password2"]');
+
+    function validatePasswords() {
+        if (password2.value && password1.value !== password2.value) {
+            password2.classList.add('is-danger');
+            password2.classList.remove('is-success');
+            let helpText = password2.parentElement.parentElement.querySelector('.help.is-danger');
+            if (!helpText) {
+                helpText = document.createElement('p');
+                helpText.classList.add('help', 'is-danger');
+                password2.parentElement.parentElement.appendChild(helpText);
+            }
+            helpText.textContent = 'As senhas não coincidem';
+            helpText.style.display = 'block';
+            return false;
+        } else if (password2.value) {
+            password2.classList.remove('is-danger');
+            password2.classList.add('is-success');
+            const helpText = password2.parentElement.parentElement.querySelector('.help.is-danger');
+            if (helpText) {
+                helpText.style.display = 'none';
+            }
+            return true;
+        }
+        return true;
+    }
+
+    password1.addEventListener('input', validatePasswords);
+    password2.addEventListener('input', validatePasswords);
+
+    // Validação do formulário antes do envio
+    form.addEventListener('submit', (e) => {
+        if (!validatePasswords()) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-6">
+        <div class="box">
+            <h1 class="title has-text-centered">Criar Conta</h1>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="notification is-{{ message.tags }} is-light">
+                        <button class="delete" aria-label="delete"></button>
+                        <p class="has-text-weight-medium">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="notification is-danger is-light">
+                        <button class="delete" aria-label="delete"></button>
+                        <p class="has-text-weight-medium">{{ error }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" class="mt-4" novalidate>
+                {% csrf_token %}
+                
+                <div class="field mb-4">
+                    <label class="label">Nome</label>
+                    <div class="control has-icons-left">
+                        <input class="input {% if form.first_name.errors %}is-danger{% endif %}" type="text" name="first_name" value="{{ form.first_name.value|default:'' }}" required minlength="2" maxlength="30" pattern="[A-Za-zÀ-ÿ\s]+" title="O nome deve conter apenas letras" autocomplete="given-name">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                    {% if form.first_name.errors %}
+                        <p class="help is-danger">{{ form.first_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Sobrenome</label>
+                    <div class="control has-icons-left">
+                        <input class="input {% if form.last_name.errors %}is-danger{% endif %}" type="text" name="last_name" value="{{ form.last_name.value|default:'' }}" required minlength="2" maxlength="30" pattern="[A-Za-zÀ-ÿ\s]+" title="O sobrenome deve conter apenas letras" autocomplete="family-name">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                    </div>
+                    {% if form.last_name.errors %}
+                        <p class="help is-danger">{{ form.last_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Nome de usuário</label>
+                    <div class="control has-icons-left">
+                        <input class="input {% if form.username.errors %}is-danger{% endif %}" type="text" name="username" value="{{ form.username.value|default:'' }}" required minlength="3" maxlength="150" pattern="[A-Za-z0-9_]+" title="O nome de usuário deve conter apenas letras, números e underline" autocomplete="username">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                    </div>
+                    {% if form.username.errors %}
+                        <p class="help is-danger">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control has-icons-left">
+                        <input class="input {% if form.email.errors %}is-danger{% endif %}" type="email" name="email" value="{{ form.email.value|default:'' }}" required maxlength="254" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Digite um email válido" autocomplete="email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </div>
+                    {% if form.email.errors %}
+                        <p class="help is-danger">{{ form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Senha</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input {% if form.password1.errors %}is-danger{% endif %}" type="password" name="password1" required minlength="8" maxlength="128" title="A senha deve ter no mínimo 8 caracteres" autocomplete="new-password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <span class="icon is-small is-right password-toggle" style="pointer-events: all; cursor: pointer;">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    {% if form.password1.errors %}
+                        <p class="help is-danger">{{ form.password1.errors.0 }}</p>
+                    {% endif %}
+                    {% if form.password1.help_text %}
+                        <p class="help">{{ form.password1.help_text }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Confirmar Senha</label>
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input {% if form.password2.errors %}is-danger{% endif %}" type="password" name="password2" required minlength="8" maxlength="128" title="A senha deve ter no mínimo 8 caracteres" autocomplete="new-password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <span class="icon is-small is-right password-toggle" style="pointer-events: all; cursor: pointer;">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    {% if form.password2.errors %}
+                        <p class="help is-danger">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field mt-5">
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-fullwidth">
+                            <span class="icon">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            <span>Criar Conta</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="has-text-centered mt-4">
+                    <p>
+                        Já tem uma conta? 
+                        <a href="{% url 'login' %}" class="has-text-primary">
+                            Faça login
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
