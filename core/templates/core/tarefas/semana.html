@@ -8,45 +8,37 @@
 {% block content %}
 <div class="container-fluid py-4">
     <!-- Filtros -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form method="get" class="row g-3 align-items-end">
-                <div class="col-md-3">
-                    <label for="grupo" class="form-label">Grupo</label>
-                    <select name="grupo" id="grupo" class="form-select">
-                        <option value="">Todos</option>
-                        {% for grupo in grupos %}
-                        <option value="{{ grupo.id }}" {% if filtro_grupo == grupo.id|stringformat:"s" %}selected{% endif %}>
-                            {{ grupo.nome }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="responsavel" class="form-label">Responsável</label>
-                    <select name="responsavel" id="responsavel" class="form-select">
-                        <option value="">Todos</option>
-                        {% for user in users %}
-                        <option value="{{ user.id }}" {% if filtro_responsavel == user.id|stringformat:"s" %}selected{% endif %}>
-                            {{ user.username }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select name="status" id="status" class="form-select">
-                        <option value="">Todos</option>
-                        <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>Pendente</option>
-                        <option value="concluida" {% if filtro_status == 'concluida' %}selected{% endif %}>Concluída</option>
-                        <option value="atrasada" {% if filtro_status == 'atrasada' %}selected{% endif %}>Atrasada</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
-                </div>
-            </form>
-        </div>
+    <div class="filters-container mb-4">
+        <form method="get" class="filters-form">
+            <div class="filter-group">
+                <select name="grupo" id="grupo" class="filter-select">
+                    <option value="">Grupo: Todos</option>
+                    {% for grupo in grupos %}
+                    <option value="{{ grupo.id }}" {% if filtro_grupo == grupo.id|stringformat:"s" %}selected{% endif %}>
+                        Grupo: {{ grupo.nome }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <select name="responsavel" id="responsavel" class="filter-select">
+                    <option value="">Responsável: Todos</option>
+                    {% for user in users %}
+                    <option value="{{ user.id }}" {% if filtro_responsavel == user.id|stringformat:"s" %}selected{% endif %}>
+                        Responsável: {{ user.username }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <select name="status" id="status" class="filter-select">
+                    <option value="">Status: Todos</option>
+                    <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>Status: Pendente</option>
+                    <option value="concluida" {% if filtro_status == 'concluida' %}selected{% endif %}>Status: Concluída</option>
+                    <option value="atrasada" {% if filtro_status == 'atrasada' %}selected{% endif %}>Status: Atrasada</option>
+                </select>
+            </div>
+        </form>
     </div>
 
     <!-- Semana -->
@@ -54,59 +46,62 @@
         {% for dia in dias_semana %}
         <div class="dia-coluna dia-{{ dia.nome|lower }}">
             <div class="dia-header">
-                <h3>{{ dia.nome }}</h3>
-                <div class="dia-data">{{ dia.data|date:"d/m" }}</div>
+                <h3>{{ dia.nome|upper }}</h3>
+                <div class="dia-info">
+                    <span>{{ dia.tarefas.count }} tarefas</span>
+                </div>
             </div>
             
             {% for tarefa in dia.tarefas %}
             <div class="post-it {% if tarefa.status == 'concluida' %}concluida{% elif tarefa.status == 'atrasada' %}atrasada{% endif %}" 
                  draggable="true" 
                  data-tarefa-id="{{ tarefa.id }}">
-                <div class="d-flex align-items-center mb-2">
-                    <input type="checkbox" 
-                           {% if tarefa.status == 'concluida' %}checked{% endif %}
-                           onchange="atualizarStatus(this, '{{ tarefa.id }}')">
-                    <h4 class="tarefa-titulo ms-2 mb-0">{{ tarefa.titulo }}</h4>
+                <div class="post-it-header">
+                    <div class="status-actions">
+                        <input type="checkbox" 
+                               class="status-checkbox"
+                               {% if tarefa.status == 'concluida' %}checked{% endif %}
+                               onchange="atualizarStatus(this, '{{ tarefa.id }}')">
+                        <div class="action-buttons">
+                            <button class="edit-button"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="delete-button"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <h4 class="tarefa-titulo {% if tarefa.status == 'concluida' %}riscado{% endif %}">{{ tarefa.titulo }}</h4>
+                    <p class="tarefa-descricao">{{ tarefa.descricao }}</p>
                 </div>
                 
-                <div class="tarefa-info mt-2">
-                    {% if tarefa.responsavel %}
-                    <div class="mb-1">
-                        <i class="fas fa-user"></i> {{ tarefa.responsavel.username }}
-                    </div>
-                    {% endif %}
-                    
-                    <div class="d-flex align-items-center gap-2">
-                        <span><i class="fas fa-clock"></i> {{ tarefa.data_limite|time:"H:i" }}</span>
-                        
-                        {% if tarefa.grupo %}
-                        <span class="tarefa-grupo">
-                            <i class="fas fa-users me-1"></i> {{ tarefa.grupo.nome }}
+                <div class="post-it-footer">
+                    {% if tarefa.responsavel or tarefa.grupo %}
+                    <div class="meta-info">
+                        {% if tarefa.responsavel %}
+                        <span class="responsavel">
+                            <i class="fas fa-user"></i> {{ tarefa.responsavel.username }}
                         </span>
                         {% endif %}
                         
-                        <span class="tarefa-prioridade prioridade-{{ tarefa.prioridade }}">
-                            {% if tarefa.prioridade == 'alta' %}
-                            <i class="fas fa-exclamation-circle"></i> Alta
-                            {% elif tarefa.prioridade == 'media' %}
-                            <i class="fas fa-exclamation"></i> Média
-                            {% else %}
-                            <i class="fas fa-arrow-down"></i> Baixa
-                            {% endif %}
+                        {% if tarefa.grupo %}
+                        <span class="grupo">
+                            <i class="fas fa-users"></i> {{ tarefa.grupo.nome }}
                         </span>
-                    </div>
-                    
-                    {% if tarefa.anexos.exists %}
-                    <div class="mt-1">
-                        <i class="fas fa-paperclip"></i> {{ tarefa.anexos.count }} anexo(s)
+                        {% endif %}
                     </div>
                     {% endif %}
+                    
+                    <div class="extra-info">
+                        <span class="hora"><i class="fas fa-clock"></i> {{ tarefa.data_limite|time:"H:i" }}</span>
+                        
+                        {% if tarefa.anexos.exists %}
+                        <span class="anexos">
+                            <i class="fas fa-paperclip"></i> {{ tarefa.anexos.count }}
+                        </span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% empty %}
-            <div class="text-center text-muted py-3">
-                <i class="fas fa-tasks fa-2x mb-2"></i>
-                <p class="mb-0">Nenhuma tarefa</p>
+            <div class="empty-state">
+                <p>Nenhuma tarefa</p>
             </div>
             {% endfor %}
             
