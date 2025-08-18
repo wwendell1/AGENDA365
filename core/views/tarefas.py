@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
+from django.template.loader import render_to_string
 from ..models import Tarefa, Grupo, Comentario, User, Anexo
 from ..forms import TarefaForm, ComentarioForm
 from datetime import datetime
@@ -134,17 +135,29 @@ def atualizar_status_tarefa(request, tarefa_id):
             data = json.loads(request.body)
             novo_status = data.get('status')
             
-            if novo_status in ['pendente', 'concluida']:
+            if novo_status in ['pendente', 'concluida', 'atrasada']:
                 tarefa.status = novo_status
                 tarefa.save()
-                return JsonResponse({'success': True})
+                return JsonResponse({
+                    'success': True,
+                    'status': novo_status
+                })
             
-            return JsonResponse({'success': False, 'error': 'Status inválido'})
+            return JsonResponse({
+                'success': False,
+                'error': 'Status inválido'
+            })
             
         except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            })
     
-    return JsonResponse({'success': False, 'error': 'Método não permitido'})
+    return JsonResponse({
+        'success': False,
+        'error': 'Método não permitido'
+    })
 
 @login_required
 def adicionar_comentario(request, tarefa_id):
@@ -231,75 +244,132 @@ def criar_tarefa(request):
 
 @login_required
 def editar_tarefa(request, tarefa_id):
-    tarefa = get_object_or_404(Tarefa, id=tarefa_id)
-    
-    # Verificar permissão
-    if not (request.user == tarefa.criado_por or 
-            request.user == tarefa.responsavel or 
-            (tarefa.grupo and request.user in tarefa.grupo.membros.all())):
-        return redirect('semana_tarefas')
-    
-    if request.method == 'POST':
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            # Requisição AJAX para atualizar data
-            data = json.loads(request.body)
-            nova_data = datetime.strptime(data['nova_data'], '%d/%m/%Y').date()
-            hora_atual = tarefa.data_limite.time()
+    try:
+        tarefa = get_object_or_404(Tarefa, id=tarefa_id)
+        
+        # Verificar permissão
+        if request.user != tarefa.criado_por and \
+           (not tarefa.grupo or request.user not in tarefa.grupo.membros.all()):
+            return JsonResponse({
+                'success': False,
+                'message': 'Você não tem permissão para editar esta tarefa'
+            })
+        
+        if request.method == 'POST':
+            # Verificar se é uma requisição AJAX para atualizar a data
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                try:
+                    nova_data = datetime.strptime(
+                        request.POST.get('nova_data'), '%Y-%m-%d'
+                    ).date()
+                    hora_atual = tarefa.data_limite.time()
+                    
+                    tarefa.data_limite = timezone.make_aware(
+                        datetime.combine(nova_data, hora_atual)
+                    )
+                    tarefa.save()
+                    
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Data atualizada com sucesso'
+                    })
+                except ValueError:
+                    return JsonResponse({
+                        'success': False,
+                        'message': 'Formato de data inválido'
+                    })
+            else:
+                # Requisição normal para edição completa
+                form = TarefaForm(request.POST, request.FILES, instance=tarefa)
+                if form.is_valid():
+                    try:
+                        tarefa = form.save(commit=False)
+                        
+                        # Combinar data e hora
+                        data = form.cleaned_data['data']
+                        hora = form.cleaned_data['hora']
+                        tarefa.data_limite = timezone.make_aware(
+                            datetime.combine(data, hora)
+                        )
+                        
+                        tarefa.save()
+                        form.save_m2m()
+                        
+                        # Processar anexos
+                        for arquivo in request.FILES.getlist('anexos'):
+                            Anexo.objects.create(
+                                tarefa=tarefa,
+                                arquivo=arquivo,
+                                nome=arquivo.name,
+                                tipo=arquivo.content_type,
+                                tamanho=arquivo.size,
+                                upload_por=request.user
+                            )
+                        
+                        return JsonResponse({
+                            'success': True,
+                            'message': 'Tarefa atualizada com sucesso!'
+                        })
+                    except Exception as e:
+                        return JsonResponse({
+                            'success': False,
+                            'message': f'Erro ao atualizar tarefa: {str(e)}'
+                        })
+                else:
+                    return JsonResponse({
+                        'success': False,
+                        'message': 'Formulário inválido',
+                        'errors': form.errors
+                    })
+        else:
+            initial = {
+                'data': tarefa.data_limite.date(),
+                'hora': tarefa.data_limite.time(),
+                'grupo': tarefa.grupo.id if tarefa.grupo else None,
+                'responsaveis': tarefa.responsaveis.all(),
+                'status': tarefa.status
+            }
+            form = TarefaForm(instance=tarefa, initial=initial)
             
-            tarefa.data_limite = timezone.make_aware(
-                datetime.combine(nova_data, hora_atual)
-            )
-            tarefa.save()
+            context = {
+                'form': form,
+                'tarefa': tarefa
+            }
             
             return JsonResponse({
                 'success': True,
-                'message': 'Data atualizada com sucesso'
+                'html': render_to_string('core/tarefas/editar.html', context, request=request)
             })
-        else:
-            # Requisição normal do formulário
-            form = TarefaForm(request.POST, request.FILES, instance=tarefa)
-            if form.is_valid():
-                tarefa = form.save(commit=False)
-                
-                # Combinar data e hora
-                data = form.cleaned_data['data']
-                hora = form.cleaned_data['hora']
-                tarefa.data_limite = timezone.make_aware(
-                    datetime.combine(data, hora)
-                )
-                
-                tarefa.save()
-                
-                # Processar anexos
-                for arquivo in request.FILES.getlist('anexos'):
-                    Anexo.objects.create(
-                        tarefa=tarefa,
-                        arquivo=arquivo,
-                        nome=arquivo.name
-                    )
-                
-                return redirect('detalhe_tarefa', tarefa_id=tarefa.id)
-    else:
-        initial = {
-            'data': tarefa.data_limite.date(),
-            'hora': tarefa.data_limite.time()
-        }
-        form = TarefaForm(instance=tarefa, initial=initial)
-    
-    context = {
-        'form': form,
-        'tarefa': tarefa
-    }
-    
-    return render(request, 'core/tarefas/editar.html', context)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': f'Erro ao processar tarefa: {str(e)}'
+        })
 
 @login_required
 def excluir_tarefa(request, tarefa_id):
     tarefa = get_object_or_404(Tarefa, id=tarefa_id)
     
     # Verificar permissão
-    if request.user == tarefa.criado_por or \
-       (tarefa.grupo and request.user in tarefa.grupo.membros.all()):
-        tarefa.delete()
+    if not (request.user == tarefa.criado_por or 
+            request.user == tarefa.responsavel or 
+            (tarefa.grupo and request.user in tarefa.grupo.membros.all())):
+        return JsonResponse({'success': False, 'message': 'Sem permissão para excluir esta tarefa'})
     
-    return redirect('semana_tarefas')
+    if request.method == 'POST':
+        try:
+            tarefa.delete()
+            return JsonResponse({
+                'success': True,
+                'message': 'Tarefa excluída com sucesso!'
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': f'Erro ao excluir tarefa: {str(e)}'
+            })
+    
+    return JsonResponse({
+        'success': False,
+        'message': 'Método não permitido'
+    })

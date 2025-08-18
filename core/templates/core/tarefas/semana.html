@@ -60,7 +60,7 @@
                                 <label class="checkbox-container">
                                     <input type="checkbox" 
                                            {% if tarefa.status == 'concluida' %}checked{% endif %}
-                                           onchange="atualizarStatus(this, '{{ tarefa.id }}', this.checked ? 'concluida' : 'pendente')">
+                                           onchange="atualizarStatus(this, {{ tarefa.id }}, this.checked ? 'concluida' : 'pendente')">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
@@ -76,8 +76,23 @@
                                 {% endif %}
                             </div>
                             <div class="tarefa-actions">
-                                <a href="#" class="btn-action btn-edit" title="Editar"><i class="fas fa-pencil-alt"></i></a>
-                                <button class="btn-action btn-delete" onclick="excluirTarefa('{{ tarefa.id }}')" title="Excluir">
+                                <button class="btn-action btn-edit" 
+                                        data-tarefa-id="{{ tarefa.id }}"
+                                        data-titulo="{{ tarefa.titulo }}"
+                                        data-descricao="{{ tarefa.descricao }}"
+                                        data-data="{{ tarefa.data_limite|date:'Y-m-d' }}"
+                                        data-hora="{{ tarefa.data_limite|time:'H:i' }}"
+                                        data-grupo-id="{{ tarefa.grupo.id|default:'' }}"
+                                        data-responsavel-id="{{ tarefa.responsavel.id|default:'' }}"
+                                        data-prioridade="{{ tarefa.prioridade }}"
+                                        onclick="editarTarefaHandler(this)" 
+                                        title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn-action btn-delete" 
+                                        data-tarefa-id="{{ tarefa.id }}"
+                                        onclick="excluirTarefaHandler(this)" 
+                                        title="Excluir">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -102,10 +117,11 @@
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title">Nova Tarefa</p>
+            <p class="modal-card-title" id="modalTitle">Nova Tarefa</p>
             <button class="delete" aria-label="close"></button>
         </header>
         <form id="formNovaTarefa" method="post" action="{% url 'criar_tarefa' %}" enctype="multipart/form-data">
+            <input type="hidden" id="tarefa_id" name="tarefa_id" value="">
             {% csrf_token %}
             <section class="modal-card-body">
                 <div class="field">
@@ -195,17 +211,13 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button type="submit" class="button is-primary">Criar Tarefa</button>
+                <button type="submit" class="button is-primary" id="submitButton">Criar Tarefa</button>
                 <button type="button" class="button">Cancelar</button>
             </footer>
         </form>
     </div>
 </div>
-
-
-
 {% endblock %}
-
 {% block extra_js %}
 <script>
 // Função para scroll horizontal do calendário
@@ -218,6 +230,26 @@ function scrollSemana(direction) {
     } else {
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
+}
+
+// Handler para editar tarefa usando data attributes
+function editarTarefaHandler(button) {
+    const id = button.dataset.tarefaId;
+    const titulo = button.dataset.titulo;
+    const descricao = button.dataset.descricao;
+    const data = button.dataset.data;
+    const hora = button.dataset.hora;
+    const grupoId = button.dataset.grupoId;
+    const responsavelId = button.dataset.responsavelId;
+    const prioridade = button.dataset.prioridade;
+    
+    editarTarefa(id, titulo, descricao, data, hora, grupoId, responsavelId, prioridade);
+}
+
+// Handler para excluir tarefa usando data attributes
+function excluirTarefaHandler(button) {
+    const id = button.dataset.tarefaId;
+    excluirTarefa(id);
 }
 
 // Fechar modal quando clicar no botão de fechar ou no fundo
@@ -397,7 +429,7 @@ function handleDragOver(e) {
 function handleDrop(e) {
     e.preventDefault();
     const tarefaId = e.dataTransfer.getData('text/plain');
-    const novaData = e.target.closest('.dia-coluna').querySelector('.dia-data').textContent;
+    const novaData = e.target.closest('.dia-coluna').dataset.data;
     
     // Atualizar a data da tarefa no backend
     fetch(`/tarefas/${tarefaId}/editar/`, {
@@ -415,8 +447,8 @@ function handleDrop(e) {
             // Move o elemento visualmente após sucesso no backend
             const postIt = document.querySelector(`[data-tarefa-id="${tarefaId}"]`);
             const targetColuna = e.target.closest('.dia-coluna');
-            const adicionarTarefa = targetColuna.querySelector('.adicionar-tarefa');
-            targetColuna.insertBefore(postIt, adicionarTarefa);
+            const tarefasContainer = targetColuna.querySelector('.tarefas-container');
+            tarefasContainer.appendChild(postIt);
         } else {
             alert('Erro ao atualizar a data da tarefa');
         }
@@ -425,6 +457,55 @@ function handleDrop(e) {
         console.error('Erro:', error);
         alert('Erro ao atualizar a data da tarefa');
     });
+}
+
+function editarTarefa(id, titulo, descricao, data, hora, grupoId, responsavelId, prioridade) {
+    // Preencher o formulário com os dados da tarefa
+    document.getElementById('tarefa_id').value = id;
+    document.getElementById('titulo').value = titulo;
+    document.getElementById('descricao').value = descricao;
+    document.getElementById('data').value = data;
+    document.getElementById('hora').value = hora;
+    document.getElementById('grupo').value = grupoId;
+    document.getElementById('responsavel').value = responsavelId;
+    document.getElementById('prioridade').value = prioridade;
+
+    // Atualizar título do modal e texto do botão
+    document.getElementById('modalTitle').textContent = 'Editar Tarefa';
+    document.getElementById('submitButton').textContent = 'Salvar Alterações';
+
+    // Atualizar action do formulário
+    const form = document.getElementById('formNovaTarefa');
+    form.action = `/tarefas/${id}/editar/`;
+
+    // Abrir o modal
+    document.getElementById('novaTarefaModal').classList.add('is-active');
+}
+
+function excluirTarefa(id) {
+    if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+        fetch(`/tarefas/${id}/excluir/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remover o card da tarefa do DOM
+                const tarefaCard = document.querySelector(`[data-tarefa-id="${id}"]`);
+                tarefaCard.remove();
+                alert('Tarefa excluída com sucesso!');
+            } else {
+                alert(data.message || 'Erro ao excluir tarefa');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao excluir tarefa');
+        });
+    }
 }
 </script>
 {% endblock %}

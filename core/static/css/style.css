@@ -58,3 +58,15 @@
         padding: 0.5rem;
     }
 }
+
+.btn-delete {
+    color: #f14668;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-delete:hover {
+    color: #ff3860;
+}
