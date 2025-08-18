@@ -1,0 +1,61 @@
+{% for dia in dias_semana %}
+<div class="dia-coluna {{ dia.nome|lower }}" data-data="{{ dia.data|date:'Y-m-d' }}">
+    <div class="dia-header">
+        <h3>{{ dia.nome }}</h3>
+        <p class="data-dia">{{ dia.data|date:'d/m/Y' }}</p>
+        <button class="btn-adicionar" data-data="{{ dia.data|date:'Y-m-d' }}" onclick="abrirModalNovaTarefa('{{ dia.data|date:'Y-m-d' }}')">
+            <i>+</i> Adicionar Tarefa
+        </button>
+    </div>
+    
+    <div class="tarefas-container">
+        {% for tarefa in dia.tarefas %}
+        <div class="tarefa-card {% if tarefa.status == 'concluida' %}concluida{% endif %}" draggable="true" data-tarefa-id="{{ tarefa.id }}">
+            <div class="tarefa-header">
+                <h4 class="tarefa-titulo">{{ tarefa.titulo }}</h4>
+                <div class="tarefa-status">
+                    <label class="checkbox-container">
+                        <input type="checkbox" class="tarefa-checkbox"
+                               {% if tarefa.status == 'concluida' %}checked{% endif %}
+                               onchange="atualizarStatus(this, {{ tarefa.id }}, this.checked ? 'concluida' : 'pendente')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            {% if tarefa.descricao %}
+            <p class="tarefa-descricao">{{ tarefa.descricao }}</p>
+            {% endif %}
+            <div class="tarefa-meta">
+                <div class="meta-info">
+                    <span class="tarefa-data"><i class="far fa-calendar"></i> {{ tarefa.data_limite|date:"d/m H:i" }}</span>
+                    {% if tarefa.responsavel %}
+                    <span class="tarefa-responsavel"><i class="far fa-user"></i> {{ tarefa.responsavel.username }}</span>
+                    {% endif %}
+                </div>
+                <div class="tarefa-actions">
+                    <button class="btn-action btn-edit" 
+                            data-tarefa-id="{{ tarefa.id }}"
+                            data-titulo="{{ tarefa.titulo }}"
+                            data-descricao="{{ tarefa.descricao }}"
+                            data-data="{{ tarefa.data_limite|date:'Y-m-d' }}"
+                            data-hora="{{ tarefa.data_limite|time:'H:i' }}"
+                            data-grupo-id="{{ tarefa.grupo.id|default:'' }}"
+                            data-responsavel-id="{{ tarefa.responsavel.id|default:'' }}"
+                            data-prioridade="{{ tarefa.prioridade }}"
+                            onclick="editarTarefaHandler(this)" 
+                            title="Editar">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn-action btn-delete" 
+                            data-tarefa-id="{{ tarefa.id }}"
+                            onclick="excluirTarefaHandler(this)"
+                            title="Excluir">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

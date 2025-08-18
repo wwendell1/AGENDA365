@@ -568,5 +568,116 @@ function excluirTarefa(id) {
         });
     }
 }
+
+// Função para aplicar filtros
+function aplicarFiltros() {
+    event.preventDefault();
+    const form = document.getElementById('filtrosForm');
+    const formData = new FormData(form);
+    
+    // Ajustar o valor do status se for 'A Fazer'
+    const statusSelect = document.getElementById('filtro-status');
+    const statusValue = statusSelect.value;
+    
+    // Log dos valores dos filtros antes do ajuste
+    console.log('Valores originais:', {
+        grupo: formData.get('grupo'),
+        status: statusValue,
+        responsavel: formData.get('responsavel')
+    });
+    
+    // Garantir que o status correto seja enviado
+    if (statusValue === '') {
+        // Para 'Todos os Status', não enviar parâmetro de status
+        formData.delete('status');
+    } else if (statusValue === 'pendente') {
+        // Para 'A Fazer', incluir tanto 'pendente' quanto 'atrasada'
+        formData.delete('status');
+        formData.append('status', 'pendente');
+        formData.append('status', 'atrasada');
+    } else if (statusValue === 'concluida') {
+        formData.set('status', 'concluida');
+    }
+    
+    // Log dos valores após o ajuste
+    console.log('Valores ajustados:', {
+        grupo: formData.get('grupo'),
+        status: formData.getAll('status'),
+        responsavel: formData.get('responsavel')
+    });
+    
+    const url = window.location.pathname + '?' + new URLSearchParams(formData).toString();
+    console.log('URL da requisição:', url);
+    
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.text())
+    .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newTarefas = doc.querySelectorAll('.dia-coluna');
+        
+        // Atualizar cada coluna de dia com as novas tarefas
+        document.querySelectorAll('.dia-coluna').forEach((coluna, index) => {
+            if (newTarefas[index]) {
+                coluna.querySelector('.tarefas-container').innerHTML = 
+                    newTarefas[index].querySelector('.tarefas-container').innerHTML;
+            }
+        });
+        
+        // Reativar os event listeners para as novas tarefas
+        ativarEventListeners();
+    })
+    .catch(error => {
+        console.error('Erro ao aplicar filtros:', error);
+        alert('Erro ao aplicar filtros. Por favor, tente novamente.');
+    });
+}
+
+// Função para reativar event listeners após atualização do conteúdo
+function ativarEventListeners() {
+    // Reativar drag and drop
+    const postIts = document.querySelectorAll('.post-it');
+    postIts.forEach(postIt => {
+        postIt.addEventListener('dragstart', handleDragStart);
+        postIt.addEventListener('dragend', handleDragEnd);
+    });
+    
+    // Reativar checkboxes de status
+    document.querySelectorAll('.tarefa-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const tarefaId = this.closest('.tarefa-card').dataset.tarefaId;
+            const novoStatus = this.checked ? 'concluida' : 'pendente';
+            atualizarStatus(this, tarefaId, novoStatus);
+        });
+    });
+    
+    // Reativar botões de adicionar tarefa
+    document.querySelectorAll('.adicionar-tarefa').forEach(button => {
+        button.addEventListener('click', function() {
+            const data = this.dataset.data;
+            abrirModalNovaTarefa(data);
+        });
+    });
+}
+
+// Função para scroll horizontal do calendário
+function scrollSemana(direction) {
+    const container = document.querySelector('.semana-container');
+    const scrollAmount = container.clientWidth / 2;
+    
+    if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+    
+    // Atualizar título após a rolagem
+    setTimeout(atualizarTituloSemana, 500);
+}
 </script>
 {% endblock %}

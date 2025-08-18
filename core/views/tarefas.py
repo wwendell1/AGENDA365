@@ -13,7 +13,7 @@ import json
 def semana_tarefas(request):
     # Filtros
     grupo_id = request.GET.get('grupo')
-    status = request.GET.get('status')
+    status_list = request.GET.getlist('status')
     responsavel_id = request.GET.get('responsavel')
     
     # Query base - Incluir tarefas criadas pelo usuário
@@ -26,8 +26,12 @@ def semana_tarefas(request):
     # Aplicar filtros
     if grupo_id:
         tarefas = tarefas.filter(grupo_id=grupo_id)
-    if status:
-        tarefas = tarefas.filter(status=status)
+    if status_list:
+        # Se houver múltiplos status, usar OR (|) para incluir tarefas com qualquer um dos status
+        status_query = Q()
+        for status in status_list:
+            status_query |= Q(status=status)
+        tarefas = tarefas.filter(status_query)
     if responsavel_id:
         tarefas = tarefas.filter(responsavel_id=responsavel_id)
     
@@ -91,9 +95,13 @@ def semana_tarefas(request):
         'grupos': grupos,
         'users': usuarios,
         'filtro_grupo': grupo_id,
-        'filtro_status': status,
+        'filtro_status': status_list[0] if status_list else None,
         'filtro_responsavel': responsavel_id
     }
+    
+    # Se for uma requisição AJAX, retornar apenas o conteúdo das colunas
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return render(request, 'core/tarefas/semana_colunas.html', context)
     
     return render(request, 'core/tarefas/semana.html', context)
 
