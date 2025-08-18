@@ -273,11 +273,22 @@
 .meta-info {
     display: flex;
     gap: 12px;
+    font-size: 0.85rem;
+    color: #444;
 }
 
 .meta-info i {
     margin-right: 4px;
-    color: #888;
+    color: #666;
+}
+
+.tarefa-data {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.5);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .tarefa-actions {

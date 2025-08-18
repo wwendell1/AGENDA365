@@ -70,7 +70,7 @@
                         {% endif %}
                         <div class="tarefa-meta">
                             <div class="meta-info">
-                                <span class="tarefa-data"><i class="far fa-calendar"></i> {{ tarefa.data|date:"d/m" }}</span>
+                                <span class="tarefa-data"><i class="far fa-calendar"></i> {{ tarefa.data_limite|date:"d/m H:i" }}</span>
                                 {% if tarefa.responsavel %}
                                 <span class="tarefa-responsavel"><i class="far fa-user"></i> {{ tarefa.responsavel.username }}</span>
                                 {% endif %}
@@ -224,17 +224,18 @@ function scrollSemana(direction) {
 document.addEventListener('DOMContentLoaded', () => {
     // Adicionar evento de clique aos botões de adicionar tarefa
     document.querySelectorAll('.btn-adicionar').forEach(button => {
-        button.addEventListener('click', function() {
-            const data = this.dataset.data;
-            document.getElementById('data').value = data;
-            // Definir hora padrão como hora atual
-            const agora = new Date();
-            const horaAtual = agora.getHours().toString().padStart(2, '0');
-            const minutosAtuais = agora.getMinutes().toString().padStart(2, '0');
-            document.getElementById('hora').value = `${horaAtual}:${minutosAtuais}`;
-            const modal = document.getElementById('novaTarefaModal');
-            modal.classList.add('is-active');
-        });
+            button.addEventListener('click', function() {
+                const data = this.dataset.data;
+                console.log('Data do botão:', data);
+                document.getElementById('data').value = data;
+                // Definir hora padrão como hora atual
+                const agora = new Date();
+                const horaAtual = agora.getHours().toString().padStart(2, '0');
+                const minutosAtuais = agora.getMinutes().toString().padStart(2, '0');
+                document.getElementById('hora').value = `${horaAtual}:${minutosAtuais}`;
+                const modal = document.getElementById('novaTarefaModal');
+                modal.classList.add('is-active');
+            });
     });
 
     // Manipular envio do formulário
@@ -252,8 +253,12 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Usar a data do formulário diretamente
                 const dataSelecionada = document.getElementById('data').value;
+                
+                // Procurar a coluna correspondente
                 const colunaData = document.querySelector(`.dia-coluna[data-data="${dataSelecionada}"]`);
+                console.log('Coluna encontrada:', colunaData);
                 if (colunaData) {
                     const tarefasContainer = colunaData.querySelector('.tarefas-container');
                     const emptyState = tarefasContainer.querySelector('.empty-state');
@@ -261,47 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         emptyState.remove();
                     }
 
-                    // Criar novo card de tarefa
-                    const novaTarefa = document.createElement('div');
-                    novaTarefa.className = 'tarefa-card';
-                    novaTarefa.setAttribute('draggable', 'true');
-                    novaTarefa.setAttribute('data-tarefa-id', data.tarefa.id);
-
-                    novaTarefa.innerHTML = `
-                        <div class="tarefa-header">
-                            <h4 class="tarefa-titulo">${data.tarefa.titulo}</h4>
-                            <div class="tarefa-status">
-                                <label class="checkbox-container">
-                                    <input type="checkbox" onchange="atualizarStatus(this, '${data.tarefa.id}', this.checked ? 'concluida' : 'pendente')">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                        </div>
-                        ${data.tarefa.descricao ? `<p class="tarefa-descricao">${data.tarefa.descricao}</p>` : ''}
-                        <div class="tarefa-meta">
-                            <div class="meta-info">
-                                <span class="tarefa-data"><i class="far fa-calendar"></i> ${new Date(data.tarefa.data_limite).toLocaleDateString()}</span>
-                                ${data.tarefa.responsavel ? `<span class="tarefa-responsavel"><i class="far fa-user"></i> ${data.tarefa.responsavel}</span>` : ''}
-                            </div>
-                            <div class="tarefa-actions">
-                                <a href="#" class="btn-action btn-edit" title="Editar"><i class="fas fa-pencil-alt"></i></a>
-                                <button class="btn-action btn-delete" onclick="excluirTarefa('${data.tarefa.id}')" title="Excluir">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-
-                    tarefasContainer.appendChild(novaTarefa);
-
-                    // Adicionar eventos de drag and drop ao novo card
-                    novaTarefa.addEventListener('dragstart', handleDragStart);
-                    novaTarefa.addEventListener('dragend', handleDragEnd);
-
                     // Fechar o modal e limpar o formulário
                     document.getElementById('novaTarefaModal').classList.remove('is-active');
                     document.getElementById('formNovaTarefa').reset();
                     alert(data.message);
+                    
+                    // Recarregar a página para atualizar os dados do banco
+                    window.location.reload();
                 }
             } else {
                 if (data.errors) {

@@ -15,10 +15,11 @@ def semana_tarefas(request):
     status = request.GET.get('status')
     responsavel_id = request.GET.get('responsavel')
     
-    # Query base
+    # Query base - Incluir tarefas criadas pelo usuário
     tarefas = Tarefa.objects.filter(
         Q(responsavel=request.user) | 
-        Q(grupo__membros=request.user)
+        Q(grupo__membros=request.user) |
+        Q(criado_por=request.user)
     ).distinct()
     
     # Aplicar filtros
@@ -45,9 +46,21 @@ def semana_tarefas(request):
         'Sunday': 'Domingo'
     }
     
-    for i in range(7):
+    # Obter a data da última tarefa agendada ou usar hoje + 30 dias como padrão
+    ultima_data = tarefas.order_by('-data_limite').values_list('data_limite', flat=True).first()
+    if ultima_data:
+        ultima_data = ultima_data.date()
+        dias_para_mostrar = max((ultima_data - hoje).days + 1, 30)
+    else:
+        dias_para_mostrar = 30
+    
+    for i in range(dias_para_mostrar):
         dia = hoje + timedelta(days=i)
-        tarefas_dia = tarefas.filter(data_limite__date=dia).order_by('prioridade', 'data_limite')
+        # Filtrar tarefas do dia e ordenar por prioridade e data
+        tarefas_dia = tarefas.filter(data_limite__date=dia).order_by(
+            'prioridade',
+            'data_limite'
+        ).select_related('responsavel', 'grupo')
         
         # Atualizar status de tarefas atrasadas
         for tarefa in tarefas_dia:
@@ -61,9 +74,13 @@ def semana_tarefas(request):
             'tarefas': tarefas_dia
         })
     
-    # Dados para os filtros
-    grupos = Grupo.objects.filter(membros=request.user)
+    # Dados para os filtros - Incluir grupos e usuários relacionados
+    grupos = Grupo.objects.filter(
+        Q(membros=request.user)
+    ).distinct()
+    
     usuarios = User.objects.filter(
+        Q(grupos__membros=request.user) |
         Q(tarefas_criadas__grupo__membros=request.user) |
         Q(tarefas_atribuidas__grupo__membros=request.user)
     ).distinct()
@@ -154,6 +171,7 @@ def criar_tarefa(request):
         form = TarefaForm(request.POST, request.FILES)
         if form.is_valid():
             try:
+                # Criar a tarefa com os dados do formulário
                 tarefa = form.save(commit=False)
                 tarefa.criado_por = request.user
                 
@@ -164,16 +182,22 @@ def criar_tarefa(request):
                     datetime.combine(data, hora)
                 )
                 
+                # Salvar a tarefa no banco de dados
                 tarefa.save()
+                form.save_m2m()  # Salvar relações ManyToMany
                 
                 # Processar anexos
                 for arquivo in request.FILES.getlist('anexos'):
                     Anexo.objects.create(
                         tarefa=tarefa,
                         arquivo=arquivo,
-                        nome=arquivo.name
+                        nome=arquivo.name,
+                        tipo=arquivo.content_type,
+                        tamanho=arquivo.size,
+                        upload_por=request.user
                     )
                 
+                # Retornar sucesso
                 return JsonResponse({
                     'success': True,
                     'message': 'Tarefa criada com sucesso!',
@@ -181,7 +205,7 @@ def criar_tarefa(request):
                         'id': tarefa.id,
                         'titulo': tarefa.titulo,
                         'descricao': tarefa.descricao,
-                        'data_limite': tarefa.data_limite.strftime('%Y-%m-%d %H:%M'),
+                        'data_limite': tarefa.data_limite.strftime('%Y-%m-%dT%H:%M:%S'),
                         'responsavel': tarefa.responsavel.username if tarefa.responsavel else None,
                         'status': tarefa.status,
                         'prioridade': tarefa.prioridade
