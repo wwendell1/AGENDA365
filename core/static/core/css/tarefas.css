@@ -1,156 +1,335 @@
+/* Layout Principal */
+.calendar-container {
+    padding: 30px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.calendar-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Filtros Simplificados */
 .filters-container {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     margin-bottom: 2rem;
 }
 
 .filters-form {
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 .filter-select {
     padding: 0.5rem 1rem;
-    border: none;
-    background-color: #f5f5f5;
-    border-radius: 20px;
-    color: #666;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 5px;
+    color: #333;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    min-width: 150px;
+    outline: none;
 }
 
-.filter-select:hover {
-    background-color: #ebebeb;
+.filter-select:hover, .filter-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0,123,255,0.2);
 }
 
+/* Layout da Semana */
 .semana-container {
     display: flex;
-    gap: 1.5rem;
-    padding: 1rem;
+    gap: 15px;
+    padding: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    background: transparent;
+    margin-top: 0;
+    min-height: 600px;
 }
 
+.semana-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.semana-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.semana-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.semana-container::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Colunas dos Dias */
 .dia-coluna {
-    flex: 1;
-    min-width: 300px;
     background-color: #ffffff;
     border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+    min-width: 300px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: none;
+    height: fit-content;
+    transition: transform 0.2s ease;
+}
+
+.dia-coluna:hover {
+    transform: translateY(-5px);
 }
 
 .dia-header {
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: none;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
 }
 
 .dia-header h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #333;
+    text-transform: uppercase;
+}
+
+.dia-header .data {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
 }
 
 .dia-info {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #5c6bc0;
+    margin-top: 0.5rem;
 }
 
-/* Cores para diferentes dias da semana */
-.dia-segunda .post-it { background-color: #fff9c4; }
-.dia-terca .post-it { background-color: #e8f5e9; }
-.dia-quarta .post-it { background-color: #e3f2fd; }
-.dia-quinta .post-it { background-color: #fce4ec; }
-.dia-sexta .post-it { background-color: #f3e5f5; }
-.dia-sabado .post-it { background-color: #e0f2f1; }
-.dia-domingo .post-it { background-color: #fff3e0; }
-
-.post-it {
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    cursor: move;
-    transition: all 0.2s ease;
+/* Post-its Coloridos */
+.tarefa-card {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 130px;
+    cursor: pointer;
+    transform: rotate(-1deg);
+    border: none;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.post-it:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+/* Cores dos Post-its por Dia */
+.dia-coluna.segunda { background-color: #ffcdd2; } /* Segunda - Vermelho Claro */
+.dia-coluna.terca { background-color: #c8e6c9; } /* Terça - Verde Claro */
+.dia-coluna.quarta { background-color: #bbdefb; } /* Quarta - Azul Claro */
+.dia-coluna.quinta { background-color: #f8bbd0; } /* Quinta - Rosa Claro */
+.dia-coluna.sexta { background-color: #fff9c4; } /* Sexta - Amarelo Claro */
+.dia-coluna.sabado { background-color: #e1bee7; } /* Sábado - Roxo Claro */
+.dia-coluna.domingo { background-color: #b2dfdb; } /* Domingo - Turquesa Claro */
+
+/* Rotação aleatória para os post-its */
+.tarefa-card:nth-child(even) { transform: rotate(1.5deg); }
+.tarefa-card:nth-child(3n) { transform: rotate(-2.5deg); }
+.tarefa-card:nth-child(5n) { transform: rotate(2.5deg); }
+.tarefa-card:nth-child(7n) { transform: rotate(-1.5deg); }
+
+.tarefa-card:hover {
+    transform: scale(1.03) rotate(0deg) !important;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.15);
+    z-index: 2;
 }
 
-.post-it.concluida {
-    opacity: 0.8;
-}
-
-.post-it.atrasada {
-    border-left: 3px solid #ef5350;
-}
-
-.post-it-header {
-    margin-bottom: 1rem;
-}
-
-.status-actions {
+.tarefa-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.status-checkbox {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.action-buttons button {
-    background: none;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    padding: 0.25rem;
-    font-size: 0.8rem;
-    transition: color 0.2s ease;
-}
-
-.action-buttons button:hover {
-    color: #333;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 8px;
 }
 
 .tarefa-titulo {
     font-size: 1rem;
+    font-weight: 600;
     color: #333;
-    margin: 0 0 0.5rem 0;
-}
-
-.tarefa-titulo.riscado {
-    text-decoration: line-through;
-    color: #888;
+    margin: 0;
+    line-height: 1.3;
+    flex: 1;
 }
 
 .tarefa-descricao {
-    font-size: 0.9rem;
-    color: #666;
-    margin: 0;
+    color: #555;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.post-it-footer {
+.tarefa-status {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Estilo do Checkbox Personalizado */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 5px;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    border-color: #4CAF50;
+    box-shadow: 0 2px 4px rgba(76,175,80,0.2);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    box-shadow: 0 2px 4px rgba(76,175,80,0.3);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    transition: all 0.2s ease;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.tarefa-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.meta-info {
+    display: flex;
+    gap: 12px;
+}
+
+.meta-info i {
+    margin-right: 4px;
     color: #888;
-    margin-top: 1rem;
+}
+
+.tarefa-actions {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    justify-content: flex-end;
+}
+
+.btn-action {
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.7);
+    color: #555;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-edit {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-complete {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-complete:hover {
+    background-color: #1e7e34;
 }
 
 .meta-info, .extra-info {
@@ -161,54 +340,169 @@
 
 .empty-state {
     text-align: center;
-    color: #888;
-    padding: 2rem 0;
-}
-
-.adicionar-tarefa {
-    background-color: rgba(0,0,0,0.03);
-    border: 2px dashed #ddd;
+    padding: 2.5rem;
+    color: rgba(0,0,0,0.3);
+    font-style: italic;
+    background: rgba(0,0,0,0.02);
     border-radius: 8px;
-    padding: 0.75rem;
-    text-align: center;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 1rem;
+    margin: 10px 0;
 }
 
-.adicionar-tarefa:hover {
-    background-color: rgba(0,0,0,0.05);
-    border-color: #ccc;
-    color: #333;
+/* Botão Adicionar Tarefa */
+.btn-adicionar {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(74,144,226,0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-adicionar:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,123,255,0.4);
+}
+
+.btn-adicionar:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,123,255,0.3);
+}
+
+.btn-adicionar i {
+    font-size: 0.9rem;
+}
+
+/* Estado Vazio */
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #999;
+    font-style: italic;
+}
+
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.empty-state p {
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 /* Responsividade */
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
+    .semana-container {
+        gap: 10px;
+        padding: 0 10px;
+    }
+    
     .dia-coluna {
-        min-width: 280px;
+        min-width: 250px;
+        max-width: 250px;
+    }
+    
+    .filters-form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filter-select {
+        min-width: 100%;
     }
 }
 
-@media (max-width: 768px) {
-    .semana-container {
-        flex-wrap: nowrap;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 1rem;
-    }
-
+@media (max-width: 480px) {
     .dia-coluna {
-        flex: 0 0 85%;
-        scroll-snap-align: start;
+        min-width: 220px;
+        max-width: 220px;
+        padding: 10px;
+    }
+    
+    .tarefa-card {
+        padding: 10px;
+        min-height: 100px;
+    }
+    
+    .tarefa-titulo {
+        font-size: 0.9rem;
+    }
+    
+    .tarefa-descricao {
+        font-size: 0.8rem;
     }
 }
 
 /* Animações */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .post-it {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dia-coluna {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes completedTask {
+    0% {
+        transform: scale(1) rotate(-1deg);
+    }
+    50% {
+        transform: scale(0.95) rotate(0deg);
+    }
+    100% {
+        transform: scale(1) rotate(-1deg);
+    }
+}
+
+/* Estilo para tarefas concluídas */
+.tarefa-card.concluida {
+    opacity: 0.8;
+    background-image: linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05) 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+}
+
+.tarefa-card.concluida .tarefa-titulo {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.tarefa-card.concluida .tarefa-descricao {
+    color: #888;
 }

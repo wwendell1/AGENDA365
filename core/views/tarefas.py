@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
-from ..models import Tarefa, Grupo, Comentario, User
+from ..models import Tarefa, Grupo, Comentario, User, Anexo
 from ..forms import TarefaForm, ComentarioForm
 from datetime import datetime
 import json
@@ -153,31 +153,57 @@ def criar_tarefa(request):
     if request.method == 'POST':
         form = TarefaForm(request.POST, request.FILES)
         if form.is_valid():
-            tarefa = form.save(commit=False)
-            tarefa.criado_por = request.user
-            
-            # Combinar data e hora
-            data = form.cleaned_data['data']
-            hora = form.cleaned_data['hora']
-            tarefa.data_limite = timezone.make_aware(
-                datetime.combine(data, hora)
-            )
-            
-            tarefa.save()
-            
-            # Processar anexos
-            for arquivo in request.FILES.getlist('anexos'):
-                Anexo.objects.create(
-                    tarefa=tarefa,
-                    arquivo=arquivo,
-                    nome=arquivo.name
+            try:
+                tarefa = form.save(commit=False)
+                tarefa.criado_por = request.user
+                
+                # Combinar data e hora
+                data = form.cleaned_data['data']
+                hora = form.cleaned_data['hora']
+                tarefa.data_limite = timezone.make_aware(
+                    datetime.combine(data, hora)
                 )
-            
-            return redirect('semana_tarefas')
-    else:
-        form = TarefaForm()
+                
+                tarefa.save()
+                
+                # Processar anexos
+                for arquivo in request.FILES.getlist('anexos'):
+                    Anexo.objects.create(
+                        tarefa=tarefa,
+                        arquivo=arquivo,
+                        nome=arquivo.name
+                    )
+                
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Tarefa criada com sucesso!',
+                    'tarefa': {
+                        'id': tarefa.id,
+                        'titulo': tarefa.titulo,
+                        'descricao': tarefa.descricao,
+                        'data_limite': tarefa.data_limite.strftime('%Y-%m-%d %H:%M'),
+                        'responsavel': tarefa.responsavel.username if tarefa.responsavel else None,
+                        'status': tarefa.status,
+                        'prioridade': tarefa.prioridade
+                    }
+                })
+            except Exception as e:
+                return JsonResponse({
+                    'success': False,
+                    'message': f'Erro ao criar tarefa: {str(e)}'
+                })
+        else:
+            erros = {campo: erros[0] for campo, erros in form.errors.items()}
+            return JsonResponse({
+                'success': False,
+                'message': 'Formulário inválido',
+                'errors': erros
+            })
     
-    return redirect('semana_tarefas')
+    return JsonResponse({
+        'success': False,
+        'message': 'Método não permitido'
+    })
 
 @login_required
 def editar_tarefa(request, tarefa_id):

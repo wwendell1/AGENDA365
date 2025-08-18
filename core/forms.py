@@ -58,6 +58,10 @@ class DefinirNovaSenhaForm(SetPasswordForm):
         self.fields['new_password2'].help_text = 'Digite a mesma senha novamente para verificação.'
 
 class TarefaForm(forms.ModelForm):
+    data = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    hora = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
+    anexos = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
     class Meta:
         model = Tarefa
         fields = [
@@ -65,13 +69,17 @@ class TarefaForm(forms.ModelForm):
             'descricao',
             'responsavel',
             'grupo',
-            'data_limite',
             'prioridade'
         ]
         widgets = {
-            'data_limite': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'descricao': forms.Textarea(attrs={'rows': 4}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk and self.instance.data_limite:
+            self.initial['data'] = self.instance.data_limite.date()
+            self.initial['hora'] = self.instance.data_limite.time()
 
 class GrupoForm(forms.ModelForm):
     class Meta:

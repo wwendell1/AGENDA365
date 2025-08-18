@@ -1,0 +1,191 @@
+/* Layout Principal */
+.calendar-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    font-family: "Arial", sans-serif;
+}
+
+/* Colunas da Semana */
+.semana-container {
+    display: flex;
+    gap: 15px;
+    overflow-x: hidden;
+    padding-bottom: 20px;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.scroll-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.scroll-left {
+    left: 10px;
+}
+
+.scroll-right {
+    right: 10px;
+}
+
+/* Cores específicas para cada dia */
+.dia-coluna.segunda { background-color: #ffcdd2; } /* Vermelho claro */
+.dia-coluna.terca { background-color: #c8e6c9; }   /* Verde claro */
+.dia-coluna.quarta { background-color: #bbdefb; }  /* Azul claro */
+.dia-coluna.quinta { background-color: #f8bbd0; }  /* Rosa claro */
+.dia-coluna.sexta { background-color: #fff9c4; }   /* Amarelo claro */
+.dia-coluna.sabado { background-color: #e1bee7; }  /* Roxo claro */
+.dia-coluna.domingo { background-color: #b2dfdb; }  /* Turquesa claro */
+
+@media (max-width: 768px) {
+    .semana-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .scroll-button {
+        display: none;
+    }
+}
+
+.dia-coluna {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    min-width: 280px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Post-it Style */
+.tarefa-card {
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+    position: relative;
+    min-height: 100px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    transform: rotate(-1deg);
+    transition: all 0.2s ease;
+}
+
+/* Cores dos Post-its */
+.tarefa-card.yellow { background-color: #fff9c4; } /* Amarelo */
+.tarefa-card.green { background-color: #a5d6a7; }  /* Verde */
+.tarefa-card.blue { background-color: #90caf9; }   /* Azul */
+.tarefa-card.pink { background-color: #f8bbd0; }   /* Rosa */
+.tarefa-card.orange { background-color: #ffcc80; } /* Laranja */
+.tarefa-card.purple { background-color: #ce93d8; } /* Roxo */
+
+/* Efeito hover */
+.tarefa-card:hover {
+    transform: scale(1.02) rotate(0deg);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+    z-index: 1;
+}
+
+/* Cabeçalho da tarefa */
+.tarefa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* Texto */
+.tarefa-titulo {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #222;
+    margin: 0 0 5px;
+}
+
+.tarefa-descricao {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Botões redondos */
+.tarefa-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+}
+
+.btn-action {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover { transform: scale(1.1); }
+
+.btn-edit { background-color: #007bff; }
+.btn-delete { background-color: #e53935; }
+
+/* Checkbox estilo check verde */
+.checkbox-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #28a745;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox-container input:checked + .checkmark {
+    background-color: #28a745;
+}
+
+.checkbox-container input:checked + .checkmark:after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+}
+
+/* Estilo para concluídas */
+.tarefa-card.concluida {
+    opacity: 0.7;
+    text-decoration: line-through;
+}
