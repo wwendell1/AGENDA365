@@ -587,10 +587,7 @@ function aplicarFiltros() {
     });
     
     // Garantir que o status correto seja enviado
-    if (statusValue === '') {
-        // Para 'Todos os Status', não enviar parâmetro de status
-        formData.delete('status');
-    } else if (statusValue === 'pendente') {
+    if (statusValue === 'pendente') {
         // Para 'A Fazer', incluir tanto 'pendente' quanto 'atrasada'
         formData.delete('status');
         formData.append('status', 'pendente');
