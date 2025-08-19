@@ -49,6 +49,62 @@ body {
     color: white;
 }
 
+/* Estilos responsivos para o dashboard */
+@media screen and (max-width: 768px) {
+    .dashboard-section {
+        padding: 0.5rem;
+    }
+    
+    .box {
+        margin-bottom: 1rem;
+    }
+    
+    .notification {
+        padding: 0.75rem;
+    }
+    
+    .tags.is-centered-mobile {
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .pagination.is-small-mobile .pagination-previous,
+    .pagination.is-small-mobile .pagination-next {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .level.is-mobile {
+        flex-direction: column;
+    }
+    
+    .level.is-mobile .level-item {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .section {
+        padding: 1rem 0.5rem;
+    }
+    
+    .title.is-6-mobile {
+        font-size: 1.125rem;
+    }
+    
+    .title.is-5-mobile {
+        font-size: 1.25rem;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .tags .tag {
+        margin-bottom: 0.25rem;
+    }
+}
+
 /* Container das mensagens - posicionamento absoluto para não afetar layout */
 .container.mt-3 {
     position: absolute;

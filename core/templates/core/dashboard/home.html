@@ -1,14 +1,15 @@
 {% extends 'core/base.html' %}
+{% load core_extras %}
 
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="section" style="padding-top: 1rem;">
+<div class="section dashboard-section" style="padding-top: 1rem;">
     <!-- Card de Boas-vindas -->
     <div class="columns is-centered mb-4">
-        <div class="column is-8">
+        <div class="column is-10-desktop is-12-tablet is-12-mobile">
             <div class="box has-text-centered has-background-primary-light">
-                <h1 class="title is-4 has-text-primary">
+                <h1 class="title is-4-desktop is-5-tablet is-6-mobile has-text-primary">
                     <span class="icon">
                         <i class="fas fa-hand-wave"></i>
                     </span>
@@ -21,37 +22,90 @@
     
     <div class="columns is-multiline">
         <!-- Tarefas Pendentes -->
-        <div class="column is-6">
+        <div class="column is-12-mobile is-6-tablet is-6-desktop">
             <div class="box">
-                <h2 class="title is-4">Tarefas Pendentes</h2>
+                <h2 class="title is-4-desktop is-5-mobile">Tarefas Pendentes</h2>
                 {% for tarefa in tarefas_pendentes %}
-                <div class="card mb-2">
-                    <div class="card-content">
-                        <p>{{ tarefa.titulo }}</p>
-                        <small>Vence em: {{ tarefa.data_limite|date:"d/m/Y" }}</small>
+                <div class="notification {{ tarefa|tarefa_cor }} is-light mb-2 py-2">
+                    <div class="is-hidden-mobile">
+                        <div class="columns is-vcentered mb-0">
+                            <div class="column is-narrow">
+                                <div class="tags are-small">
+                                    <span class="tag">{{ tarefa.data_limite|date:"d/m/Y" }}</span>
+                                    <span class="tag">{{ tarefa.data_limite|date:"H:i" }}</span>
+                                    <span class="tag">{{ tarefa.data_limite|date:"l" }}</span>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <strong class="is-size-5">{{ tarefa.titulo }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="is-hidden-tablet">
+                        <div class="has-text-centered mb-2">
+                            <div class="tags are-small is-centered">
+                                <span class="tag">{{ tarefa.data_limite|date:"d/m/Y" }}</span>
+                                <span class="tag">{{ tarefa.data_limite|date:"H:i" }}</span>
+                            </div>
+                        </div>
+                        <div class="has-text-centered">
+                            <strong class="is-size-6">{{ tarefa.titulo }}</strong>
+                        </div>
                     </div>
                 </div>
                 {% empty %}
                 <p class="has-text-grey">Nenhuma tarefa pendente</p>
                 {% endfor %}
+                
+                <!-- Paginação -->
+                 {% if tarefas_pendentes.has_other_pages %}
+                 <nav class="pagination is-centered is-small-mobile mt-4" role="navigation" aria-label="pagination">
+                     {% if tarefas_pendentes.has_previous %}
+                         <a class="pagination-previous is-small-mobile" href="?page={{ tarefas_pendentes.previous_page_number }}">Anterior</a>
+                     {% else %}
+                         <a class="pagination-previous is-small-mobile" disabled>Anterior</a>
+                     {% endif %}
+                     
+                     {% if tarefas_pendentes.has_next %}
+                         <a class="pagination-next is-small-mobile" href="?page={{ tarefas_pendentes.next_page_number }}">Próxima</a>
+                     {% else %}
+                         <a class="pagination-next is-small-mobile" disabled>Próxima</a>
+                     {% endif %}
+                     
+                     <ul class="pagination-list is-hidden-mobile">
+                         {% for num in tarefas_pendentes.paginator.page_range %}
+                             {% if tarefas_pendentes.number == num %}
+                                 <li><a class="pagination-link is-current" aria-label="Página {{ num }}" aria-current="page">{{ num }}</a></li>
+                             {% elif num > tarefas_pendentes.number|add:'-2' and num < tarefas_pendentes.number|add:'2' %}
+                                 <li><a class="pagination-link" href="?page={{ num }}" aria-label="Ir para página {{ num }}">{{ num }}</a></li>
+                             {% endif %}
+                         {% endfor %}
+                     </ul>
+                     
+                     <!-- Indicador de página atual para mobile -->
+                     <div class="is-hidden-tablet has-text-centered mt-2">
+                         <span class="tag is-light">Página {{ tarefas_pendentes.number }} de {{ tarefas_pendentes.paginator.num_pages }}</span>
+                     </div>
+                 </nav>
+                 {% endif %}
             </div>
         </div>
 
         <!-- Resumo Financeiro -->
-        <div class="column is-6">
+        <div class="column is-12-mobile is-6-tablet is-6-desktop">
             <div class="box">
-                <h2 class="title is-4">Resumo Financeiro</h2>
-                <div class="level">
+                <h2 class="title is-4-desktop is-5-mobile">Resumo Financeiro</h2>
+                <div class="level is-mobile">
                     <div class="level-item has-text-centered">
                         <div>
-                            <p class="heading">Receitas</p>
-                            <p class="title has-text-success">R$ {{ resumo_financeiro.receitas|default:0|floatformat:2 }}</p>
+                            <p class="heading is-size-7-mobile">Receitas</p>
+                            <p class="title is-5-mobile is-4-tablet has-text-success">R$ {{ resumo_financeiro.receitas|default:0|floatformat:2 }}</p>
                         </div>
                     </div>
                     <div class="level-item has-text-centered">
                         <div>
-                            <p class="heading">Despesas</p>
-                            <p class="title has-text-danger">R$ {{ resumo_financeiro.despesas|default:0|floatformat:2 }}</p>
+                            <p class="heading is-size-7-mobile">Despesas</p>
+                            <p class="title is-5-mobile is-4-tablet has-text-danger">R$ {{ resumo_financeiro.despesas|default:0|floatformat:2 }}</p>
                         </div>
                     </div>
                 </div>
@@ -61,14 +115,14 @@
         <!-- Atividade dos Grupos -->
         <div class="column is-12">
             <div class="box">
-                <h2 class="title is-4">Grupos</h2>
+                <h2 class="title is-4-desktop is-5-mobile">Grupos</h2>
                 <div class="columns is-multiline">
                     {% for grupo in atividade_grupos %}
-                    <div class="column is-3">
+                    <div class="column is-12-mobile is-6-tablet is-4-desktop is-3-widescreen">
                         <div class="card">
                             <div class="card-content">
-                                <p class="title is-5">{{ grupo.nome }}</p>
-                                <p class="subtitle is-6">{{ grupo.tarefas_pendentes }} tarefas pendentes</p>
+                                <p class="title is-5-desktop is-6-mobile">{{ grupo.nome }}</p>
+                                <p class="subtitle is-6-desktop is-7-mobile">{{ grupo.tarefas_pendentes }} tarefas pendentes</p>
                             </div>
                         </div>
                     </div>
