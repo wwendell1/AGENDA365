@@ -3,19 +3,25 @@
     <div class="dia-header">
         <h3>{{ dia.nome }}</h3>
         <p class="data-dia">{{ dia.data|date:'d/m/Y' }}</p>
-        <button class="btn-adicionar" data-data="{{ dia.data|date:'Y-m-d' }}" onclick="abrirModalNovaTarefa('{{ dia.data|date:'Y-m-d' }}')">
-            <i>+</i> Adicionar Tarefa
+        <div class="progress-container">
+            <div class="progress-bar" data-dia="{{ dia.data|date:'Y-m-d' }}">
+                <div class="progress-fill"></div>
+            </div>
+            <span class="progress-text">{{ dia.tarefas_concluidas|default:0 }}/{{ dia.tarefas|length }}</span>
+        </div>
+        <button class="btn-adicionar" data-data="{{ dia.data|date:'Y-m-d' }}">
+              <i>+</i> Adicionar Tarefa
         </button>
     </div>
     
     <div class="tarefas-container">
         {% for tarefa in dia.tarefas %}
-        <div class="tarefa-card {% if tarefa.status == 'concluida' %}concluida{% endif %}" draggable="true" data-tarefa-id="{{ tarefa.id }}">
+        <div class="tarefa-card{% if tarefa.status == 'concluida' %} concluida{% endif %}" draggable="true" data-tarefa-id="{{ tarefa.id }}">
             <div class="tarefa-header">
                 <h4 class="tarefa-titulo">{{ tarefa.titulo }}</h4>
                 <div class="tarefa-status">
                     <label class="checkbox-container">
-                        <input type="checkbox" class="tarefa-checkbox"
+                        <input type="checkbox" 
                                {% if tarefa.status == 'concluida' %}checked{% endif %}
                                onchange="atualizarStatus(this, {{ tarefa.id }}, this.checked ? 'concluida' : 'pendente')">
                         <span class="checkmark"></span>
@@ -54,6 +60,10 @@
                     </button>
                 </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>Nenhuma tarefa</p>
         </div>
         {% endfor %}
     </div>

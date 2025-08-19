@@ -67,16 +67,16 @@ def semana_tarefas(request):
             'data_limite'
         ).select_related('responsavel', 'grupo')
         
-        # Atualizar status de tarefas atrasadas
-        for tarefa in tarefas_dia:
-            if tarefa.status != 'concluida' and tarefa.data_limite < timezone.now():
-                tarefa.status = 'atrasada'
-                tarefa.save()
+        # O status de tarefas atrasadas é gerenciado automaticamente pelo signal
+        
+        # Calcular tarefas concluídas
+        tarefas_concluidas = tarefas_dia.filter(status='concluida').count()
         
         dias_semana.append({
             'data': dia,
             'nome': nomes_dias[dia.strftime('%A')],
-            'tarefas': tarefas_dia
+            'tarefas': tarefas_dia,
+            'tarefas_concluidas': tarefas_concluidas
         })
     
     # Dados para os filtros - Incluir grupos e usuários relacionados

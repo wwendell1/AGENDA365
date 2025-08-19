@@ -70,10 +70,12 @@ def criar_perfil(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Tarefa)
 def atualizar_status_tarefa(sender, instance, **kwargs):
-    if instance.data_limite < timezone.now():
-        instance.status = 'atrasada'
-    elif instance.status == 'atrasada' and instance.data_limite > timezone.now():
-        instance.status = 'pendente'
+    # Não alterar status de tarefas já concluídas
+    if instance.status != 'concluida':
+        if instance.data_limite < timezone.now():
+            instance.status = 'atrasada'
+        elif instance.status == 'atrasada' and instance.data_limite > timezone.now():
+            instance.status = 'pendente'
 
 @receiver(post_save, sender=Comentario)
 def limpar_mencoes_antigas(sender, instance, **kwargs):

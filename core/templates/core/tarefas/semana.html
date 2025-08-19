@@ -51,6 +51,12 @@
                     <div class="dia-header">
                         <h3>{{ dia.nome }}</h3>
                         <p class="data-dia">{{ dia.data|date:'d/m/Y' }}</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" data-dia="{{ dia.data|date:'Y-m-d' }}">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <span class="progress-text">{{ dia.tarefas_concluidas|default:0 }}/{{ dia.tarefas|length }}</span>
+                        </div>
                         <button class="btn-adicionar" data-data="{{ dia.data|date:'Y-m-d' }}">
                               <i>+</i> Adicionar Tarefa
                         </button>
@@ -272,9 +278,48 @@ function atualizarTituloSemana() {
     }
 }
 
-// Atualizar título inicial
+// Função para atualizar barra de progresso
+function atualizarBarraProgresso(diaColuna) {
+    const tarefasContainer = diaColuna.querySelector('.tarefas-container');
+    const todasTarefas = tarefasContainer.querySelectorAll('.tarefa-card');
+    const tarefasConcluidas = tarefasContainer.querySelectorAll('.tarefa-card.concluida');
+    
+    const total = todasTarefas.length;
+    const concluidas = tarefasConcluidas.length;
+    
+    const progressBar = diaColuna.querySelector('.progress-fill');
+    const progressText = diaColuna.querySelector('.progress-text');
+    
+    if (total > 0) {
+        const porcentagem = (concluidas / total) * 100;
+        progressBar.style.width = porcentagem + '%';
+        progressText.textContent = `${concluidas}/${total}`;
+        
+        // Adicionar efeito visual quando completar 100%
+        if (porcentagem === 100) {
+            progressBar.style.background = 'linear-gradient(90deg, #4CAF50, #66BB6A)';
+            progressBar.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.5)';
+        } else {
+            progressBar.style.background = 'linear-gradient(90deg, #4CAF50, #45a049)';
+            progressBar.style.boxShadow = 'none';
+        }
+    } else {
+        progressBar.style.width = '0%';
+        progressText.textContent = '0/0';
+    }
+}
+
+// Função para inicializar todas as barras de progresso
+function inicializarBarrasProgresso() {
+    document.querySelectorAll('.dia-coluna').forEach(diaColuna => {
+        atualizarBarraProgresso(diaColuna);
+    });
+}
+
+// Atualizar título inicial e inicializar barras de progresso
 document.addEventListener('DOMContentLoaded', function() {
     atualizarTituloSemana();
+    inicializarBarrasProgresso();
 });
 
 // Handler para editar tarefa usando data attributes
@@ -431,6 +476,9 @@ function atualizarStatus(checkbox, tarefaId, status) {
                 tarefaCard.classList.remove('concluida');
                 checkbox.checked = false;
             }
+            
+            // Atualizar barra de progresso
+            atualizarBarraProgresso(tarefaCard.closest('.dia-coluna'));
             
             // Efeito de conclusão
             tarefaCard.style.animation = 'completedTask 0.5s ease';
@@ -645,9 +693,15 @@ function ativarEventListeners() {
     });
     
     // Reativar checkboxes de status
-    document.querySelectorAll('.tarefa-checkbox').forEach(checkbox => {
+    document.querySelectorAll('.checkbox-container input[type="checkbox"]').forEach(checkbox => {
+        // Verificar se o card pai tem a classe 'concluida' e ajustar o checkbox
+        const tarefaCard = checkbox.closest('.tarefa-card');
+        if (tarefaCard && tarefaCard.classList.contains('concluida')) {
+            checkbox.checked = true;
+        }
+        
         checkbox.addEventListener('change', function() {
-            const tarefaId = this.closest('.tarefa-card').dataset.tarefaId;
+            const tarefaId = this.closest('.tarefa-card').getAttribute('data-tarefa-id');
             const novoStatus = this.checked ? 'concluida' : 'pendente';
             atualizarStatus(this, tarefaId, novoStatus);
         });
@@ -660,6 +714,9 @@ function ativarEventListeners() {
             abrirModalNovaTarefa(data);
         });
     });
+    
+    // Atualizar barras de progresso após filtros
+    inicializarBarrasProgresso();
 }
 
 // Função para scroll horizontal do calendário
