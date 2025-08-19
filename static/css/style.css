@@ -13,6 +13,58 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos responsivos da navbar */
+@media screen and (max-width: 1023px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    
+    .navbar-item {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .navbar-burger {
+        height: 3.25rem;
+        width: 3.25rem;
+    }
+    
+    .navbar-menu {
+        box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-dropdown {
+        position: static;
+        box-shadow: none;
+        border-top: 1px solid #dbdbdb;
+        padding-top: 0.5rem;
+    }
+    
+    .navbar-item.has-dropdown .navbar-link::after {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0.25rem 0.75rem;
+    }
+    
+    .navbar-item {
+        padding: 0.375rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .navbar-burger {
+        height: 2.75rem;
+        width: 2.75rem;
+    }
+    
+    .navbar-brand .navbar-item img {
+        max-height: 24px !important;
+    }
+}
+
 /* Estilos dos formulários */
 .form-container {
     max-width: 600px;
