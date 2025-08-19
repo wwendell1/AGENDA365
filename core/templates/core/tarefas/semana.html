@@ -13,7 +13,7 @@
             <!-- Filtros Simplificados -->
             <div class="filters-container">
                 <form method="get" class="filters-form" id="filtrosForm">
-                    <select name="grupo" id="filtro-grupo" class="filter-select" onchange="aplicarFiltros()">
+                    <select name="grupo" id="filtro-grupo" class="filter-select" onchange="aplicarFiltros(event)">
                         <option value="">Todos os Grupos</option>
                         {% for grupo in grupos %}
                         <option value="{{ grupo.id }}" {% if filtro_grupo == grupo.id|stringformat:"s" %}selected{% endif %}>
@@ -21,7 +21,7 @@
                         </option>
                         {% endfor %}
                     </select>
-                    <select name="responsavel" id="filtro-responsavel" class="filter-select" onchange="aplicarFiltros()">
+                    <select name="responsavel" id="filtro-responsavel" class="filter-select" onchange="aplicarFiltros(event)">
                         <option value="">Todos os Responsáveis</option>
                         {% for user in users %}
                         <option value="{{ user.id }}" {% if filtro_responsavel == user.id|stringformat:"s" %}selected{% endif %}>
@@ -29,7 +29,7 @@
                         </option>
                         {% endfor %}
                     </select>
-                    <select name="status" id="filtro-status" class="filter-select" onchange="aplicarFiltros()">
+                    <select name="status" id="filtro-status" class="filter-select" onchange="aplicarFiltros(event)">
                         <option value="">Todos os Status</option>
                         <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>A Fazer</option>
                         <option value="concluida" {% if filtro_status == 'concluida' %}selected{% endif %}>Realizado</option>
@@ -282,16 +282,31 @@ function atualizarTituloSemana() {
 function atualizarBarraProgresso(diaColuna) {
     const tarefasContainer = diaColuna.querySelector('.tarefas-container');
     const todasTarefas = tarefasContainer.querySelectorAll('.tarefa-card');
-    const tarefasConcluidas = tarefasContainer.querySelectorAll('.tarefa-card.concluida');
+    
+    // Contar tarefas concluídas verificando tanto a classe quanto o checkbox
+    let concluidas = 0;
+    todasTarefas.forEach(tarefa => {
+        const checkbox = tarefa.querySelector('input[type="checkbox"]');
+        if (checkbox && checkbox.checked) {
+            concluidas++;
+            // Garantir que a classe 'concluida' esteja aplicada
+            if (!tarefa.classList.contains('concluida')) {
+                tarefa.classList.add('concluida');
+            }
+        } else {
+            // Remover a classe se o checkbox não estiver marcado
+            tarefa.classList.remove('concluida');
+        }
+    });
     
     const total = todasTarefas.length;
-    const concluidas = tarefasConcluidas.length;
     
     const progressBar = diaColuna.querySelector('.progress-fill');
     const progressText = diaColuna.querySelector('.progress-text');
     
     if (total > 0) {
         const porcentagem = (concluidas / total) * 100;
+        
         progressBar.style.width = porcentagem + '%';
         progressText.textContent = `${concluidas}/${total}`;
         
@@ -618,41 +633,41 @@ function excluirTarefa(id) {
 }
 
 // Função para aplicar filtros
-function aplicarFiltros() {
-    event.preventDefault();
+function aplicarFiltros(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    
     const form = document.getElementById('filtrosForm');
     const formData = new FormData(form);
     
-    // Ajustar o valor do status se for 'A Fazer'
-    const statusSelect = document.getElementById('filtro-status');
-    const statusValue = statusSelect.value;
+    // Obter valores dos filtros
+    const grupoValue = document.getElementById('filtro-grupo').value;
+    const statusValue = document.getElementById('filtro-status').value;
+    const responsavelValue = document.getElementById('filtro-responsavel').value;
     
-    // Log dos valores dos filtros antes do ajuste
-    console.log('Valores originais:', {
-        grupo: formData.get('grupo'),
-        status: statusValue,
-        responsavel: formData.get('responsavel')
-    });
+    // Construir URL com parâmetros
+    const params = new URLSearchParams();
     
-    // Garantir que o status correto seja enviado
-    if (statusValue === 'pendente') {
-        // Para 'A Fazer', incluir tanto 'pendente' quanto 'atrasada'
-        formData.delete('status');
-        formData.append('status', 'pendente');
-        formData.append('status', 'atrasada');
-    } else if (statusValue === 'concluida') {
-        formData.set('status', 'concluida');
+    if (grupoValue) {
+        params.append('grupo', grupoValue);
     }
     
-    // Log dos valores após o ajuste
-    console.log('Valores ajustados:', {
-        grupo: formData.get('grupo'),
-        status: formData.getAll('status'),
-        responsavel: formData.get('responsavel')
-    });
+    if (statusValue) {
+        if (statusValue === 'pendente') {
+            // Para 'A Fazer', incluir tanto 'pendente' quanto 'atrasada'
+            params.append('status', 'pendente');
+            params.append('status', 'atrasada');
+        } else {
+            params.append('status', statusValue);
+        }
+    }
     
-    const url = window.location.pathname + '?' + new URLSearchParams(formData).toString();
-    console.log('URL da requisição:', url);
+    if (responsavelValue) {
+        params.append('responsavel', responsavelValue);
+    }
+    
+    const url = window.location.pathname + '?' + params.toString();
     
     fetch(url, {
         method: 'GET',
@@ -660,7 +675,12 @@ function aplicarFiltros() {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.status);
+        }
+        return response.text();
+    })
     .then(html => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
@@ -669,8 +689,11 @@ function aplicarFiltros() {
         // Atualizar cada coluna de dia com as novas tarefas
         document.querySelectorAll('.dia-coluna').forEach((coluna, index) => {
             if (newTarefas[index]) {
-                coluna.querySelector('.tarefas-container').innerHTML = 
-                    newTarefas[index].querySelector('.tarefas-container').innerHTML;
+                const tarefasContainer = coluna.querySelector('.tarefas-container');
+                const newTarefasContainer = newTarefas[index].querySelector('.tarefas-container');
+                if (tarefasContainer && newTarefasContainer) {
+                    tarefasContainer.innerHTML = newTarefasContainer.innerHTML;
+                }
             }
         });
         
