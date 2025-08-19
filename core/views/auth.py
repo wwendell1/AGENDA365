@@ -37,7 +37,6 @@ def login_view(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    messages.success(request, f'Bem-vindo, {user.first_name or user.username}!')
                     return redirect('dashboard')
                 else:
                     messages.error(request, 'Sua conta está desativada.')

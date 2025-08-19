@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtiva - {% block title %}{% endblock %}</title>
+    <title>ControlTask - {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/tarefas.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/footer.css' %}">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{% url 'dashboard' %}">
-                <strong>Produtiva</strong>
+                <img src="{% static 'logo.png' %}" alt="ControlTask" style="max-height: 28px;">
             </a>
 
             {% if user.is_authenticated %}
@@ -98,6 +99,15 @@
             {% block content %}{% endblock %}
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">
+                © Todos os direitos reservados a <span class="gradient-text">ControlTask</span> juntamente a <span class="gradient-text">SOFS</span>
+            </p>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="{% static 'core/js/main.js' %}"></script>

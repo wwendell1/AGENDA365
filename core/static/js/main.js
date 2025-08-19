@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: chartData.categorias.valores,
                     backgroundColor: [
                         '#48c774', '#3298dc', '#f14668', '#ffdd57', '#9d4edd',
-                        '#00d1b2', '#485fc7', '#ff6b6b', '#4ecdc4', '#95a5a6'
+                        '#367ABD', '#485fc7', '#ff6b6b', '#4ecdc4', '#95a5a6'
                     ]
                 }]
             },

@@ -49,6 +49,37 @@ body {
     color: white;
 }
 
+/* Container das mensagens - posicionamento absoluto para não afetar layout */
+.container.mt-3 {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    z-index: 1000;
+    margin: 0 !important;
+    width: auto;
+    max-width: 400px;
+}
+
+/* Estilos das notificações - posicionamento fixo para não deslocar conteúdo */
+.notification {
+    position: relative;
+    margin: 0 0 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    animation: slideInRight 0.3s ease-out;
+    border-radius: 6px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 /* Estilos das tabelas */
 .table {
     width: 100%;

@@ -7,6 +7,26 @@ body {
     background-color: #f5f5f5;
 }
 
+/* Customização da cor primary do Bulma */
+.is-primary {
+    background-color: #367ABD !important;
+    border-color: #367ABD !important;
+}
+
+.navbar.is-primary {
+    background-color: #367ABD !important;
+}
+
+.button.is-primary {
+    background-color: #367ABD !important;
+    border-color: #367ABD !important;
+}
+
+.button.is-primary:hover {
+    background-color: #2e6ba8 !important;
+    border-color: #2e6ba8 !important;
+}
+
 /* Estilos do cabeçalho */
 .navbar {
     padding: 1rem;

@@ -3,7 +3,22 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="section">
+<div class="section" style="padding-top: 1rem;">
+    <!-- Card de Boas-vindas -->
+    <div class="columns is-centered mb-4">
+        <div class="column is-8">
+            <div class="box has-text-centered has-background-primary-light">
+                <h1 class="title is-4 has-text-primary">
+                    <span class="icon">
+                        <i class="fas fa-hand-wave"></i>
+                    </span>
+                    Bem-vindo, {{ user.first_name|default:user.username }}!
+                </h1>
+                <p class="subtitle is-6 has-text-grey-dark">Tenha um ótimo dia de trabalho!</p>
+            </div>
+        </div>
+    </div>
+    
     <div class="columns is-multiline">
         <!-- Tarefas Pendentes -->
         <div class="column is-6">
