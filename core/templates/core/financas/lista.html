@@ -10,10 +10,10 @@
         <div class="level">
             <div class="level-left">
                 <div class="level-item">
-                    <a href="{% url 'criar_transacao' %}" class="button is-primary">
+                    <button class="button is-primary is-medium modal-trigger" data-target="nova-transacao-modal" style="background-color: #3273dc; border-radius: 4px; font-weight: 600; box-shadow: 0 4px 6px rgba(50, 115, 220, 0.2); transition: all 0.3s;">
                         <span class="icon"><i class="fas fa-plus"></i></span>
                         <span>Nova Transação</span>
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="level-right">
@@ -56,9 +56,9 @@
                         </td>
                         <td>
                             <div class="buttons are-small">
-                                <a href="{% url 'editar_transacao' transacao.id %}" class="button is-info">
+                                <button class="button is-info modal-trigger" data-target="editar-transacao-modal-{{ transacao.id }}">
                                     <span class="icon"><i class="fas fa-edit"></i></span>
-                                </a>
+                                </button>
                                 <button class="button is-danger modal-trigger" data-target="delete-modal-{{ transacao.id }}">
                                     <span class="icon"><i class="fas fa-trash"></i></span>
                                 </button>
@@ -96,11 +96,330 @@
         </div>
     </div>
 </div>
+<!-- Modais de Edição para cada transação -->
+{% for transacao in transacoes %}
+<div id="editar-transacao-modal-{{ transacao.id }}" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="max-width: 450px; width: 100%; margin: 0 auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(10, 10, 10, 0.2);">
+        <header class="modal-card-head" style="background-color: #3273dc; color: white; border-bottom: none; border-radius: 8px 8px 0 0;">
+            <p class="modal-card-title" style="color: white; font-weight: 600;">Editar Transação</p>
+            <button class="delete" aria-label="close" style="background-color: rgba(255, 255, 255, 0.2);"></button>
+        </header>
+        <form method="post" action="{% url 'editar_transacao' transacao.id %}" enctype="multipart/form-data">
+            <section class="modal-card-body" style="padding: 1rem;">
+                {% csrf_token %}
+                
+                {% if edit_form_errors and transacao_id == transacao.id %}
+                <div class="notification is-danger is-light" style="border-radius: 6px; margin-bottom: 1.5rem;">
+                    <p><strong>Por favor, corrija os erros abaixo:</strong></p>
+                    <ul>
+                        {% for field in edit_form %}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}</strong>: {{ error }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Tipo</label>
+                    <div class="control">
+                        <div class="select is-fullwidth" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <select name="tipo" required id="id_tipo_{{ transacao.id }}">
+                                <option value="receita" {% if transacao.tipo == 'receita' %}selected{% endif %}>Receita</option>
+                                <option value="despesa" {% if transacao.tipo == 'despesa' %}selected{% endif %}>Despesa</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Valor</label>
+                    <div class="control">
+                        <input type="number" name="valor" step="0.01" value="{{ transacao.valor }}" required id="id_valor_{{ transacao.id }}" class="input" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Categoria</label>
+                    <div class="control">
+                        <input type="text" name="categoria" value="{{ transacao.categoria }}" required id="id_categoria_{{ transacao.id }}" class="input" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Descrição</label>
+                    <div class="control">
+                        <textarea name="descricao" id="id_descricao_{{ transacao.id }}" class="textarea" rows="3" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">{{ transacao.descricao }}</textarea>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Data</label>
+                    <div class="control">
+                        <input type="date" name="data" value="{{ transacao.data|date:'Y-m-d' }}" required id="id_data_{{ transacao.id }}" class="input" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Grupo (opcional)</label>
+                    <div class="control">
+                        <div class="select is-fullwidth" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <select name="grupo" id="id_grupo_{{ transacao.id }}">
+                                <option value="" {% if not transacao.grupo %}selected{% endif %}>---------</option>
+                                {% for grupo in request.user.grupos.all %}
+                                <option value="{{ grupo.id }}" {% if transacao.grupo.id == grupo.id %}selected{% endif %}>{{ grupo.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Parcelas</label>
+                    <div class="control">
+                        <input type="number" name="parcelas" value="{{ transacao.parcelas }}" min="1" step="1" required id="id_parcelas_{{ transacao.id }}" class="input" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    </div>
+                    <p class="help">Deixe 1 para pagamento único</p>
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Anexo (opcional)</label>
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label" style="border: 1px dashed #3273dc; border-radius: 4px; transition: all 0.3s; height: auto; display: flex; overflow: hidden;">
+                            <input type="file" name="anexo" id="id_anexo_{{ transacao.id }}" class="file-input">
+                            <span class="file-cta" style="background-color: #3273dc; border: none; padding: 0.5rem; color: white;">
+                                <span class="file-label" style="font-weight: 600; color: white; font-size: 0.875rem;">
+                                    Escolher arquivo
+                                </span>
+                            </span>
+                            <span class="file-name" id="file-name-{{ transacao.id }}" style="background-color: #f5f5f5; border-top: none; text-align: center; font-size: 0.875rem; padding: 0.5rem; flex-grow: 1;">
+                                {% if transacao.anexo %}{{ transacao.anexo.name }}{% else %}Nenhum arquivo selecionado{% endif %}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot" style="background-color: #f5f5f5; border-top: 1px solid #dbdbdb; justify-content: flex-end; border-radius: 0 0 8px 8px;">
+                <button type="submit" class="button is-primary is-small" style="background-color: #3273dc; border-radius: 4px; font-weight: 600; transition: all 0.3s;">
+                    <span>Salvar Alterações</span>
+                </button>
+                <button type="button" class="button is-danger is-small modal-cancel" style="border-radius: 4px; background-color: #ff3860; color: white; font-weight: 600;">
+                    <span>Cancelar</span>
+                </button>
+            </footer>
+        </form>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Modal Nova Transação -->
+<div id="nova-transacao-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="max-width: 450px; width: 100%; margin: 0 auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(10, 10, 10, 0.2);">
+        <header class="modal-card-head" style="background-color: #3273dc; color: white; border-bottom: none; border-radius: 8px 8px 0 0;">
+            <p class="modal-card-title" style="color: white; font-weight: 600;">Nova Transação</p>
+            <button class="delete" aria-label="close" style="background-color: rgba(255, 255, 255, 0.2);"></button>
+        </header>
+        <form method="post" action="{% url 'criar_transacao' %}" enctype="multipart/form-data" id="form-nova-transacao">
+            <section class="modal-card-body" style="padding: 1rem;">
+                {% csrf_token %}
+                
+                {% if form_errors %}
+                <div class="notification is-danger is-light" style="border-radius: 6px; margin-bottom: 1.5rem;">
+                    <p><strong>Por favor, corrija os erros abaixo:</strong></p>
+                </div>
+                {% endif %}
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Tipo</label>
+                    <div class="control">
+                        <div class="select is-fullwidth" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            {{ form.tipo }}
+                        </div>
+                    </div>
+                    {% if form.tipo.errors %}
+                        <p class="help is-danger">{{ form.tipo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Valor</label>
+                    <div class="control">
+                        {{ form.valor }}
+                    </div>
+                    {% if form.valor.errors %}
+                        <p class="help is-danger">{{ form.valor.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Categoria</label>
+                    <div class="control">
+                        {{ form.categoria }}
+                    </div>
+                    {% if form.categoria.errors %}
+                        <p class="help is-danger">{{ form.categoria.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Descrição</label>
+                    <div class="control">
+                        {{ form.descricao }}
+                    </div>
+                    {% if form.descricao.errors %}
+                        <p class="help is-danger">{{ form.descricao.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Data</label>
+                    <div class="control">
+                        {{ form.data }}
+                    </div>
+                    {% if form.data.errors %}
+                        <p class="help is-danger">{{ form.data.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Grupo (opcional)</label>
+                    <div class="control">
+                        <div class="select is-fullwidth" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            {{ form.grupo }}
+                        </div>
+                    </div>
+                    {% if form.grupo.errors %}
+                        <p class="help is-danger">{{ form.grupo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Parcelas</label>
+                    <div class="control">
+                        {{ form.parcelas }}
+                    </div>
+                    <p class="help">Deixe 1 para pagamento único</p>
+                    {% if form.parcelas.errors %}
+                        <p class="help is-danger">{{ form.parcelas.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Anexo (opcional)</label>
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label" style="border: 1px dashed #3273dc; border-radius: 4px; transition: all 0.3s; height: auto; display: flex; overflow: hidden;">
+                            {{ form.anexo }}
+                            <span class="file-cta" style="background-color: #3273dc; border: none; padding: 0.5rem; color: white;">
+                                <span class="file-label" style="font-weight: 600; color: white; font-size: 0.875rem;">
+                                    Escolher arquivo
+                                </span>
+                            </span>
+                            <span class="file-name" id="file-name" style="background-color: #f5f5f5; border-top: none; text-align: center; font-size: 0.875rem; padding: 0.5rem; flex-grow: 1;">
+                                Nenhum arquivo selecionado
+                            </span>
+                        </label>
+                    </div>
+                    {% if form.anexo.errors %}
+                        <p class="help is-danger">{{ form.anexo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </section>
+            <footer class="modal-card-foot" style="background-color: #f5f5f5; border-top: 1px solid #dbdbdb; justify-content: flex-end; border-radius: 0 0 8px 8px; padding: 0.75rem;">
+                <button type="submit" class="button is-primary is-small" style="background-color: #3273dc; border-radius: 4px; font-weight: 600; transition: all 0.3s;">
+                    <span>Criar Transação</span>
+                </button>
+                <button type="button" class="button is-danger is-small modal-cancel" style="border-radius: 4px; background-color: #ff3860; color: white; font-weight: 600;">
+                    <span>Cancelar</span>
+                </button>
+            </footer>
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Código do gráfico Chart.js aqui
+     
+     // Script para controlar o modal
+     document.addEventListener('DOMContentLoaded', function() {
+         // Mostrar modal automaticamente se houver erros no formulário
+         {% if form_errors %}
+         const novaTransacaoModal = document.getElementById('nova-transacao-modal');
+         if (novaTransacaoModal) {
+             novaTransacaoModal.classList.add('is-active');
+         }
+         {% endif %}
+        // Abrir modal
+        const modalTriggers = document.querySelectorAll('.modal-trigger');
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const targetModal = document.getElementById(this.dataset.target);
+                targetModal.classList.add('is-active');
+            });
+        });
+        
+        // Fechar modal com botão de fechar ou cancelar
+        const closeButtons = document.querySelectorAll('.modal .delete, .modal .modal-cancel');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                modal.classList.remove('is-active');
+            });
+        });
+        
+        // Fechar modal clicando no fundo
+        const modalBackgrounds = document.querySelectorAll('.modal-background');
+        modalBackgrounds.forEach(background => {
+            background.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                modal.classList.remove('is-active');
+            });
+        });
+        
+        // Script para mostrar o nome do arquivo selecionado para nova transação
+        const fileInput = document.querySelector('#id_anexo');
+        const fileName = document.querySelector('#file-name');
+        
+        if (fileInput && fileName) {
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    fileName.textContent = fileInput.files[0].name;
+                } else {
+                    fileName.textContent = 'Nenhum arquivo selecionado';
+                }
+            });
+        }
+        
+        // Script para mostrar o nome do arquivo selecionado para edição de transações
+        {% for transacao in transacoes %}
+        const fileInputEdit{{ transacao.id }} = document.querySelector('#id_anexo_{{ transacao.id }}');
+        const fileNameEdit{{ transacao.id }} = document.querySelector('#file-name-{{ transacao.id }}');
+        
+        if (fileInputEdit{{ transacao.id }} && fileNameEdit{{ transacao.id }}) {
+            fileInputEdit{{ transacao.id }}.addEventListener('change', function() {
+                if (fileInputEdit{{ transacao.id }}.files.length > 0) {
+                    fileNameEdit{{ transacao.id }}.textContent = fileInputEdit{{ transacao.id }}.files[0].name;
+                } else {
+                    fileNameEdit{{ transacao.id }}.textContent = 'Nenhum arquivo selecionado';
+                }
+            });
+        }
+        {% endfor %}
+        
+        // Abrir modal de edição automaticamente se houver erros no formulário de edição
+        {% if edit_form_errors %}
+        const editarTransacaoModal = document.getElementById('editar-transacao-modal-{{ transacao_id }}');
+        if (editarTransacaoModal) {
+            editarTransacaoModal.classList.add('is-active');
+        }
+        {% endif %}
+    });
 </script>
 {% endblock %}

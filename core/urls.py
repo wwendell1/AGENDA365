@@ -37,8 +37,8 @@ urlpatterns = [
     path('financas/criar/', financas.nova_transacao, name='criar_transacao'),
     path('financas/<int:transacao_id>/editar/', financas.editar_transacao, name='editar_transacao'),
     path('financas/<int:transacao_id>/excluir/', financas.excluir_transacao, name='excluir_transacao'),
-    
-    # Notificações
+    path('financas/relatorio/', financas.relatorio_mensal, name='relatorio_mensal'),
+    path('financas/exportar/', financas.exportar_transacoes, name='exportar_transacoes'),
     path('notificacoes/', notificacoes.lista_notificacoes, name='lista_notificacoes'),
     path('notificacoes/marcar-lida/<int:pk>/', notificacoes.marcar_como_lida, name='marcar_notificacao_lida'),
     path('notificacoes/configuracoes/', notificacoes.configurar_notificacoes, name='configurar_notificacoes'),

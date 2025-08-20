@@ -89,10 +89,14 @@ class GrupoForm(forms.ModelForm):
 class TransacaoForm(forms.ModelForm):
     class Meta:
         model = TransacaoFinanceira
-        fields = ['tipo', 'valor', 'categoria', 'descricao', 'data', 'grupo']
+        fields = ['tipo', 'valor', 'categoria', 'descricao', 'data', 'grupo', 'parcelas', 'anexo']
         widgets = {
-            'data': forms.DateInput(attrs={'type': 'date'}),
-            'valor': forms.NumberInput(attrs={'step': '0.01'}),
+            'data': forms.DateInput(attrs={'type': 'date', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'valor': forms.NumberInput(attrs={'step': '0.01', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'categoria': forms.TextInput(attrs={'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'parcelas': forms.NumberInput(attrs={'min': 1, 'step': 1, 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'descricao': forms.Textarea(attrs={'rows': 3, 'class': 'textarea', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'anexo': forms.ClearableFileInput(attrs={'class': 'file-input', 'style': 'opacity: 0; position: absolute;'}),
         }
 
 class ConfiguracaoNotificacaoForm(forms.ModelForm):

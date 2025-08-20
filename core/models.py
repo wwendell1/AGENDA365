@@ -171,7 +171,17 @@ class TransacaoFinanceira(models.Model):
     descricao = models.TextField(blank=True)
     data = models.DateField()
     criado_em = models.DateTimeField(auto_now_add=True)
+    parcelas = models.IntegerField(default=1, help_text="Número de parcelas (1 para pagamento único)")
+    anexo = models.FileField(upload_to='transacoes/', null=True, blank=True, help_text="Anexo opcional para a transação")
 
+    def valor_por_parcela(self):
+        """Calcula o valor de cada parcela."""
+        if self.parcelas > 1:
+            return self.valor / self.parcelas
+        return self.valor
+
+    def __str__(self):
+        return f"{self.tipo.capitalize()} - {self.categoria}: R$ {self.valor_formatado}"
     @property
     def valor_formatado(self):
         return f'R$ {self.valor:,.2f}'

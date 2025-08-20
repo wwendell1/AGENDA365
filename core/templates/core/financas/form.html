@@ -1,0 +1,150 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if transacao %}Editar Transação{% else %}Nova Transação{% endif %}{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8 is-offset-2">
+        <h1 class="title">{% if transacao %}Editar Transação{% else %}Nova Transação{% endif %}</h1>
+        
+        <div class="box">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="field">
+                    <label class="label">Tipo</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.tipo }}
+                        </div>
+                    </div>
+                    {% if form.tipo.errors %}
+                        <p class="help is-danger">{{ form.tipo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Valor</label>
+                    <div class="control has-icons-left">
+                        {{ form.valor }}
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-dollar-sign"></i>
+                        </span>
+                    </div>
+                    {% if form.valor.errors %}
+                        <p class="help is-danger">{{ form.valor.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Categoria</label>
+                    <div class="control">
+                        {{ form.categoria }}
+                    </div>
+                    {% if form.categoria.errors %}
+                        <p class="help is-danger">{{ form.categoria.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Descrição</label>
+                    <div class="control">
+                        {{ form.descricao }}
+                    </div>
+                    {% if form.descricao.errors %}
+                        <p class="help is-danger">{{ form.descricao.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Data</label>
+                    <div class="control">
+                        {{ form.data }}
+                    </div>
+                    {% if form.data.errors %}
+                        <p class="help is-danger">{{ form.data.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Grupo (opcional)</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            {{ form.grupo }}
+                        </div>
+                    </div>
+                    {% if form.grupo.errors %}
+                        <p class="help is-danger">{{ form.grupo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Parcelas</label>
+                    <div class="control">
+                        {{ form.parcelas }}
+                    </div>
+                    <p class="help">Deixe 1 para pagamento único</p>
+                    {% if form.parcelas.errors %}
+                        <p class="help is-danger">{{ form.parcelas.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field">
+                    <label class="label">Anexo (opcional)</label>
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label">
+                            {{ form.anexo }}
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Escolher arquivo
+                                </span>
+                            </span>
+                            <span class="file-name" id="file-name">
+                                {% if form.anexo.value %}{{ form.anexo.value }}{% else %}Nenhum arquivo selecionado{% endif %}
+                            </span>
+                        </label>
+                    </div>
+                    {% if form.anexo.errors %}
+                        <p class="help is-danger">{{ form.anexo.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="field is-grouped mt-5">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <a href="{% url 'lista_transacoes' %}" class="button is-light">
+                            <span>Cancelar</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para mostrar o nome do arquivo selecionado
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.querySelector('input[type=file]');
+        const fileName = document.querySelector('#file-name');
+        
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+            } else {
+                fileName.textContent = 'Nenhum arquivo selecionado';
+            }
+        });
+    });
+</script>
+{% endblock %}
