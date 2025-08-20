@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
-from ..models import Grupo, Membro, Tarefa
-from ..forms import GrupoForm, ConviteForm
+from django.http import JsonResponse
+from ..models import Grupo, Membro, Tarefa, QuadroKanban, ColunaKanban, CartaoKanban, HistoricoMovimentacao
+from ..forms import GrupoForm, ConviteForm, QuadroKanbanForm, CartaoKanbanForm
 from django.contrib.auth.models import User
+import json
 
 @login_required
 def lista_grupos(request):
@@ -71,12 +73,16 @@ def detalhe_grupo(request, grupo_id):
     # Obtém as tarefas do grupo
     tarefas = Tarefa.objects.filter(grupo=grupo).order_by('-data_limite')
     
+    # Obtém os quadros Kanban do grupo
+    quadros = QuadroKanban.objects.filter(grupo=grupo).order_by('-criado_em')
+    
     context = {
         'grupo': grupo,
         'tarefas': tarefas,
         'membros': grupo.membro_set.all(),
         'membro': membro,
-        'is_admin': membro.papel == 'admin'
+        'is_admin': membro.papel == 'admin',
+        'quadros': quadros
     }
     return render(request, 'core/grupos/detalhe.html', context)
 
@@ -144,6 +150,154 @@ def adicionar_membro(request, grupo_id):
         form = ConviteForm()
 
     return render(request, 'core/grupos/adicionar_membro.html', {'form': form, 'grupo': grupo, 'usernames_disponiveis': usernames_disponiveis})
+
+@login_required
+def criar_quadro_kanban(request, grupo_id):
+    """Cria um novo quadro Kanban para o grupo"""
+    grupo = get_object_or_404(Grupo, id=grupo_id)
+    
+    # Verifica se o usuário é admin ou moderador do grupo
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro or membro.papel != 'admin':
+        messages.error(request, 'Você não tem permissão para criar quadros neste grupo.')
+        return redirect('detalhe_grupo', grupo_id=grupo.id)
+    
+    if request.method == 'POST':
+        form = QuadroKanbanForm(request.POST, grupo=grupo)
+        if form.is_valid():
+            quadro = form.save(commit=False)
+            quadro.grupo = grupo
+            quadro.criado_por = request.user
+            quadro.save()
+            
+            # Cria as colunas padrão para o quadro
+            ColunaKanban.criar_colunas_padrao(quadro)
+            
+            messages.success(request, 'Quadro Kanban criado com sucesso!')
+            return redirect('visualizar_quadro', grupo_id=grupo.id, quadro_id=quadro.id)
+    else:
+        form = QuadroKanbanForm(grupo=grupo)
+    
+    return render(request, 'core/grupos/quadro_form.html', {
+        'form': form,
+        'grupo': grupo,
+        'titulo': 'Criar Novo Quadro Kanban'
+    })
+
+@login_required
+def visualizar_quadro(request, grupo_id, quadro_id):
+    """Visualiza um quadro Kanban específico"""
+    grupo = get_object_or_404(Grupo, id=grupo_id)
+    quadro = get_object_or_404(QuadroKanban, id=quadro_id, grupo=grupo)
+    
+    # Verifica se o usuário é membro do grupo
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro:
+        messages.error(request, 'Você não tem permissão para acessar este quadro.')
+        return redirect('lista_grupos')
+    
+    # Obtém as colunas e cartões do quadro
+    colunas = ColunaKanban.objects.filter(quadro=quadro).order_by('ordem')
+    
+    # Para cada coluna, obtém seus cartões
+    for coluna in colunas:
+        coluna.cartoes_list = CartaoKanban.objects.filter(coluna=coluna).order_by('ordem')
+    
+    context = {
+        'grupo': grupo,
+        'quadro': quadro,
+        'colunas': colunas,
+        'membro': membro,
+        'is_admin': membro.papel == 'admin'
+    }
+    
+    return render(request, 'core/grupos/visualizar_quadro.html', context)
+
+@login_required
+def criar_cartao(request, grupo_id, quadro_id, coluna_id=None):
+    """Cria um novo cartão em uma coluna do quadro Kanban"""
+    grupo = get_object_or_404(Grupo, id=grupo_id)
+    quadro = get_object_or_404(QuadroKanban, id=quadro_id, grupo=grupo)
+    
+    # Verifica se o usuário é membro do grupo
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro:
+        messages.error(request, 'Você não tem permissão para acessar este quadro.')
+        return redirect('lista_grupos')
+    
+    if request.method == 'POST':
+        form = CartaoKanbanForm(request.POST, quadro=quadro)
+        if form.is_valid():
+            cartao = form.save(commit=False)
+            cartao.criado_por = request.user
+            
+            # Se não foi especificada uma coluna, usa a primeira coluna (A Fazer)
+            if not coluna_id:
+                coluna = ColunaKanban.objects.filter(quadro=quadro).order_by('ordem').first()
+            else:
+                coluna = get_object_or_404(ColunaKanban, id=coluna_id, quadro=quadro)
+                
+            cartao.coluna = coluna
+            
+            # Define a ordem como a última da coluna
+            ultimo_cartao = CartaoKanban.objects.filter(coluna=coluna).order_by('-ordem').first()
+            cartao.ordem = (ultimo_cartao.ordem + 1) if ultimo_cartao else 0
+            
+            cartao.save()
+            
+            # Adiciona os responsáveis, se houver
+            if 'responsaveis' in form.cleaned_data:
+                cartao.responsaveis.set(form.cleaned_data['responsaveis'])
+            
+            messages.success(request, 'Cartão criado com sucesso!')
+            return redirect('visualizar_quadro', grupo_id=grupo.id, quadro_id=quadro.id)
+    else:
+        form = CartaoKanbanForm(quadro=quadro)
+    
+    return render(request, 'core/grupos/cartao_form.html', {
+        'form': form,
+        'grupo': grupo,
+        'quadro': quadro,
+        'titulo': 'Criar Novo Cartão'
+    })
+
+@login_required
+def mover_cartao(request, grupo_id, quadro_id, cartao_id):
+    """Move um cartão para outra coluna via AJAX"""
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        try:
+            data = json.loads(request.body)
+            coluna_destino_id = data.get('coluna_destino_id')
+            nova_ordem = data.get('nova_ordem', 0)
+            
+            grupo = get_object_or_404(Grupo, id=grupo_id)
+            quadro = get_object_or_404(QuadroKanban, id=quadro_id, grupo=grupo)
+            cartao = get_object_or_404(CartaoKanban, id=cartao_id)
+            coluna_destino = get_object_or_404(ColunaKanban, id=coluna_destino_id, quadro=quadro)
+            
+            # Verifica se o usuário é membro do grupo
+            membro = grupo.membro_set.filter(usuario=request.user).first()
+            if not membro:
+                return JsonResponse({'error': 'Permissão negada'}, status=403)
+            
+            # Registra a movimentação no histórico
+            HistoricoMovimentacao.objects.create(
+                cartao=cartao,
+                coluna_origem=cartao.coluna,
+                coluna_destino=coluna_destino,
+                movido_por=request.user
+            )
+            
+            # Atualiza a coluna e ordem do cartão
+            cartao.coluna = coluna_destino
+            cartao.ordem = nova_ordem
+            cartao.save()
+            
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
 
 @login_required
 def remover_membro(request, grupo_id, membro_id):

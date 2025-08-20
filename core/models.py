@@ -274,3 +274,103 @@ class ConfiguracaoNotificacao(models.Model):
     
     def __str__(self):
         return f'Configurações de {self.usuario.username}'
+
+class QuadroKanban(models.Model):
+    """
+    Modelo para representar um quadro Kanban dentro de um grupo.
+    """
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='quadros')
+    responsavel = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='quadros_responsavel')
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quadros_criados')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Quadro Kanban'
+        verbose_name_plural = 'Quadros Kanban'
+    
+    def __str__(self):
+        return f'{self.nome} ({self.grupo.nome})'
+
+class ColunaKanban(models.Model):
+    """
+    Modelo para representar uma coluna dentro de um quadro Kanban.
+    """
+    COLUNAS_PADRAO = [
+        ('a_fazer', 'A Fazer'),
+        ('em_andamento', 'Em andamento'),
+        ('aguardando_feedback', 'Aguardando feedback'),
+        ('concluido', 'Concluído')
+    ]
+    
+    quadro = models.ForeignKey(QuadroKanban, on_delete=models.CASCADE, related_name='colunas')
+    nome = models.CharField(max_length=50)
+    slug = models.CharField(max_length=50)
+    ordem = models.PositiveIntegerField(default=0)
+    cor = models.CharField(max_length=20, default='#3498db')
+    limite_cartoes = models.PositiveIntegerField(null=True, blank=True, help_text='Limite máximo de cartões nesta coluna (opcional)')
+    
+    class Meta:
+        verbose_name = 'Coluna Kanban'
+        verbose_name_plural = 'Colunas Kanban'
+        ordering = ['ordem']
+    
+    def __str__(self):
+        return f'{self.nome} - {self.quadro.nome}'
+    
+    @classmethod
+    def criar_colunas_padrao(cls, quadro):
+        """Cria as colunas padrão para um novo quadro."""
+        for i, (slug, nome) in enumerate(cls.COLUNAS_PADRAO):
+            cls.objects.create(
+                quadro=quadro,
+                nome=nome,
+                slug=slug,
+                ordem=i
+            )
+
+class CartaoKanban(models.Model):
+    """
+    Modelo para representar um cartão em uma coluna Kanban.
+    Pode estar associado a uma tarefa existente ou ser independente.
+    """
+    coluna = models.ForeignKey(ColunaKanban, on_delete=models.CASCADE, related_name='cartoes')
+    tarefa = models.ForeignKey(Tarefa, on_delete=models.CASCADE, null=True, blank=True, related_name='cartao')
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField(blank=True)
+    responsaveis = models.ManyToManyField(User, related_name='cartoes_atribuidos', blank=True)
+    data_limite = models.DateTimeField(null=True, blank=True)
+    prioridade = models.CharField(max_length=10, choices=Tarefa.PRIORIDADE_CHOICES, default='media')
+    ordem = models.PositiveIntegerField(default=0)
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cartoes_criados')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Cartão Kanban'
+        verbose_name_plural = 'Cartões Kanban'
+        ordering = ['ordem']
+    
+    def __str__(self):
+        return self.titulo
+
+class HistoricoMovimentacao(models.Model):
+    """
+    Modelo para registrar o histórico de movimentações de cartões entre colunas.
+    """
+    cartao = models.ForeignKey(CartaoKanban, on_delete=models.CASCADE, related_name='historico')
+    coluna_origem = models.ForeignKey(ColunaKanban, on_delete=models.SET_NULL, null=True, related_name='movimentacoes_origem')
+    coluna_destino = models.ForeignKey(ColunaKanban, on_delete=models.SET_NULL, null=True, related_name='movimentacoes_destino')
+    movido_por = models.ForeignKey(User, on_delete=models.CASCADE)
+    data_movimentacao = models.DateTimeField(auto_now_add=True)
+    comentario = models.TextField(blank=True)
+    
+    class Meta:
+        verbose_name = 'Histórico de Movimentação'
+        verbose_name_plural = 'Históricos de Movimentações'
+        ordering = ['-data_movimentacao']
+    
+    def __str__(self):
+        return f'Movimentação de {self.cartao.titulo} em {self.data_movimentacao.strftime("%d/%m/%Y %H:%M")}'

@@ -21,6 +21,12 @@
                                 <span>Tarefas</span>
                             </a>
                         </li>
+                        <li id="tab-kanban">
+                            <a href="#kanban">
+                                <span class="icon is-small"><i class="fas fa-columns"></i></span>
+                                <span>Quadros Kanban</span>
+                            </a>
+                        </li>
                         <li id="tab-chat">
                             <a href="#chat">
                                 <span class="icon is-small"><i class="fas fa-comments"></i></span>
@@ -91,6 +97,48 @@
                         {% else %}
                         <div class="notification is-info">
                             Não há tarefas neste grupo ainda.
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Aba de Quadros Kanban -->
+                    <div id="kanban-content" class="tab-pane">
+                        <div class="field is-grouped mb-4">
+                            {% if request.user == grupo.criador or membro.papel == 'admin' %}
+                            <p class="control">
+                                <a href="{% url 'criar_quadro_kanban' grupo.id %}" class="button is-primary">
+                                    <span class="icon"><i class="fas fa-plus"></i></span>
+                                    <span>Novo Quadro Kanban</span>
+                                </a>
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        {% if quadros %}
+                        <div class="columns is-multiline">
+                            {% for quadro in quadros %}
+                            <div class="column is-4">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">{{ quadro.nome }}</p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <p>{{ quadro.descricao|truncatechars:100 }}</p>
+                                            <p><strong>Criado por:</strong> {{ quadro.criado_por.get_full_name }}</p>
+                                            <p><strong>Data de criação:</strong> {{ quadro.data_criacao|date:"d/m/Y" }}</p>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="{% url 'visualizar_quadro' grupo.id quadro.id %}" class="card-footer-item">Ver Quadro</a>
+                                    </footer>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="notification is-info">
+                            Não há quadros Kanban neste grupo ainda.
                         </div>
                         {% endif %}
                     </div>

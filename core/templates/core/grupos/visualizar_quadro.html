@@ -1,0 +1,323 @@
+{% extends 'core/base.html' %}
+
+{% block extra_css %}
+<style>
+    .kanban-board {
+        display: flex;
+        overflow-x: auto;
+        padding: 1rem 0;
+        min-height: 500px;
+    }
+    
+    .kanban-column {
+        flex: 0 0 300px;
+        margin: 0 0.5rem;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .kanban-column-header {
+        padding: 0.75rem;
+        background-color: #4a4a4a;
+        color: white;
+        border-radius: 5px 5px 0 0;
+    }
+    
+    .kanban-column-content {
+        padding: 0.5rem;
+        flex-grow: 1;
+        overflow-y: auto;
+        min-height: 200px;
+    }
+    
+    .kanban-card {
+        background-color: white;
+        border-radius: 3px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+        cursor: grab;
+    }
+    
+    .kanban-card:active {
+        cursor: grabbing;
+    }
+    
+    .kanban-card-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .kanban-card-description {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .kanban-card-meta {
+        font-size: 0.8rem;
+        color: #7a7a7a;
+    }
+    
+    .kanban-card-priority {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .priority-alta {
+        background-color: #ff3860;
+        color: white;
+    }
+    
+    .priority-media {
+        background-color: #ffdd57;
+        color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .priority-baixa {
+        background-color: #48c774;
+        color: white;
+    }
+    
+    .kanban-add-card {
+        text-align: center;
+        padding: 0.5rem;
+        background-color: #f5f5f5;
+        border-radius: 0 0 5px 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container is-fluid">
+    <div class="columns">
+        <div class="column">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'lista_grupos' %}">Grupos</a></li>
+                    <li><a href="{% url 'detalhe_grupo' grupo.id %}">{{ grupo.nome }}</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">{{ quadro.nome }}</a></li>
+                </ul>
+            </nav>
+            
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="title is-4">{{ quadro.nome }}</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'detalhe_grupo' grupo.id %}" class="button is-light">
+                            <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                            <span>Voltar ao Grupo</span>
+                        </a>
+                    </div>
+                    <div class="level-item">
+                        <a href="{% url 'criar_cartao' grupo.id quadro.id %}" class="button is-primary">
+                            <span class="icon"><i class="fas fa-plus"></i></span>
+                            <span>Novo Cartão</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content mb-4">
+                <p>{{ quadro.descricao }}</p>
+                <p><strong>Criado por:</strong> {{ quadro.criado_por.get_full_name }} em {{ quadro.data_criacao|date:"d/m/Y" }}</p>
+            </div>
+            
+            <div class="tabs is-boxed">
+                <ul>
+                    <li class="is-active" id="tab-kanban">
+                        <a href="#kanban">
+                            <span class="icon is-small"><i class="fas fa-columns"></i></span>
+                            <span>Kanban</span>
+                        </a>
+                    </li>
+                    <li id="tab-lista">
+                        <a href="#lista">
+                            <span class="icon is-small"><i class="fas fa-list"></i></span>
+                            <span>Lista</span>
+                        </a>
+                    </li>
+                    <li id="tab-calendario">
+                        <a href="#calendario">
+                            <span class="icon is-small"><i class="fas fa-calendar-alt"></i></span>
+                            <span>Calendário</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="tab-content">
+                <!-- Visualização Kanban -->
+                <div id="kanban-content" class="tab-pane is-active">
+                    <div class="kanban-board">
+                        {% for coluna in colunas %}
+                        <div class="kanban-column" data-coluna-id="{{ coluna.id }}">
+                            <div class="kanban-column-header">
+                                <h3 class="title is-6 has-text-white">{{ coluna.nome }}</h3>
+                            </div>
+                            <div class="kanban-column-content" id="coluna-{{ coluna.id }}">
+                                {% for cartao in coluna.cartoes_list %}
+                                <div class="kanban-card" draggable="true" data-cartao-id="{{ cartao.id }}">
+                                    <div class="kanban-card-title">{{ cartao.titulo }}</div>
+                                    <div class="kanban-card-description">{{ cartao.descricao|truncatechars:100 }}</div>
+                                    <div class="kanban-card-meta">
+                                        {% if cartao.data_limite %}
+                                        <div class="mb-1">
+                                            <span class="icon is-small"><i class="fas fa-calendar"></i></span>
+                                            <span>{{ cartao.data_limite|date:"d/m/Y" }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if cartao.responsaveis.all %}
+                                        <div class="mb-1">
+                                            <span class="icon is-small"><i class="fas fa-user"></i></span>
+                                            <span>{{ cartao.responsaveis.all|join:", " }}</span>
+                                        </div>
+                                        {% endif %}
+                                        <div>
+                                            <span class="kanban-card-priority priority-{{ cartao.prioridade }}">{{ cartao.get_prioridade_display }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="kanban-add-card">
+                                <a href="{% url 'criar_cartao' grupo.id quadro.id coluna.id %}" class="button is-small is-primary is-outlined">
+                                    <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                                    <span>Adicionar Cartão</span>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Visualização Lista -->
+                <div id="lista-content" class="tab-pane">
+                    <div class="notification is-info">
+                        Visualização em lista em desenvolvimento.
+                    </div>
+                </div>
+                
+                <!-- Visualização Calendário -->
+                <div id="calendario-content" class="tab-pane">
+                    <div class="notification is-info">
+                        Visualização em calendário em desenvolvimento.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Navegação por abas
+    const tabs = document.querySelectorAll('.tabs li');
+    const tabContents = document.querySelectorAll('.tab-pane');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            
+            const target = tab.querySelector('a').getAttribute('href').substring(1);
+            
+            tabContents.forEach(content => {
+                content.classList.remove('is-active');
+            });
+            
+            document.getElementById(`${target}-content`).classList.add('is-active');
+        });
+    });
+    
+    // Drag and Drop para cartões Kanban
+    const cartoes = document.querySelectorAll('.kanban-card');
+    const colunas = document.querySelectorAll('.kanban-column-content');
+    
+    let cartaoArrastado = null;
+    
+    // Eventos para os cartões
+    cartoes.forEach(cartao => {
+        cartao.addEventListener('dragstart', function(e) {
+            cartaoArrastado = cartao;
+            setTimeout(() => {
+                cartao.style.opacity = '0.4';
+            }, 0);
+        });
+        
+        cartao.addEventListener('dragend', function() {
+            cartao.style.opacity = '1';
+            cartaoArrastado = null;
+        });
+    });
+    
+    // Eventos para as colunas
+    colunas.forEach(coluna => {
+        coluna.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.backgroundColor = '#e8e8e8';
+        });
+        
+        coluna.addEventListener('dragleave', function() {
+            this.style.backgroundColor = '';
+        });
+        
+        coluna.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.backgroundColor = '';
+            
+            if (cartaoArrastado) {
+                const colunaDestino = this.closest('.kanban-column');
+                const colunaDestinoId = colunaDestino.dataset.colunaId;
+                const cartaoId = cartaoArrastado.dataset.cartaoId;
+                
+                // Calcular a nova ordem do cartão
+                const cartoesNaColuna = Array.from(this.querySelectorAll('.kanban-card'));
+                const novaOrdem = cartoesNaColuna.length;
+                
+                // Mover o cartão visualmente
+                this.appendChild(cartaoArrastado);
+                
+                // Enviar requisição AJAX para atualizar no servidor
+                const grupoId = {{ grupo.id }};
+                const quadroId = {{ quadro.id }};
+                
+                fetch(`/grupos/${grupoId}/quadros/${quadroId}/cartoes/${cartaoId}/mover/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({
+                        coluna_destino_id: colunaDestinoId,
+                        nova_ordem: novaOrdem
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Erro ao mover cartão:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na requisição:', error);
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

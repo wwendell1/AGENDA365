@@ -32,6 +32,12 @@ urlpatterns = [
     path('grupos/<int:grupo_id>/membros/adicionar/', grupos.adicionar_membro, name='adicionar_membro'),
     path('grupos/<int:grupo_id>/membros/<int:membro_id>/remover/', grupos.remover_membro, name='remover_membro'),
     
+    # Kanban
+    path('grupos/<int:grupo_id>/quadros/criar/', grupos.criar_quadro_kanban, name='criar_quadro_kanban'),
+    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/', grupos.visualizar_quadro, name='visualizar_quadro'),
+    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/criar/', grupos.criar_cartao, name='criar_cartao'),
+    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/<int:cartao_id>/mover/', grupos.mover_cartao, name='mover_cartao'),
+    
     # Finanças
     path('financas/', financas.lista_transacoes, name='lista_transacoes'),
     path('financas/criar/', financas.nova_transacao, name='criar_transacao'),

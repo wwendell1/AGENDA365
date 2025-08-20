@@ -8,7 +8,11 @@ from .models import (
     TransacaoFinanceira, 
     Perfil, 
     ConfiguracaoNotificacao,
-    Comentario
+    Comentario,
+    QuadroKanban,
+    ColunaKanban,
+    CartaoKanban,
+    Membro
 )
 
 # Corrigindo a classe CustomLoginView
@@ -101,6 +105,61 @@ class TransacaoForm(forms.ModelForm):
             'recorrente': forms.CheckboxInput(attrs={'class': 'checkbox'}),
             'pago': forms.CheckboxInput(attrs={'class': 'checkbox'}),
         }
+
+class ConviteForm(forms.Form):
+    username = forms.CharField(max_length=150, label='Nome de usuário')
+    papel = forms.ChoiceField(choices=Membro.ROLES, label='Papel no grupo')
+
+class QuadroKanbanForm(forms.ModelForm):
+    class Meta:
+        model = QuadroKanban
+        fields = ['nome', 'descricao', 'responsavel']
+        widgets = {
+            'descricao': forms.Textarea(attrs={'rows': 3, 'class': 'textarea'}),
+            'responsavel': forms.Select(attrs={'class': 'select'})
+        }
+        
+    def __init__(self, *args, grupo=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if grupo:
+            # Limitar responsáveis aos membros do grupo
+            self.fields['responsavel'].queryset = User.objects.filter(
+                membro__grupo=grupo
+            )
+
+class CartaoKanbanForm(forms.ModelForm):
+    data_limite = forms.DateTimeField(
+        required=False,
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={'type': 'date', 'class': 'input'},
+            time_attrs={'type': 'time', 'class': 'input'}
+        )
+    )
+    
+    class Meta:
+        model = CartaoKanban
+        fields = ['titulo', 'descricao', 'prioridade', 'data_limite']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'input'}),
+            'descricao': forms.Textarea(attrs={'rows': 3, 'class': 'textarea'}),
+            'prioridade': forms.Select(attrs={'class': 'select'})
+        }
+        
+    def __init__(self, *args, quadro=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if quadro:
+            # Campo para selecionar a coluna do cartão
+            self.fields['coluna'] = forms.ModelChoiceField(
+                queryset=ColunaKanban.objects.filter(quadro=quadro),
+                widget=forms.Select(attrs={'class': 'select'})
+            )
+            
+            # Campo para selecionar responsáveis (membros do grupo)
+            self.fields['responsaveis'] = forms.ModelMultipleChoiceField(
+                queryset=User.objects.filter(membro__grupo=quadro.grupo),
+                widget=forms.SelectMultiple(attrs={'class': 'select is-multiple'}),
+                required=False
+            )
 
 class TransacaoFiltroForm(forms.Form):
     TIPO_CHOICES = (
