@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if grupo %}Editar Grupo{% else %}Novo Grupo{% endif %}{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="box">
+            <h1 class="title">{% if grupo %}Editar Grupo{% else %}Novo Grupo{% endif %}</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="field">
+                    <label class="label">{{ field.label }}</label>
+                    <div class="control">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                    <p class="help is-danger">
+                        {{ field.errors|join:', ' }}
+                    </p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon"><i class="fas fa-save"></i></span>
+                            <span>Salvar</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <a href="{% url 'lista_grupos' %}" class="button is-light">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Cancelar</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

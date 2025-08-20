@@ -1,27 +1,78 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Sum
+from django.db.models import Sum, Q as models
 from django.utils.safestring import mark_safe
+from django.http import HttpResponse
 import json
+import pandas as pd
+import datetime
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 from ..models import TransacaoFinanceira
-from ..forms import TransacaoForm
+from ..forms import TransacaoForm, TransacaoFiltroForm
 
 @login_required
 def lista_transacoes(request):
-    """Lista transações financeiras do usuário"""
+    """Lista transações financeiras do usuário com filtros e pesquisa"""
+    # Inicializa o formulário de filtro
+    filtro_form = TransacaoFiltroForm(request.GET, user=request.user)
+    
+    # Inicia com todas as transações do usuário
     transacoes = TransacaoFinanceira.objects.filter(
         usuario=request.user
-    ).order_by('-data')
+    )
     
-    # Cálculos de totais
+    # Aplica os filtros se o formulário for válido
+    if filtro_form.is_valid():
+        # Filtro por data de início
+        data_inicio = filtro_form.cleaned_data.get('data_inicio')
+        if data_inicio:
+            transacoes = transacoes.filter(data__gte=data_inicio)
+        
+        # Filtro por data de fim
+        data_fim = filtro_form.cleaned_data.get('data_fim')
+        if data_fim:
+            transacoes = transacoes.filter(data__lte=data_fim)
+        
+        # Filtro por tipo (receita/despesa)
+        tipo = filtro_form.cleaned_data.get('tipo')
+        if tipo:
+            transacoes = transacoes.filter(tipo=tipo)
+        
+        # Filtro por categoria
+        categoria = filtro_form.cleaned_data.get('categoria')
+        if categoria:
+            transacoes = transacoes.filter(categoria__icontains=categoria)
+        
+        # Filtro por grupo
+        grupo = filtro_form.cleaned_data.get('grupo')
+        if grupo:
+            transacoes = transacoes.filter(grupo=grupo)
+        
+        # Pesquisa por texto (descrição ou categoria)
+        pesquisa = filtro_form.cleaned_data.get('pesquisa')
+        if pesquisa:
+            transacoes = transacoes.filter(
+                models.Q(descricao__icontains=pesquisa) | 
+                models.Q(categoria__icontains=pesquisa)
+            )
+    
+    # Ordenação por data (mais recente primeiro)
+    transacoes = transacoes.order_by('-data')
+    
+    # Cálculos de totais (baseados nos resultados filtrados)
     receitas = transacoes.filter(tipo='receita').aggregate(
         total=Sum('valor'))['total'] or 0
     despesas = transacoes.filter(tipo='despesa').aggregate(
         total=Sum('valor'))['total'] or 0
     saldo = receitas - despesas
     
-    # Dados para gráfico de categorias
+    # Dados para gráfico de categorias (baseados nos resultados filtrados)
     categorias_despesas = transacoes.filter(
         tipo='despesa'
     ).values('categoria').annotate(total=Sum('valor'))
@@ -35,7 +86,8 @@ def lista_transacoes(request):
         'despesas': despesas,
         'saldo': saldo,
         'categorias_despesas': categorias_despesas,
-        'form': form
+        'form': form,
+        'filtro_form': filtro_form
     }
     return render(request, 'core/financas/lista.html', context)
 
@@ -55,22 +107,228 @@ def nova_transacao(request):
         else:
             # Se o formulário não for válido, retorna para a lista com o formulário e erros
             transacoes = TransacaoFinanceira.objects.filter(usuario=request.user).order_by('-data')
-            receitas = transacoes.filter(tipo='receita').aggregate(total=Sum('valor'))['total'] or 0
-            despesas = transacoes.filter(tipo='despesa').aggregate(total=Sum('valor'))['total'] or 0
-            saldo = receitas - despesas
-            categorias_despesas = transacoes.filter(tipo='despesa').values('categoria').annotate(total=Sum('valor'))
-            
-            context = {
-                'transacoes': transacoes,
-                'receitas': receitas,
-                'despesas': despesas,
-                'saldo': saldo,
-                'categorias_despesas': categorias_despesas,
-                'form': form,
-                'form_errors': True  # Flag para indicar que há erros no formulário
-            }
-            return render(request, 'core/financas/lista.html', context)
+
+@login_required
+def exportar_excel(request):
+    """Exporta as transações para um arquivo Excel"""
+    # Inicializa o formulário de filtro para aplicar os mesmos filtros da lista
+    filtro_form = TransacaoFiltroForm(request.GET, user=request.user)
     
+    # Inicia com todas as transações do usuário
+    transacoes = TransacaoFinanceira.objects.filter(usuario=request.user)
+    
+    # Aplica os mesmos filtros da lista de transações
+    if filtro_form.is_valid():
+        # Filtro por data de início
+        data_inicio = filtro_form.cleaned_data.get('data_inicio')
+        if data_inicio:
+            transacoes = transacoes.filter(data__gte=data_inicio)
+        
+        # Filtro por data de fim
+        data_fim = filtro_form.cleaned_data.get('data_fim')
+        if data_fim:
+            transacoes = transacoes.filter(data__lte=data_fim)
+        
+        # Filtro por tipo (receita/despesa)
+        tipo = filtro_form.cleaned_data.get('tipo')
+        if tipo:
+            transacoes = transacoes.filter(tipo=tipo)
+        
+        # Filtro por categoria
+        categoria = filtro_form.cleaned_data.get('categoria')
+        if categoria:
+            transacoes = transacoes.filter(categoria__icontains=categoria)
+        
+        # Filtro por grupo
+        grupo = filtro_form.cleaned_data.get('grupo')
+        if grupo:
+            transacoes = transacoes.filter(grupo=grupo)
+        
+        # Pesquisa por texto (descrição ou categoria)
+        pesquisa = filtro_form.cleaned_data.get('pesquisa')
+        if pesquisa:
+            transacoes = transacoes.filter(
+                models.Q(descricao__icontains=pesquisa) | 
+                models.Q(categoria__icontains=pesquisa)
+            )
+    
+    # Ordenação por data (mais recente primeiro)
+    transacoes = transacoes.order_by('-data')
+    
+    # Criar DataFrame com pandas
+    data = []
+    for t in transacoes:
+        grupo_nome = t.grupo.nome if t.grupo else '-'
+        data.append({
+            'Data': t.data,
+            'Tipo': t.get_tipo_display(),
+            'Descrição': t.descricao,
+            'Categoria': t.categoria,
+            'Grupo': grupo_nome,
+            'Valor': t.valor,
+            'Parcelas': f'{t.parcela_atual}/{t.parcelas}' if t.parcelas > 1 else '-'
+        })
+    
+    df = pd.DataFrame(data)
+    
+    # Criar um buffer para o arquivo Excel
+    buffer = io.BytesIO()
+    
+    # Criar um escritor Excel
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name='Transações', index=False)
+        
+        # Ajustar largura das colunas
+        worksheet = writer.sheets['Transações']
+        for i, col in enumerate(df.columns):
+            column_width = max(df[col].astype(str).map(len).max(), len(col)) + 2
+            worksheet.column_dimensions[chr(65 + i)].width = column_width
+    
+    # Configurar a resposta HTTP
+    buffer.seek(0)
+    hoje = datetime.datetime.now().strftime('%Y-%m-%d')
+    filename = f'transacoes_{hoje}.xlsx'
+    
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = f'attachment; filename={filename}'
+    
+    return response
+
+@login_required
+def exportar_pdf(request):
+    """Exporta as transações para um arquivo PDF"""
+    # Inicializa o formulário de filtro para aplicar os mesmos filtros da lista
+    filtro_form = TransacaoFiltroForm(request.GET, user=request.user)
+    
+    # Inicia com todas as transações do usuário
+    transacoes = TransacaoFinanceira.objects.filter(usuario=request.user)
+    
+    # Aplica os mesmos filtros da lista de transações
+    if filtro_form.is_valid():
+        # Filtro por data de início
+        data_inicio = filtro_form.cleaned_data.get('data_inicio')
+        if data_inicio:
+            transacoes = transacoes.filter(data__gte=data_inicio)
+        
+        # Filtro por data de fim
+        data_fim = filtro_form.cleaned_data.get('data_fim')
+        if data_fim:
+            transacoes = transacoes.filter(data__lte=data_fim)
+        
+        # Filtro por tipo (receita/despesa)
+        tipo = filtro_form.cleaned_data.get('tipo')
+        if tipo:
+            transacoes = transacoes.filter(tipo=tipo)
+        
+        # Filtro por categoria
+        categoria = filtro_form.cleaned_data.get('categoria')
+        if categoria:
+            transacoes = transacoes.filter(categoria__icontains=categoria)
+        
+        # Filtro por grupo
+        grupo = filtro_form.cleaned_data.get('grupo')
+        if grupo:
+            transacoes = transacoes.filter(grupo=grupo)
+        
+        # Pesquisa por texto (descrição ou categoria)
+        pesquisa = filtro_form.cleaned_data.get('pesquisa')
+        if pesquisa:
+            transacoes = transacoes.filter(
+                models.Q(descricao__icontains=pesquisa) | 
+                models.Q(categoria__icontains=pesquisa)
+            )
+    
+    # Ordenação por data (mais recente primeiro)
+    transacoes = transacoes.order_by('-data')
+    
+    # Cálculos de totais
+    receitas = transacoes.filter(tipo='receita').aggregate(total=Sum('valor'))['total'] or 0
+    despesas = transacoes.filter(tipo='despesa').aggregate(total=Sum('valor'))['total'] or 0
+    saldo = receitas - despesas
+    
+    # Criar buffer para o PDF
+    buffer = io.BytesIO()
+    
+    # Criar o documento PDF
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
+    
+    # Estilos
+    styles = getSampleStyleSheet()
+    title_style = styles['Heading1']
+    subtitle_style = styles['Heading2']
+    normal_style = styles['Normal']
+    
+    # Título
+    hoje = datetime.datetime.now().strftime('%d/%m/%Y')
+    elements.append(Paragraph(f"Relatório de Transações - {hoje}", title_style))
+    elements.append(Spacer(1, 12))
+    
+    # Resumo financeiro
+    elements.append(Paragraph("Resumo Financeiro", subtitle_style))
+    resumo_data = [
+        ["Receitas", "Despesas", "Saldo"],
+        [f"R$ {receitas:.2f}", f"R$ {despesas:.2f}", f"R$ {saldo:.2f}"]
+    ]
+    resumo_table = Table(resumo_data, colWidths=[150, 150, 150])
+    resumo_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    elements.append(resumo_table)
+    elements.append(Spacer(1, 24))
+    
+    # Lista de transações
+    elements.append(Paragraph("Lista de Transações", subtitle_style))
+    
+    # Cabeçalho da tabela
+    data = [["Data", "Tipo", "Descrição", "Categoria", "Valor"]]
+    
+    # Dados da tabela
+    for t in transacoes:
+        data.append([
+            t.data.strftime('%d/%m/%Y'),
+            t.get_tipo_display(),
+            t.descricao,
+            t.categoria,
+            f"R$ {t.valor:.2f}"
+        ])
+    
+    # Criar tabela
+    table = Table(data, colWidths=[70, 70, 150, 100, 70])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (4, 1), (4, -1), 'RIGHT'),
+    ]))
+    elements.append(table)
+    
+    # Construir o PDF
+    doc.build(elements)
+    
+    # Configurar a resposta HTTP
+    buffer.seek(0)
+    hoje_filename = datetime.datetime.now().strftime('%Y-%m-%d')
+    filename = f'transacoes_{hoje_filename}.pdf'
+    
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename={filename}'
+    
+    return response
+
     # Se for GET, redireciona para a lista
     return redirect('lista_transacoes')
 

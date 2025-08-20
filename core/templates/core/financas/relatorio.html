@@ -20,14 +20,16 @@
                             <div class="select">
                                 <select id="mes" name="mes">
                                     {% now "Y" as current_year %}
-                                    {% for m in "123456789101112"|make_list %}
+                                    {% with "Janeiro,Fevereiro,Março,Abril,Maio,Junho,Julho,Agosto,Setembro,Outubro,Novembro,Dezembro" as meses %}
+                                    {% with meses|split:"," as lista_meses %}
+                                    {% for mes_nome in lista_meses %}
                                         <option value="{{ forloop.counter }}" 
-                                                {% if forloop.counter == mes|default:1 %}selected{% endif %}>
-                                            {% with m|add:"0"|stringformat:"02d" as month_num %}
-                                                {{ month_num|add:"/01/"|add:current_year|date:"F" }}
-                                            {% endwith %}
+                                                {% if forloop.counter == mes|default:1|stringformat:"d"|add:"0" %}selected{% endif %}>
+                                            {{ mes_nome }}
                                         </option>
                                     {% endfor %}
+                                    {% endwith %}
+                                    {% endwith %}
                                 </select>
                             </div>
                         </div>
@@ -64,18 +66,18 @@
 
         <div class="columns">
             <!-- Gráfico de Receitas x Despesas -->
-            <div class="column is-6">
-                <div class="box">
+            <div class="column is-8">
+                <div class="box" style="max-height: 400px;">
                     <h3 class="title is-4">Receitas x Despesas</h3>
-                    <canvas id="balanceChart"></canvas>
+                    <canvas id="balanceChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
 
             <!-- Gráfico de Categorias -->
-            <div class="column is-6">
-                <div class="box">
+            <div class="column is-4">
+                <div class="box" style="max-height: 400px;">
                     <h3 class="title is-4">Despesas por Categoria</h3>
-                    <canvas id="categoriasChart"></canvas>
+                    <canvas id="categoriasChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
         </div>
@@ -121,6 +123,7 @@
 const chartData = JSON.parse(document.getElementById('chart-data').textContent);
 </script>
 
-<!-- Carrega o arquivo JS principal -->
+<!-- Carrega os arquivos JS -->
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/relatorio.js' %}"></script>
 {% endblock %}

@@ -4,16 +4,30 @@ from django.contrib import messages
 from django.db.models import Q
 from ..models import Grupo, Membro, Tarefa
 from ..forms import GrupoForm, ConviteForm
+from django.contrib.auth.models import User
 
 @login_required
 def lista_grupos(request):
     """Lista grupos que o usuário participa"""
-    grupos = Grupo.objects.filter(
-        membros=request.user
+    # Grupos que o usuário administra (é criador ou membro admin)
+    grupos_admin = Grupo.objects.filter(
+        Q(criador=request.user) |
+        Q(membro__usuario=request.user, membro__papel='admin')
     ).distinct()
     
+    # Grupos que o usuário é membro (não admin)
+    grupos_membro = Grupo.objects.filter(
+        membro__usuario=request.user,
+        membro__papel='member'
+    ).distinct()
+    
+    # Adiciona o formulário vazio para o modal
+    form = GrupoForm(initial={'criador': request.user})
+    
     context = {
-        'grupos': grupos
+        'grupos_admin': grupos_admin,
+        'grupos_membro': grupos_membro,
+        'form': form
     }
     return render(request, 'core/grupos/lista.html', context)
 
@@ -23,8 +37,9 @@ def criar_grupo(request):
     if request.method == 'POST':
         form = GrupoForm(request.POST)
         if form.is_valid():
+            # Cria o grupo com o usuário atual como criador
             grupo = form.save(commit=False)
-            grupo.criado_por = request.user
+            grupo.criador = request.user
             grupo.save()
             
             # Adiciona o criador como membro admin
@@ -35,11 +50,12 @@ def criar_grupo(request):
             )
             
             messages.success(request, 'Grupo criado com sucesso!')
-            return redirect('detalhe_grupo', grupo_id=grupo.id)
-    else:
-        form = GrupoForm()
+            return redirect('lista_grupos')
+        else:
+            messages.error(request, 'Por favor, corrija os erros no formulário.')
+            return redirect('lista_grupos')
     
-    return render(request, 'core/grupos/form.html', {'form': form})
+    return redirect('lista_grupos')
 
 @login_required
 def detalhe_grupo(request, grupo_id):
@@ -47,21 +63,20 @@ def detalhe_grupo(request, grupo_id):
     grupo = get_object_or_404(Grupo, id=grupo_id)
     
     # Verifica se o usuário é membro do grupo
-    if not grupo.membros.filter(id=request.user.id).exists():
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro:
         messages.error(request, 'Você não tem permissão para acessar este grupo.')
         return redirect('lista_grupos')
     
     # Obtém as tarefas do grupo
     tarefas = Tarefa.objects.filter(grupo=grupo).order_by('-data_limite')
     
-    # Verifica se o usuário é admin
-    is_admin = grupo.membro_set.filter(usuario=request.user, papel='admin').exists()
-    
     context = {
         'grupo': grupo,
         'tarefas': tarefas,
         'membros': grupo.membro_set.all(),
-        'is_admin': is_admin
+        'membro': membro,
+        'is_admin': membro.papel == 'admin'
     }
     return render(request, 'core/grupos/detalhe.html', context)
 
@@ -107,23 +122,28 @@ def excluir_grupo(request, grupo_id):
 def adicionar_membro(request, grupo_id):
     """Adiciona um novo membro ao grupo"""
     grupo = get_object_or_404(Grupo, id=grupo_id)
-    
     # Verifica se o usuário é admin do grupo
     if not grupo.membro_set.filter(usuario=request.user, papel='admin').exists():
         messages.error(request, 'Você não tem permissão para adicionar membros.')
         return redirect('detalhe_grupo', grupo_id=grupo.id)
-    
+
+    usernames_disponiveis = list(User.objects.exclude(id__in=grupo.membro_set.values_list('usuario_id', flat=True)).values_list('username', flat=True))
+
     if request.method == 'POST':
         form = ConviteForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            # Lógica para adicionar membro
-            messages.success(request, f'Membro {email} adicionado com sucesso!')
+            username = form.cleaned_data['username']
+            if username.startswith('@'):
+                username = username[1:]
+            usuario = User.objects.get(username=username)
+            papel = form.cleaned_data['papel']
+            Membro.objects.create(usuario=usuario, grupo=grupo, papel=papel)
+            messages.success(request, f'Membro {usuario.get_full_name() or usuario.username} adicionado com sucesso!')
             return redirect('detalhe_grupo', grupo_id=grupo.id)
     else:
         form = ConviteForm()
-    
-    return render(request, 'core/grupos/adicionar_membro.html', {'form': form, 'grupo': grupo})
+
+    return render(request, 'core/grupos/adicionar_membro.html', {'form': form, 'grupo': grupo, 'usernames_disponiveis': usernames_disponiveis})
 
 @login_required
 def remover_membro(request, grupo_id, membro_id):

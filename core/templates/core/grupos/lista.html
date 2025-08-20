@@ -3,6 +3,14 @@
 {% block title %}Grupos{% endblock %}
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="notification {% if message.tags == 'success' %}is-success{% elif message.tags == 'error' %}is-danger{% endif %} is-light">
+        <button class="delete" onclick="this.parentElement.remove()"></button>
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 <div class="columns">
     <div class="column">
         <h1 class="title">Meus Grupos</h1>
@@ -10,11 +18,50 @@
         <div class="level">
             <div class="level-left">
                 <div class="level-item">
-                    <a href="{% url 'criar_grupo' %}" class="button is-primary">
+                    <button class="button is-primary" onclick="document.getElementById('modal-novo-grupo').classList.add('is-active')">
                         <span class="icon"><i class="fas fa-users"></i></span>
                         <span>Novo Grupo</span>
-                    </a>
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal Novo Grupo -->
+        <div class="modal" id="modal-novo-grupo">
+            <div class="modal-background" onclick="document.getElementById('modal-novo-grupo').classList.remove('is-active')"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Novo Grupo</p>
+                    <button class="delete" aria-label="close" onclick="document.getElementById('modal-novo-grupo').classList.remove('is-active')"></button>
+                </header>
+                <form method="post" action="{% url 'criar_grupo' %}">
+                    <section class="modal-card-body">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="field">
+                            <label class="label">{{ field.label }}</label>
+                            <div class="control">
+                                {{ field }}
+                            </div>
+                            {% if field.errors %}
+                            <p class="help is-danger">
+                                {{ field.errors|join:', ' }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon"><i class="fas fa-save"></i></span>
+                            <span>Salvar</span>
+                        </button>
+                        <button type="button" class="button" onclick="document.getElementById('modal-novo-grupo').classList.remove('is-active')">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Cancelar</span>
+                        </button>
+                    </footer>
+                </form>
             </div>
         </div>
 
@@ -32,11 +79,15 @@
                         </div>
                         <div class="level-right">
                             <div class="buttons">
-                                <a href="{% url 'convidar_membro' grupo.id %}" class="button is-small is-info">
-                                    <span class="icon"><i class="fas fa-user-plus"></i></span>
-                                    <span>Convidar</span>
+                                <a href="{% url 'detalhe_grupo' grupo.id %}" class="button is-small">
+                                    <span class="icon"><i class="fas fa-eye"></i></span>
+                                    <span>Ver</span>
                                 </a>
-                                <a href="{% url 'detalhes_grupo' grupo.id %}" class="button is-small">
+                                <a href="{% url 'adicionar_membro' grupo.id %}" class="button is-small is-info">
+                                    <span class="icon"><i class="fas fa-user-plus"></i></span>
+                                    <span>Adicionar</span>
+                                </a>
+                                <a href="{% url 'editar_grupo' grupo.id %}" class="button is-small">
                                     <span class="icon"><i class="fas fa-cog"></i></span>
                                 </a>
                             </div>
@@ -67,7 +118,7 @@
                             </div>
                         </div>
                         <div class="level-right">
-                            <a href="{% url 'detalhes_grupo' grupo.id %}" class="button is-small">
+                            <a href="{% url 'detalhe_grupo' grupo.id %}" class="button is-small">
                                 <span class="icon"><i class="fas fa-eye"></i></span>
                                 <span>Ver</span>
                             </a>

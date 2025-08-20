@@ -23,15 +23,147 @@
                             <span class="icon"><i class="fas fa-chart-bar"></i></span>
                             <span>Relatório</span>
                         </a>
-                        <a href="?export=excel" class="button is-success">
-                            <span class="icon"><i class="fas fa-file-excel"></i></span>
-                            <span>Exportar</span>
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <button class="button is-success" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    <span class="icon"><i class="fas fa-download"></i></span>
+                                    <span>Exportar</span>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <a href="{% url 'exportar_excel' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="dropdown-item">
+                                        <span class="icon"><i class="fas fa-file-excel"></i></span>
+                                        <span>Excel</span>
+                                    </a>
+                                    <a href="{% url 'exportar_pdf' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="dropdown-item">
+                                        <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                                        <span>PDF</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="button is-light modal-trigger" data-target="filtro-modal">
+                            <span class="icon"><i class="fas fa-filter"></i></span>
+                            <span>Filtrar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de Filtros -->
+        <div id="filtro-modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card" style="max-width: 500px; width: 100%; margin: 0 auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(10, 10, 10, 0.2);">
+                <header class="modal-card-head" style="background-color: #3273dc; color: white; border-bottom: none; border-radius: 8px 8px 0 0;">
+                    <p class="modal-card-title" style="color: white; font-weight: 600;">Filtrar Transações</p>
+                    <button class="delete" aria-label="close" style="background-color: rgba(255, 255, 255, 0.2);"></button>
+                </header>
+                <form method="get" action="{% url 'lista_transacoes' %}">
+                    <section class="modal-card-body" style="padding: 1.5rem;">
+                        <div class="columns is-multiline">
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.data_inicio.label }}</label>
+                                    <div class="control">
+                                        {{ filtro_form.data_inicio }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.data_fim.label }}</label>
+                                    <div class="control">
+                                        {{ filtro_form.data_fim }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.tipo.label }}</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            {{ filtro_form.tipo }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.categoria.label }}</label>
+                                    <div class="control">
+                                        {{ filtro_form.categoria }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.grupo.label }}</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            {{ filtro_form.grupo }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">{{ filtro_form.pesquisa.label }}</label>
+                                    <div class="control has-icons-left">
+                                        {{ filtro_form.pesquisa }}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot" style="background-color: #f5f5f5; border-top: 1px solid #dbdbdb; justify-content: space-between; border-radius: 0 0 8px 8px;">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon"><i class="fas fa-filter"></i></span>
+                            <span>Aplicar Filtros</span>
+                        </button>
+                        <a href="{% url 'lista_transacoes' %}" class="button">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Limpar Filtros</span>
+                        </a>
+                    </footer>
+                </form>
+            </div>
+        </div>
+
+        {% if request.GET %}
+        <div class="notification is-info is-light" style="margin-bottom: 1rem;">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <p><strong>Filtros aplicados:</strong> 
+                            {% if filtro_form.cleaned_data.data_inicio %}Data início: {{ filtro_form.cleaned_data.data_inicio|date:"d/m/Y" }}{% endif %}
+                            {% if filtro_form.cleaned_data.data_fim %} | Data fim: {{ filtro_form.cleaned_data.data_fim|date:"d/m/Y" }}{% endif %}
+                            {% if filtro_form.cleaned_data.tipo %} | Tipo: {{ filtro_form.cleaned_data.tipo }}{% endif %}
+                            {% if filtro_form.cleaned_data.categoria %} | Categoria: {{ filtro_form.cleaned_data.categoria }}{% endif %}
+                            {% if filtro_form.cleaned_data.grupo %} | Grupo: {{ filtro_form.cleaned_data.grupo }}{% endif %}
+                            {% if filtro_form.cleaned_data.pesquisa %} | Pesquisa: {{ filtro_form.cleaned_data.pesquisa }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'lista_transacoes' %}" class="button is-small">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Limpar</span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-
+        {% endif %}
+        
         <div class="box">
             <table class="table is-fullwidth is-striped">
                 <thead>
@@ -116,12 +248,6 @@
                 <hr>
                 <p class="title is-5">Saldo: R$ {{ saldo|floatformat:2 }}</p>
             </div>
-        </div>
-
-        <!-- Gráfico de Categorias -->
-        <div class="box">
-            <h3 class="title is-4">Despesas por Categoria</h3>
-            <canvas id="categoriasChart"></canvas>
         </div>
     </div>
 </div>
@@ -229,6 +355,32 @@
                                 {% if transacao.anexo %}{{ transacao.anexo.name }}{% else %}Nenhum arquivo selecionado{% endif %}
                             </span>
                         </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Opções</label>
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="recorrente" id="id_recorrente_{{ transacao.id }}" {% if transacao.recorrente %}checked{% endif %}>
+                            Transação Recorrente
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="pago" id="id_pago_{{ transacao.id }}" {% if transacao.pago %}checked{% endif %}>
+                            Transação Paga
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field" id="data-pagamento-field-{{ transacao.id }}" style="display: none;">
+                    <label class="label" style="font-weight: 600; color: #363636;">Data do Pagamento</label>
+                    <div class="control">
+                        <input type="date" name="data_pagamento" value="{% if transacao.data_pagamento %}{{ transacao.data_pagamento|date:'Y-m-d' }}{% endif %}" id="id_data_pagamento_{{ transacao.id }}" class="input" style="box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     </div>
                 </div>
             </section>
@@ -357,6 +509,41 @@
                         <p class="help is-danger">{{ form.anexo.errors.0 }}</p>
                     {% endif %}
                 </div>
+
+                <div class="field">
+                    <label class="label" style="font-weight: 600; color: #363636;">Opções</label>
+                    <div class="control">
+                        <label class="checkbox">
+                            {{ form.recorrente }}
+                            Transação Recorrente
+                        </label>
+                    </div>
+                    {% if form.recorrente.errors %}
+                        <p class="help is-danger">{{ form.recorrente.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                            {{ form.pago }}
+                            Transação Paga
+                        </label>
+                    </div>
+                    {% if form.pago.errors %}
+                        <p class="help is-danger">{{ form.pago.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="field" id="data-pagamento-field" style="display: none;">
+                    <label class="label" style="font-weight: 600; color: #363636;">Data do Pagamento</label>
+                    <div class="control">
+                        {{ form.data_pagamento }}
+                    </div>
+                    {% if form.data_pagamento.errors %}
+                        <p class="help is-danger">{{ form.data_pagamento.errors.0 }}</p>
+                    {% endif %}
+                </div>
             </section>
             <footer class="modal-card-foot" style="background-color: #f5f5f5; border-top: 1px solid #dbdbdb; justify-content: flex-end; border-radius: 0 0 8px 8px; padding: 0.75rem;">
                 <button type="submit" class="button is-primary is-small" style="background-color: #3273dc; border-radius: 4px; font-weight: 600; transition: all 0.3s;">
@@ -372,19 +559,28 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Código do gráfico Chart.js aqui
-     
-     // Script para controlar o modal
-     document.addEventListener('DOMContentLoaded', function() {
-         // Mostrar modal automaticamente se houver erros no formulário
-         {% if form_errors %}
-         const novaTransacaoModal = document.getElementById('nova-transacao-modal');
-         if (novaTransacaoModal) {
-             novaTransacaoModal.classList.add('is-active');
-         }
-         {% endif %}
+    // Script para controlar o modal
+    document.addEventListener('DOMContentLoaded', function() {
+        // Função para exibir/ocultar o campo de data de pagamento
+        const pagoCheckbox = document.querySelector('#id_pago');
+        const dataPagamentoField = document.querySelector('#data-pagamento-field');
+        
+        if (pagoCheckbox && dataPagamentoField) {
+            pagoCheckbox.addEventListener('change', function() {
+                dataPagamentoField.style.display = this.checked ? 'block' : 'none';
+            });
+            // Exibir o campo se o checkbox estiver marcado inicialmente
+            dataPagamentoField.style.display = pagoCheckbox.checked ? 'block' : 'none';
+        }
+
+        // Mostrar modal automaticamente se houver erros no formulário
+        {% if form_errors %}
+        const novaTransacaoModal = document.getElementById('nova-transacao-modal');
+        if (novaTransacaoModal) {
+            novaTransacaoModal.classList.add('is-active');
+        }
+        {% endif %}
         // Abrir modal
         const modalTriggers = document.querySelectorAll('.modal-trigger');
         modalTriggers.forEach(trigger => {
@@ -439,6 +635,20 @@
                     fileNameEdit{{ transacao.id }}.textContent = 'Nenhum arquivo selecionado';
                 }
             });
+        }
+        {% endfor %}
+        
+        // Controlar exibição do campo de data de pagamento nos modais de edição
+        {% for transacao in transacoes %}
+        const pagoCheckboxEdit{{ transacao.id }} = document.querySelector('#id_pago_{{ transacao.id }}');
+        const dataPagamentoFieldEdit{{ transacao.id }} = document.querySelector('#data-pagamento-field-{{ transacao.id }}');
+        
+        if (pagoCheckboxEdit{{ transacao.id }} && dataPagamentoFieldEdit{{ transacao.id }}) {
+            pagoCheckboxEdit{{ transacao.id }}.addEventListener('change', function() {
+                dataPagamentoFieldEdit{{ transacao.id }}.style.display = this.checked ? 'block' : 'none';
+            });
+            // Exibir o campo se o checkbox estiver marcado inicialmente
+            dataPagamentoFieldEdit{{ transacao.id }}.style.display = pagoCheckboxEdit{{ transacao.id }}.checked ? 'block' : 'none';
         }
         {% endfor %}
         

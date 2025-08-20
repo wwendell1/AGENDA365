@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-6">
+            <div class="box">
+                <h1 class="title is-4">Confirmar Exclusão</h1>
+                <p class="subtitle is-6">Você tem certeza que deseja excluir o grupo "{{ grupo.nome }}"?</p>
+
+                <div class="content">
+                    <p class="has-text-danger">
+                        <strong>Atenção:</strong> Esta ação não pode ser desfeita. Todos os dados relacionados ao grupo serão perdidos.
+                    </p>
+
+                    <ul>
+                        <li>{{ grupo.membro_set.count }} membros serão removidos</li>
+                        <li>{{ grupo.tarefa_set.count }} tarefas serão excluídas</li>
+                    </ul>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-danger">
+                                <span class="icon">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                                <span>Confirmar Exclusão</span>
+                            </button>
+                        </div>
+                        <div class="control">
+                            <a href="{% url 'detalhe_grupo' grupo.id %}" class="button is-light">
+                                Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

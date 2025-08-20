@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter
 def get_range(value, arg):
-    return range(int(value), int(arg))
+    return range(int(value), int(arg) + 1)
 
 @register.filter
 def sub(value, arg):
@@ -14,6 +14,11 @@ def sub(value, arg):
         return Decimal(str(value)) - Decimal(str(arg))
     except:
         return 0
+
+@register.filter
+def split(value, arg):
+    """Divide uma string pelo separador especificado"""
+    return value.split(arg)
 
 @register.filter
 def tarefa_cor(tarefa):

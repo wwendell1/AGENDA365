@@ -173,6 +173,9 @@ class TransacaoFinanceira(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
     parcelas = models.IntegerField(default=1, help_text="Número de parcelas (1 para pagamento único)")
     anexo = models.FileField(upload_to='transacoes/', null=True, blank=True, help_text="Anexo opcional para a transação")
+    recorrente = models.BooleanField(default=False, help_text="Indica se a transação é recorrente")
+    pago = models.BooleanField(default=False, help_text="Indica se a transação foi paga")
+    data_pagamento = models.DateField(null=True, blank=True, help_text="Data em que a transação foi paga")
 
     def valor_por_parcela(self):
         """Calcula o valor de cada parcela."""
@@ -261,6 +264,9 @@ class ConfiguracaoNotificacao(models.Model):
     email_financas = models.BooleanField(default=True)
     notificacao_browser = models.BooleanField(default=True)
     antecedencia_tarefa = models.IntegerField(default=24)  # horas
+    notificar_despesas_recorrentes = models.BooleanField(default=True)
+    notificar_receitas_programadas = models.BooleanField(default=True)
+    notificar_transacoes_vencidas = models.BooleanField(default=True)
     
     class Meta:
         verbose_name = 'Configuração de Notificação'

@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Adicionar Membro - {{ grupo.nome }}{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="box">
+            <h1 class="title">Adicionar Membro ao Grupo</h1>
+            <h2 class="subtitle">{{ grupo.nome }}</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="field">
+                    <label class="label">{{ field.label }}</label>
+                    <div class="control">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                    <p class="help is-danger">
+                        {{ field.errors|join:', ' }}
+                    </p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon"><i class="fas fa-user-plus"></i></span>
+                            <span>Adicionar</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <a href="{% url 'detalhe_grupo' grupo.id %}" class="button">
+                            <span class="icon"><i class="fas fa-times"></i></span>
+                            <span>Cancelar</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -89,7 +89,7 @@ class GrupoForm(forms.ModelForm):
 class TransacaoForm(forms.ModelForm):
     class Meta:
         model = TransacaoFinanceira
-        fields = ['tipo', 'valor', 'categoria', 'descricao', 'data', 'grupo', 'parcelas', 'anexo']
+        fields = ['tipo', 'valor', 'categoria', 'descricao', 'data', 'grupo', 'parcelas', 'anexo', 'recorrente', 'pago', 'data_pagamento']
         widgets = {
             'data': forms.DateInput(attrs={'type': 'date', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
             'valor': forms.NumberInput(attrs={'step': '0.01', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
@@ -97,7 +97,57 @@ class TransacaoForm(forms.ModelForm):
             'parcelas': forms.NumberInput(attrs={'min': 1, 'step': 1, 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
             'descricao': forms.Textarea(attrs={'rows': 3, 'class': 'textarea', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
             'anexo': forms.ClearableFileInput(attrs={'class': 'file-input', 'style': 'opacity: 0; position: absolute;'}),
+            'data_pagamento': forms.DateInput(attrs={'type': 'date', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+            'recorrente': forms.CheckboxInput(attrs={'class': 'checkbox'}),
+            'pago': forms.CheckboxInput(attrs={'class': 'checkbox'}),
         }
+
+class TransacaoFiltroForm(forms.Form):
+    TIPO_CHOICES = (
+        ('', 'Todos'),
+        ('receita', 'Receita'),
+        ('despesa', 'Despesa'),
+    )
+    
+    data_inicio = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+        label='Data Início'
+    )
+    data_fim = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+        label='Data Fim'
+    )
+    tipo = forms.ChoiceField(
+        choices=TIPO_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={'class': 'select is-fullwidth', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+        label='Tipo'
+    )
+    categoria = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);', 'placeholder': 'Categoria'}),
+        label='Categoria'
+    )
+    grupo = forms.ModelChoiceField(
+        queryset=Grupo.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'class': 'select is-fullwidth', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);'}),
+        label='Grupo',
+        empty_label='Todos os grupos'
+    )
+    pesquisa = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'input', 'style': 'box-shadow: 0 1px 3px rgba(0,0,0,0.1);', 'placeholder': 'Pesquisar...'}),
+        label='Pesquisar'
+    )
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['grupo'].queryset = Grupo.objects.filter(membros=user)
 
 class ConfiguracaoNotificacaoForm(forms.ModelForm):
     class Meta:
@@ -107,14 +157,20 @@ class ConfiguracaoNotificacaoForm(forms.ModelForm):
             'email_grupos',
             'email_financas',
             'notificacao_browser',
-            'antecedencia_tarefa'
+            'antecedencia_tarefa',
+            'notificar_despesas_recorrentes',
+            'notificar_receitas_programadas',
+            'notificar_transacoes_vencidas'
         ]
         labels = {
             'email_tarefas': 'Receber e-mails sobre tarefas',
             'email_grupos': 'Receber e-mails sobre grupos',
             'email_financas': 'Receber e-mails sobre finanças',
             'notificacao_browser': 'Ativar notificações no navegador',
-            'antecedencia_tarefa': 'Antecedência para alertas de tarefas (horas)'
+            'antecedencia_tarefa': 'Antecedência para alertas de tarefas (horas)',
+            'notificar_despesas_recorrentes': 'Alertar sobre despesas recorrentes',
+            'notificar_receitas_programadas': 'Alertar sobre receitas programadas',
+            'notificar_transacoes_vencidas': 'Alertar sobre transações vencidas'
         }
 
 class ComentarioForm(forms.ModelForm):
@@ -165,10 +221,12 @@ class ComentarioForm(forms.ModelForm):
         return comentario
 
 class ConviteForm(forms.Form):
-    email = forms.EmailField(
-        label='Email do usuário',
-        widget=forms.EmailInput(attrs={
-            'placeholder': 'Digite o email do usuário que deseja convidar'
+    username = forms.CharField(
+        label='Nome de usuário',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Digite o @username do usuário que deseja convidar',
+            'autocomplete': 'off',
+            'class': 'input username-autocomplete'
         })
     )
     papel = forms.ChoiceField(
@@ -180,8 +238,10 @@ class ConviteForm(forms.Form):
         })
     )
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if not User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Usuário com este email não encontrado.')
-        return email
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if username.startswith('@'):
+            username = username[1:]
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError('Usuário com este nome de usuário não encontrado.')
+        return username
