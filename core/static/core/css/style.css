@@ -1,4 +1,9 @@
 /* Estilos gerais */
+.navbar-item:hover {
+    background-color: transparent !important; /* remove o fundo verde */
+    
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
