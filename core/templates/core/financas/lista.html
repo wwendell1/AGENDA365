@@ -68,6 +68,35 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <!-- Modais de Confirmação de Exclusão -->
+            {% for transacao in transacoes %}
+            <div id="delete-modal-{{ transacao.id }}" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card" style="max-width: 400px; width: 100%; margin: 0 auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(10, 10, 10, 0.2);">
+                    <header class="modal-card-head" style="background-color: #ff3860; color: white; border-bottom: none; border-radius: 8px 8px 0 0;">
+                        <p class="modal-card-title" style="color: white; font-weight: 600;">Confirmar Exclusão</p>
+                        <button class="delete" aria-label="close" style="background-color: rgba(255, 255, 255, 0.2);"></button>
+                    </header>
+                    <section class="modal-card-body" style="padding: 1.5rem;">
+                        <p class="has-text-centered">Tem certeza que deseja excluir a transação <strong>{{ transacao.descricao }}</strong> no valor de <strong>R$ {{ transacao.valor|floatformat:2 }}</strong>?</p>
+                        <p class="has-text-centered has-text-danger mt-3"><small>Esta ação não pode ser desfeita.</small></p>
+                    </section>
+                    <footer class="modal-card-foot" style="background-color: #f5f5f5; border-top: 1px solid #dbdbdb; justify-content: space-between; border-radius: 0 0 8px 8px;">
+                        <form method="post" action="{% url 'excluir_transacao' transacao.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="button is-danger">
+                                <span class="icon"><i class="fas fa-trash"></i></span>
+                                <span>Excluir</span>
+                            </button>
+                        </form>
+                        <button type="button" class="button modal-cancel">
+                            <span>Cancelar</span>
+                        </button>
+                    </footer>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
