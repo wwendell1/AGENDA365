@@ -225,6 +225,10 @@ def criar_cartao(request, grupo_id, quadro_id, coluna_id=None):
         messages.error(request, 'Você não tem permissão para acessar este quadro.')
         return redirect('lista_grupos')
     
+    # Obtém o coluna_id da URL ou do parâmetro de consulta
+    if not coluna_id and request.GET.get('coluna_id'):
+        coluna_id = request.GET.get('coluna_id')
+    
     if request.method == 'POST':
         form = CartaoKanbanForm(request.POST, quadro=quadro)
         if form.is_valid():

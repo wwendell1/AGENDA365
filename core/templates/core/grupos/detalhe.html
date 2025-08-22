@@ -15,16 +15,16 @@
                 <!-- Abas de navegação -->
                 <div class="tabs is-boxed">
                     <ul>
-                        <li class="is-active" id="tab-tarefas">
-                            <a href="#tarefas">
-                                <span class="icon is-small"><i class="fas fa-tasks"></i></span>
-                                <span>Tarefas</span>
-                            </a>
-                        </li>
-                        <li id="tab-kanban">
+                        <li class="is-active" id="tab-kanban">
                             <a href="#kanban">
                                 <span class="icon is-small"><i class="fas fa-columns"></i></span>
                                 <span>Quadros Kanban</span>
+                            </a>
+                        </li>
+                        <li id="tab-tarefas">
+                            <a href="#tarefas">
+                                <span class="icon is-small"><i class="fas fa-tasks"></i></span>
+                                <span>Tarefas</span>
                             </a>
                         </li>
                         <li id="tab-chat">
@@ -58,14 +58,14 @@
 
                 <!-- Conteúdo das abas -->
                 <div class="tab-content">
-                    <!-- Aba de Tarefas -->
-                    <div id="tarefas-content" class="tab-pane is-active">
+                    <!-- Aba de Quadros Kanban -->
+                    <div id="kanban-content" class="tab-pane is-active">
                         <div class="field is-grouped mb-4">
                             {% if request.user == grupo.criador or membro.papel == 'admin' %}
                             <p class="control">
-                                <a href="{% url 'criar_tarefa' %}?grupo={{ grupo.id }}" class="button is-primary">
+                                <a href="{% url 'criar_quadro_kanban' grupo.id %}" class="button is-primary">
                                     <span class="icon"><i class="fas fa-plus"></i></span>
-                                    <span>Nova Tarefa</span>
+                                    <span>Novo Quadro Kanban</span>
                                 </a>
                             </p>
                             {% endif %}
@@ -101,14 +101,14 @@
                         {% endif %}
                     </div>
 
-                    <!-- Aba de Quadros Kanban -->
-                    <div id="kanban-content" class="tab-pane">
+                    <!-- Aba de Tarefas -->
+                    <div id="tarefas-content" class="tab-pane">
                         <div class="field is-grouped mb-4">
                             {% if request.user == grupo.criador or membro.papel == 'admin' %}
                             <p class="control">
-                                <a href="{% url 'criar_quadro_kanban' grupo.id %}" class="button is-primary">
+                                <a href="{% url 'criar_tarefa' %}?grupo={{ grupo.id }}" class="button is-primary">
                                     <span class="icon"><i class="fas fa-plus"></i></span>
-                                    <span>Novo Quadro Kanban</span>
+                                    <span>Nova Tarefa</span>
                                 </a>
                             </p>
                             {% endif %}

@@ -16,6 +16,7 @@
         border-radius: 5px;
         display: flex;
         flex-direction: column;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
     .kanban-column-header {
@@ -23,6 +24,16 @@
         background-color: #4a4a4a;
         color: white;
         border-radius: 5px 5px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .kanban-column-header .column-count {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 0.8rem;
     }
     
     .kanban-column-content {
@@ -34,11 +45,18 @@
     
     .kanban-card {
         background-color: white;
-        border-radius: 3px;
-        padding: 0.75rem;
-        margin-bottom: 0.5rem;
-        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         cursor: grab;
+        transition: all 0.2s ease;
+        border-left: 4px solid #3273dc;
+    }
+    
+    .kanban-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
     }
     
     .kanban-card:active {
@@ -48,23 +66,55 @@
     .kanban-card-title {
         font-weight: bold;
         margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        color: #363636;
     }
     
     .kanban-card-description {
         font-size: 0.9rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
+        color: #4a4a4a;
     }
     
     .kanban-card-meta {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: #7a7a7a;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .kanban-card-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    
+    .avatar-group {
+        display: flex;
+        margin-top: 8px;
+    }
+    
+    .avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: #3273dc;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: -8px;
+        border: 2px solid white;
     }
     
     .kanban-card-priority {
         display: inline-block;
         padding: 0.2rem 0.5rem;
-        border-radius: 3px;
-        font-size: 0.7rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
         font-weight: bold;
         text-transform: uppercase;
     }
@@ -86,9 +136,41 @@
     
     .kanban-add-card {
         text-align: center;
-        padding: 0.5rem;
+        padding: 0.8rem;
         background-color: #f5f5f5;
         border-radius: 0 0 5px 5px;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .monday-style-button {
+        background-color: #0073ea;
+        color: white;
+        border-radius: 4px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+    }
+    
+    .monday-style-button:hover {
+        background-color: #0060c0;
+    }
+    
+    /* Status colors similar to Monday */
+    .kanban-card.status-a-fazer {
+        border-left-color: #e2445c;
+    }
+    
+    .kanban-card.status-em-andamento {
+        border-left-color: #fdab3d;
+    }
+    
+    .kanban-card.status-aguardando-feedback {
+        border-left-color: #0086c0;
+    }
+    
+    .kanban-card.status-concluido {
+        border-left-color: #00c875;
     }
 </style>
 {% endblock %}
@@ -164,34 +246,44 @@
                         <div class="kanban-column" data-coluna-id="{{ coluna.id }}">
                             <div class="kanban-column-header">
                                 <h3 class="title is-6 has-text-white">{{ coluna.nome }}</h3>
+                                <span class="column-count">{{ coluna.cartoes_list|length }}</span>
                             </div>
                             <div class="kanban-column-content" id="coluna-{{ coluna.id }}">
                                 {% for cartao in coluna.cartoes_list %}
-                                <div class="kanban-card" draggable="true" data-cartao-id="{{ cartao.id }}">
+                                <div class="kanban-card status-{{ coluna.nome|slugify }}" draggable="true" data-cartao-id="{{ cartao.id }}">
                                     <div class="kanban-card-title">{{ cartao.titulo }}</div>
                                     <div class="kanban-card-description">{{ cartao.descricao|truncatechars:100 }}</div>
                                     <div class="kanban-card-meta">
                                         {% if cartao.data_limite %}
-                                        <div class="mb-1">
+                                        <div class="kanban-card-meta-item">
                                             <span class="icon is-small"><i class="fas fa-calendar"></i></span>
                                             <span>{{ cartao.data_limite|date:"d/m/Y" }}</span>
                                         </div>
                                         {% endif %}
-                                        {% if cartao.responsaveis.all %}
-                                        <div class="mb-1">
-                                            <span class="icon is-small"><i class="fas fa-user"></i></span>
-                                            <span>{{ cartao.responsaveis.all|join:", " }}</span>
-                                        </div>
-                                        {% endif %}
-                                        <div>
+                                        <div class="kanban-card-meta-item">
                                             <span class="kanban-card-priority priority-{{ cartao.prioridade }}">{{ cartao.get_prioridade_display }}</span>
                                         </div>
                                     </div>
+                                    
+                                    {% if cartao.responsaveis.all %}
+                                    <div class="avatar-group">
+                                        {% for responsavel in cartao.responsaveis.all|slice:":3" %}
+                                        <div class="avatar" title="{{ responsavel.get_full_name }}">
+                                            {{ responsavel.first_name|first }}{{ responsavel.last_name|first }}
+                                        </div>
+                                        {% endfor %}
+                                        {% if cartao.responsaveis.all|length > 3 %}
+                                        <div class="avatar" title="Mais responsáveis">
+                                            +{{ cartao.responsaveis.all|length|add:"-3" }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 {% endfor %}
                             </div>
                             <div class="kanban-add-card">
-                                <a href="{% url 'criar_cartao' grupo.id quadro.id coluna.id %}" class="button is-small is-primary is-outlined">
+                                <a href="{% url 'criar_cartao' grupo.id quadro.id %}?coluna_id={{ coluna.id }}" class="button is-small monday-style-button">
                                     <span class="icon is-small"><i class="fas fa-plus"></i></span>
                                     <span>Adicionar Cartão</span>
                                 </a>
