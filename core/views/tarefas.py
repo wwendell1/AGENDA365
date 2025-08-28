@@ -51,16 +51,25 @@ def semana_tarefas(request):
         'Sunday': 'Domingo'
     }
     
-    # Obter a data da última tarefa agendada ou usar hoje + 30 dias como padrão
+    # Obter a primeira e última data das tarefas para definir o range
+    primeira_data = tarefas.order_by('data_limite').values_list('data_limite', flat=True).first()
     ultima_data = tarefas.order_by('-data_limite').values_list('data_limite', flat=True).first()
-    if ultima_data:
+    
+    if primeira_data and ultima_data:
+        primeira_data = primeira_data.date()
         ultima_data = ultima_data.date()
-        dias_para_mostrar = max((ultima_data - hoje).days + 1, 30)
+        # Garantir que mostramos pelo menos 30 dias a partir de hoje
+        data_inicio = min(primeira_data, hoje - timedelta(days=7))  # Incluir 7 dias atrás
+        data_fim = max(ultima_data, hoje + timedelta(days=30))
+        dias_para_mostrar = (data_fim - data_inicio).days + 1
+        data_inicial = data_inicio
     else:
+        # Se não há tarefas, mostrar 30 dias a partir de hoje
         dias_para_mostrar = 30
+        data_inicial = hoje
     
     for i in range(dias_para_mostrar):
-        dia = hoje + timedelta(days=i)
+        dia = data_inicial + timedelta(days=i)
         # Filtrar tarefas do dia e ordenar por prioridade e data
         tarefas_dia = tarefas.filter(data_limite__date=dia).order_by(
             'prioridade',
@@ -95,7 +104,7 @@ def semana_tarefas(request):
         'grupos': grupos,
         'users': usuarios,
         'filtro_grupo': grupo_id,
-        'filtro_status': status_list[0] if status_list else None,
+        'filtro_status': status_list[0] if len(status_list) == 1 else ('pendente' if 'pendente' in status_list and 'atrasada' in status_list else status_list[0] if status_list else None),
         'filtro_responsavel': responsavel_id
     }
     
@@ -143,8 +152,23 @@ def atualizar_status_tarefa(request, tarefa_id):
             data = json.loads(request.body)
             novo_status = data.get('status')
             
+            # Verificar permissão
+            if not (request.user == tarefa.criado_por or 
+                    request.user == tarefa.responsavel or 
+                    (tarefa.grupo and request.user in tarefa.grupo.membros.all())):
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Sem permissão para atualizar esta tarefa'
+                })
+            
             if novo_status in ['pendente', 'concluida', 'atrasada']:
-                tarefa.status = novo_status
+                # Se estiver marcando como concluída, ignorar a verificação de data
+                if novo_status == 'concluida':
+                    tarefa.status = 'concluida'
+                else:
+                    # Para outros status, manter a lógica do signal
+                    tarefa.status = novo_status
+                
                 tarefa.save()
                 return JsonResponse({
                     'success': True,

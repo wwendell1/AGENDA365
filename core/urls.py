@@ -35,6 +35,8 @@ urlpatterns = [
     # Kanban
     path('grupos/<int:grupo_id>/quadros/criar/', grupos.criar_quadro_kanban, name='criar_quadro_kanban'),
     path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/', grupos.visualizar_quadro, name='visualizar_quadro'),
+    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/editar/', grupos.editar_quadro_kanban, name='editar_quadro_kanban'),
+    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/excluir/', grupos.excluir_quadro_kanban, name='excluir_quadro_kanban'),
     path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/criar/', grupos.criar_cartao, name='criar_cartao'),
     path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/<int:cartao_id>/mover/', grupos.mover_cartao, name='mover_cartao'),
     

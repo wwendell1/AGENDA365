@@ -163,26 +163,42 @@ def criar_quadro_kanban(request, grupo_id):
         return redirect('detalhe_grupo', grupo_id=grupo.id)
     
     if request.method == 'POST':
-        form = QuadroKanbanForm(request.POST, grupo=grupo)
-        if form.is_valid():
-            quadro = form.save(commit=False)
-            quadro.grupo = grupo
-            quadro.criado_por = request.user
-            quadro.save()
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao', '')
+        template = request.POST.get('template', 'basico')
+        
+        if nome:
+            # Cria o quadro
+            quadro = QuadroKanban.objects.create(
+                nome=nome,
+                descricao=descricao,
+                grupo=grupo,
+                criado_por=request.user
+            )
             
-            # Cria as colunas padrão para o quadro
-            ColunaKanban.criar_colunas_padrao(quadro)
+            # Cria as colunas baseadas no template escolhido
+            templates_colunas = {
+                'basico': ['A Fazer', 'Em Progresso', 'Concluído'],
+                'desenvolvimento': ['Backlog', 'Em Desenvolvimento', 'Teste', 'Concluído'],
+                'marketing': ['Ideias', 'Planejamento', 'Execução', 'Análise'],
+                'personalizado': ['Nova Coluna']
+            }
             
-            messages.success(request, 'Quadro Kanban criado com sucesso!')
+            colunas = templates_colunas.get(template, templates_colunas['basico'])
+            
+            for i, nome_coluna in enumerate(colunas):
+                ColunaKanban.objects.create(
+                    nome=nome_coluna,
+                    quadro=quadro,
+                    ordem=i
+                )
+            
+            messages.success(request, f'Quadro "{nome}" criado com sucesso!')
             return redirect('visualizar_quadro', grupo_id=grupo.id, quadro_id=quadro.id)
-    else:
-        form = QuadroKanbanForm(grupo=grupo)
+        else:
+            messages.error(request, 'Nome do quadro é obrigatório.')
     
-    return render(request, 'core/grupos/quadro_form.html', {
-        'form': form,
-        'grupo': grupo,
-        'titulo': 'Criar Novo Quadro Kanban'
-    })
+    return redirect('detalhe_grupo', grupo_id=grupo.id)
 
 @login_required
 def visualizar_quadro(request, grupo_id, quadro_id):
@@ -302,6 +318,51 @@ def mover_cartao(request, grupo_id, quadro_id, cartao_id):
             return JsonResponse({'error': str(e)}, status=400)
     
     return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+@login_required
+def editar_quadro_kanban(request, grupo_id, quadro_id):
+    """Edita um quadro Kanban existente"""
+    grupo = get_object_or_404(Grupo, id=grupo_id)
+    quadro = get_object_or_404(QuadroKanban, id=quadro_id, grupo=grupo)
+    
+    # Verifica se o usuário tem permissão para editar
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro or (request.user != grupo.criador and membro.papel != 'admin' and quadro.criado_por != request.user):
+        messages.error(request, 'Você não tem permissão para editar este quadro.')
+        return redirect('detalhe_grupo', grupo_id=grupo.id)
+    
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        descricao = request.POST.get('descricao', '')
+        
+        if nome:
+            quadro.nome = nome
+            quadro.descricao = descricao
+            quadro.save()
+            messages.success(request, 'Quadro atualizado com sucesso!')
+        else:
+            messages.error(request, 'Nome do quadro é obrigatório.')
+    
+    return redirect('detalhe_grupo', grupo_id=grupo.id)
+
+@login_required
+def excluir_quadro_kanban(request, grupo_id, quadro_id):
+    """Exclui um quadro Kanban"""
+    grupo = get_object_or_404(Grupo, id=grupo_id)
+    quadro = get_object_or_404(QuadroKanban, id=quadro_id, grupo=grupo)
+    
+    # Verifica se o usuário tem permissão para excluir
+    membro = grupo.membro_set.filter(usuario=request.user).first()
+    if not membro or (request.user != grupo.criador and membro.papel != 'admin' and quadro.criado_por != request.user):
+        messages.error(request, 'Você não tem permissão para excluir este quadro.')
+        return redirect('detalhe_grupo', grupo_id=grupo.id)
+    
+    if request.method == 'POST':
+        nome_quadro = quadro.nome
+        quadro.delete()
+        messages.success(request, f'Quadro "{nome_quadro}" foi excluído com sucesso!')
+    
+    return redirect('detalhe_grupo', grupo_id=grupo.id)
 
 @login_required
 def remover_membro(request, grupo_id, membro_id):

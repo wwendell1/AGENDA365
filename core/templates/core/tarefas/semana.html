@@ -31,7 +31,7 @@
                     </select>
                     <select name="status" id="filtro-status" class="filter-select" onchange="aplicarFiltros(event)">
                         <option value="">Todos os Status</option>
-                        <option value="pendente" {% if filtro_status == 'pendente' %}selected{% endif %}>A Fazer</option>
+                        <option value="a_fazer" {% if filtro_status == 'pendente' or filtro_status == 'atrasada' %}selected{% endif %}>A Fazer</option>
                         <option value="concluida" {% if filtro_status == 'concluida' %}selected{% endif %}>Realizado</option>
                     </select>
                     <button type="button" class="btn-adicionar-geral" onclick="abrirModalNovaTarefa()">+ ADICIONAR TAREFA</button>
@@ -654,7 +654,7 @@ function aplicarFiltros(event) {
     }
     
     if (statusValue) {
-        if (statusValue === 'pendente') {
+        if (statusValue === 'a_fazer') {
             // Para 'A Fazer', incluir tanto 'pendente' quanto 'atrasada'
             params.append('status', 'pendente');
             params.append('status', 'atrasada');

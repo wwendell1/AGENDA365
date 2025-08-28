@@ -112,6 +112,138 @@
             </div>
         </div>
 
+        <!-- Quadros Kanban -->
+        <div class="column is-12">
+            <div class="box">
+                <div class="level is-mobile">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <h2 class="title is-4-desktop is-5-mobile">
+                                <span class="icon has-text-primary">
+                                    <i class="fas fa-columns"></i>
+                                </span>
+                                Quadros Kanban
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a href="{% url 'lista_grupos' %}" class="button is-primary is-small">
+                                <span class="icon">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span>Novo Quadro</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if quadros_kanban %}
+                <div class="columns is-multiline">
+                    {% for quadro in quadros_kanban %}
+                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                        <div class="card monday-board-card" style="border-left: 4px solid #0073ea;">
+                            <div class="card-header">
+                                <div class="card-header-title">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <span class="icon has-text-primary">
+                                                <i class="fas fa-clipboard-list"></i>
+                                            </span>
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="title is-6">{{ quadro.nome }}</p>
+                                            <p class="subtitle is-7 has-text-grey">{{ quadro.grupo.nome }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="kanban-mini-view">
+                                    {% for coluna in quadro.colunas.all %}
+                                    <div class="mini-column" style="margin-bottom: 0.5rem;">
+                                        <div class="level is-mobile" style="margin-bottom: 0.25rem;">
+                                            <div class="level-left">
+                                                <div class="level-item">
+                                                    <span class="tag is-small is-light">{{ coluna.nome }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="level-right">
+                                                <div class="level-item">
+                                                    <span class="tag is-small is-primary">{{ coluna.cartoes.count }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Mini cartões -->
+                                        <div class="mini-cards">
+                                            {% for cartao in coluna.cartoes.all|slice:":3" %}
+                                            <div class="mini-card" style="background: #f8f9fa; border-radius: 4px; padding: 0.25rem 0.5rem; margin-bottom: 0.25rem; font-size: 0.75rem;">
+                                                <div class="level is-mobile" style="margin-bottom: 0;">
+                                                    <div class="level-left">
+                                                        <div class="level-item">
+                                                            <span class="has-text-weight-semibold">{{ cartao.titulo|truncatechars:20 }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="level-right">
+                                                        <div class="level-item">
+                                                            {% if cartao.responsaveis.exists %}
+                                                            <div class="tags are-small">
+                                                                {% for responsavel in cartao.responsaveis.all|slice:":2" %}
+                                                                <span class="tag is-small is-rounded" style="background: #e3f2fd; color: #1976d2; font-size: 0.6rem;">
+                                                                    {{ responsavel.first_name|default:responsavel.username|slice:":2"|upper }}
+                                                                </span>
+                                                                {% endfor %}
+                                                                {% if cartao.responsaveis.count > 2 %}
+                                                                <span class="tag is-small is-rounded" style="background: #f5f5f5; color: #666; font-size: 0.6rem;">+{{ cartao.responsaveis.count|add:"-2" }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% if coluna.cartoes.count > 3 %}
+                                            <div class="has-text-grey is-size-7" style="text-align: center; padding: 0.25rem;">
+                                                +{{ coluna.cartoes.count|add:"-3" }} mais
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'visualizar_quadro' quadro.grupo.id quadro.id %}" class="card-footer-item has-text-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                    <span>Visualizar</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="has-text-centered" style="padding: 2rem;">
+                    <span class="icon is-large has-text-grey-light">
+                        <i class="fas fa-columns fa-3x"></i>
+                    </span>
+                    <p class="title is-5 has-text-grey">Nenhum quadro Kanban encontrado</p>
+                    <p class="subtitle is-6 has-text-grey-light">Crie seu primeiro quadro para organizar suas tarefas</p>
+                    <a href="{% url 'lista_grupos' %}" class="button is-primary">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>Criar Primeiro Quadro</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
         <!-- Atividade dos Grupos -->
         <div class="column is-12">
             <div class="box">

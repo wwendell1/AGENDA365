@@ -72,9 +72,15 @@ def criar_perfil(sender, instance, created, **kwargs):
 def atualizar_status_tarefa(sender, instance, **kwargs):
     # Não alterar status de tarefas já concluídas
     if instance.status != 'concluida':
-        if instance.data_limite < timezone.now():
+        agora = timezone.now()
+        # Só marcar como atrasada se a data limite já passou
+        if instance.data_limite < agora:
             instance.status = 'atrasada'
-        elif instance.status == 'atrasada' and instance.data_limite > timezone.now():
+        # Se a tarefa estava atrasada mas a data foi alterada para o futuro, voltar para pendente
+        elif instance.status == 'atrasada' and instance.data_limite >= agora:
+            instance.status = 'pendente'
+        # Garantir que tarefas futuras permaneçam como pendente (não alterar para atrasada)
+        elif instance.data_limite >= agora and instance.status not in ['pendente', 'concluida']:
             instance.status = 'pendente'
 
 @receiver(post_save, sender=Comentario)

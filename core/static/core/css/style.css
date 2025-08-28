@@ -48,6 +48,293 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos para Quadros Kanban */
+.monday-board-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.monday-board-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #0073ea;
+}
+
+.kanban-mini-view {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+    padding: 8px;
+    background: #f8f9fb;
+    border-radius: 4px;
+    min-height: 40px;
+}
+
+.mini-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.mini-column-header {
+    font-size: 10px;
+    font-weight: 600;
+    color: #676879;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mini-card {
+    height: 8px;
+    background: #0073ea;
+    border-radius: 2px;
+    margin-bottom: 2px;
+    opacity: 0.7;
+}
+
+.mini-card:nth-child(even) {
+    background: #00c875;
+}
+
+.mini-card:nth-child(3n) {
+    background: #fdab3d;
+}
+
+/* Estilos Monday.com para cartões */
+.monday-card {
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d0d4d9;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.monday-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+.card-status-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #c4c4c4;
+}
+
+.card-status-indicator.priority-alta {
+    background: #e2445c;
+}
+
+.card-status-indicator.priority-media {
+    background: #fdab3d;
+}
+
+.card-status-indicator.priority-baixa {
+    background: #00c875;
+}
+
+.card-content-wrapper {
+    padding: 16px;
+    padding-left: 20px;
+}
+
+.kanban-card-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #323338;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.kanban-card-description {
+    font-size: 13px;
+    color: #676879;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.kanban-card-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.monday-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tag-date {
+    background: #e6f3ff;
+    color: #0073ea;
+}
+
+.tag-priority.priority-alta {
+    background: #ffe6e9;
+    color: #e2445c;
+}
+
+.tag-priority.priority-media {
+    background: #fff4e6;
+    color: #fdab3d;
+}
+
+.tag-priority.priority-baixa {
+    background: #e6f9f0;
+    color: #00c875;
+}
+
+.monday-avatars {
+    margin-bottom: 12px;
+}
+
+.avatars-list {
+    display: flex;
+    gap: -4px;
+    margin-bottom: 6px;
+}
+
+.monday-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0073ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    margin-left: -4px;
+    position: relative;
+    z-index: 1;
+}
+
+.monday-avatar:first-child {
+    margin-left: 0;
+}
+
+.monday-avatar.avatar-more {
+    background: #676879;
+}
+
+.avatar-initials {
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.responsible-names {
+    font-size: 12px;
+    color: #676879;
+}
+
+.responsible-name {
+    font-weight: 500;
+}
+
+.responsible-more {
+    color: #9699a6;
+}
+
+.no-responsible {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #9699a6;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.card-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.monday-card:hover .card-actions {
+    opacity: 1;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    color: #676879;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: #f1f2f4;
+    color: #323338;
+}
+
+/* Responsividade para quadros */
+@media (max-width: 768px) {
+    .kanban-mini-view {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .mini-column {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .mini-column-header {
+        margin-bottom: 0;
+        min-width: 60px;
+    }
+    
+    .card-content-wrapper {
+        padding: 12px;
+        padding-left: 16px;
+    }
+    
+    .monday-avatar {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .avatar-initials {
+        font-size: 10px;
+    }
+}
+
+/* Cores de status inspiradas no Monday.com */
+.status-a-fazer .mini-card { background: #c4c4c4 !important; }
+.status-em-progresso .mini-card { background: #fdab3d !important; }
+.status-concluido .mini-card { background: #00c875 !important; }
+.status-backlog .mini-card { background: #e2445c !important; }
+.status-teste .mini-card { background: #a25ddc !important; }
+
+/* Animações suaves */
+.card-footer-item {
+    transition: all 0.2s ease;
+}
+
+.card-footer-item:hover {
+    background-color: #f8f9fa;
+    color: #0073ea !important;
+}
+
 /* Estilos dos botões */
 .button {
     transition: background-color 0.3s ease;

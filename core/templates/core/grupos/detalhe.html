@@ -63,9 +63,91 @@
                         <div class="field is-grouped mb-4">
                             {% if request.user == grupo.criador or membro.papel == 'admin' %}
                             <p class="control">
-                                <a href="{% url 'criar_quadro_kanban' grupo.id %}" class="button is-primary">
+                                <button class="button is-primary" onclick="document.getElementById('modal-novo-quadro').classList.add('is-active')">
                                     <span class="icon"><i class="fas fa-plus"></i></span>
                                     <span>Novo Quadro Kanban</span>
+                                </button>
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        {% if quadros %}
+                        <div class="columns is-multiline">
+                            {% for quadro in quadros %}
+                            <div class="column is-4">
+                                <div class="card monday-board-card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">{{ quadro.nome }}</p>
+                                        <div class="card-header-icon">
+                                            <span class="tag is-light">{{ quadro.cartaokanban_set.count }} cartões</span>
+                                        </div>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            {% if quadro.descricao %}
+                                            <p>{{ quadro.descricao|truncatechars:100 }}</p>
+                                            {% endif %}
+                                            <p><small><strong>Criado por:</strong> {{ quadro.criado_por.get_full_name }}</small></p>
+                                            <p><small><strong>Data:</strong> {{ quadro.data_criacao|date:"d/m/Y" }}</small></p>
+                                            
+                                            <!-- Mini visualização do quadro -->
+                                            <div class="kanban-mini-view">
+                                                {% for coluna in quadro.colunakanban_set.all|slice:":3" %}
+                                                <div class="mini-column">
+                                                    <div class="mini-column-header">{{ coluna.nome|truncatechars:8 }}</div>
+                                                    {% for cartao in coluna.cartaokanban_set.all|slice:":2" %}
+                                                    <div class="mini-card"></div>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="{% url 'visualizar_quadro' grupo.id quadro.id %}" class="card-footer-item">
+                                            <span class="icon"><i class="fas fa-eye"></i></span>
+                                            <span>Abrir Quadro</span>
+                                        </a>
+                                        {% if request.user == grupo.criador or membro.papel == 'admin' or quadro.criado_por == request.user %}
+                                        <a href="#" class="card-footer-item" onclick="editarQuadro({{ quadro.id }}, '{{ quadro.nome }}', '{{ quadro.descricao|default:"" }}')">
+                                            <span class="icon"><i class="fas fa-edit"></i></span>
+                                            <span>Editar</span>
+                                        </a>
+                                        <a href="#" class="card-footer-item has-text-danger" onclick="confirmarExclusaoQuadro({{ quadro.id }}, '{{ quadro.nome }}')">
+                                            <span class="icon"><i class="fas fa-trash"></i></span>
+                                            <span>Excluir</span>
+                                        </a>
+                                        {% endif %}
+                                    </footer>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="notification is-info">
+                            <div class="has-text-centered">
+                                <span class="icon is-large"><i class="fas fa-columns fa-2x"></i></span>
+                                <p class="title is-5">Nenhum quadro Kanban ainda</p>
+                                <p class="subtitle is-6">Crie seu primeiro quadro para organizar as tarefas do grupo</p>
+                                {% if request.user == grupo.criador or membro.papel == 'admin' %}
+                                <button class="button is-primary" onclick="document.getElementById('modal-novo-quadro').classList.add('is-active')">
+                                    <span class="icon"><i class="fas fa-plus"></i></span>
+                                    <span>Criar Primeiro Quadro</span>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Aba de Tarefas -->
+                    <div id="tarefas-content" class="tab-pane">
+                        <div class="field is-grouped mb-4">
+                            {% if request.user == grupo.criador or membro.papel == 'admin' %}
+                            <p class="control">
+                                <a href="{% url 'criar_tarefa' %}?grupo={{ grupo.id }}" class="button is-primary">
+                                    <span class="icon"><i class="fas fa-plus"></i></span>
+                                    <span>Nova Tarefa</span>
                                 </a>
                             </p>
                             {% endif %}
@@ -97,48 +179,6 @@
                         {% else %}
                         <div class="notification is-info">
                             Não há tarefas neste grupo ainda.
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Aba de Tarefas -->
-                    <div id="tarefas-content" class="tab-pane">
-                        <div class="field is-grouped mb-4">
-                            {% if request.user == grupo.criador or membro.papel == 'admin' %}
-                            <p class="control">
-                                <a href="{% url 'criar_tarefa' %}?grupo={{ grupo.id }}" class="button is-primary">
-                                    <span class="icon"><i class="fas fa-plus"></i></span>
-                                    <span>Nova Tarefa</span>
-                                </a>
-                            </p>
-                            {% endif %}
-                        </div>
-
-                        {% if quadros %}
-                        <div class="columns is-multiline">
-                            {% for quadro in quadros %}
-                            <div class="column is-4">
-                                <div class="card">
-                                    <header class="card-header">
-                                        <p class="card-header-title">{{ quadro.nome }}</p>
-                                    </header>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <p>{{ quadro.descricao|truncatechars:100 }}</p>
-                                            <p><strong>Criado por:</strong> {{ quadro.criado_por.get_full_name }}</p>
-                                            <p><strong>Data de criação:</strong> {{ quadro.data_criacao|date:"d/m/Y" }}</p>
-                                        </div>
-                                    </div>
-                                    <footer class="card-footer">
-                                        <a href="{% url 'visualizar_quadro' grupo.id quadro.id %}" class="card-footer-item">Ver Quadro</a>
-                                    </footer>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        <div class="notification is-info">
-                            Não há quadros Kanban neste grupo ainda.
                         </div>
                         {% endif %}
                     </div>
@@ -341,5 +381,141 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// Funções para modais
+function fecharModal(modalId) {
+    document.getElementById(modalId).classList.remove('is-active');
+}
+
+// Função para editar quadro
+function editarQuadro(quadroId, nome, descricao) {
+    document.getElementById('edit-nome').value = nome;
+    document.getElementById('edit-descricao').value = descricao;
+    document.getElementById('form-editar-quadro').action = `/grupos/{{ grupo.id }}/quadros/${quadroId}/editar/`;
+    document.getElementById('modal-editar-quadro').classList.add('is-active');
+}
+
+// Função para confirmar exclusão de quadro
+function confirmarExclusaoQuadro(quadroId, nome) {
+    document.getElementById('nome-quadro-excluir').textContent = nome;
+    document.getElementById('form-excluir-quadro').action = `/grupos/{{ grupo.id }}/quadros/${quadroId}/excluir/`;
+    document.getElementById('modal-excluir-quadro').classList.add('is-active');
+}
 </script>
+
+<!-- Modal Novo Quadro Kanban -->
+<div class="modal" id="modal-novo-quadro">
+    <div class="modal-background" onclick="document.getElementById('modal-novo-quadro').classList.remove('is-active')"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">
+                <span class="icon"><i class="fas fa-columns"></i></span>
+                <span>Novo Quadro Kanban</span>
+            </p>
+            <button class="delete" aria-label="close" onclick="document.getElementById('modal-novo-quadro').classList.remove('is-active')"></button>
+        </header>
+        <form method="post" action="{% url 'criar_quadro_kanban' grupo.id %}">
+            <section class="modal-card-body">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Nome do Quadro</label>
+                    <div class="control">
+                        <input class="input" type="text" name="nome" placeholder="Ex: Projeto Website, Sprint 1, Tarefas Semanais..." required>
+                    </div>
+                    <p class="help">Escolha um nome descritivo para identificar facilmente este quadro</p>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Descrição (Opcional)</label>
+                    <div class="control">
+                        <textarea class="textarea" name="descricao" placeholder="Descreva o objetivo deste quadro Kanban..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Template Inicial</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select name="template">
+                                <option value="basico">Básico (A Fazer, Em Progresso, Concluído)</option>
+                                <option value="desenvolvimento">Desenvolvimento (Backlog, Em Desenvolvimento, Teste, Concluído)</option>
+                                <option value="marketing">Marketing (Ideias, Planejamento, Execução, Análise)</option>
+                                <option value="personalizado">Personalizado (Criar colunas depois)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="help">Escolha um template que se adeque ao seu fluxo de trabalho</p>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-primary">
+                    <span class="icon"><i class="fas fa-plus"></i></span>
+                    <span>Criar Quadro</span>
+                </button>
+                <button type="button" class="button" onclick="document.getElementById('modal-novo-quadro').classList.remove('is-active')">
+                    <span class="icon"><i class="fas fa-times"></i></span>
+                    <span>Cancelar</span>
+                </button>
+            </footer>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Editar Quadro Kanban -->
+<div class="modal" id="modal-editar-quadro">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Editar Quadro Kanban</p>
+            <button class="delete" aria-label="close" onclick="fecharModal('modal-editar-quadro')"></button>
+        </header>
+        <form method="post" id="form-editar-quadro">
+            <section class="modal-card-body">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Nome do Quadro</label>
+                    <div class="control">
+                        <input class="input" type="text" id="edit-nome" name="nome" required>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Descrição</label>
+                    <div class="control">
+                        <textarea class="textarea" id="edit-descricao" name="descricao"></textarea>
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success" type="submit">Salvar Alterações</button>
+                <button class="button" type="button" onclick="fecharModal('modal-editar-quadro')">Cancelar</button>
+            </footer>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Confirmar Exclusão -->
+<div class="modal" id="modal-excluir-quadro">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title has-text-danger">Confirmar Exclusão</p>
+            <button class="delete" aria-label="close" onclick="fecharModal('modal-excluir-quadro')"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <p>Tem certeza que deseja excluir o quadro <strong id="nome-quadro-excluir"></strong>?</p>
+                <p class="has-text-danger"><strong>Esta ação não pode ser desfeita!</strong> Todos os cartões e dados do quadro serão perdidos permanentemente.</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <form method="post" id="form-excluir-quadro">
+                {% csrf_token %}
+                <button class="button is-danger" type="submit">Sim, Excluir</button>
+                <button class="button" type="button" onclick="fecharModal('modal-excluir-quadro')">Cancelar</button>
+            </form>
+        </footer>
+    </div>
+</div>
+
 {% endblock %}
