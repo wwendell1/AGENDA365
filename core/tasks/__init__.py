@@ -1,0 +1,1 @@
+from .notificacao_tasks import *

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link href="{% static 'css/grupos.css' %}" rel="stylesheet">
+<style>
+    .grupo-card {
+        border-left: 4px solid var(--grupo-cor, #3498db);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .grupo-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .kanban-column {
+        min-height: 500px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .kanban-card {
+        background: white;
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        cursor: grab;
+        transition: transform 0.2s;
+    }
+
+    .kanban-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .kanban-card.dragging {
+        opacity: 0.5;
+        transform: rotate(5deg);
+    }
+
+    .prioridade-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+    }
+
+    .prioridade-baixa {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .prioridade-media {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .prioridade-alta {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .prioridade-urgente {
+        background: #f5c6cb;
+        color: #721c24;
+        font-weight: bold;
+    }
+
+    .papel-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        border-radius: 8px;
+    }
+
+    .papel-administrador {
+        background: #dc3545;
+        color: white;
+    }
+
+    .papel-moderador {
+        background: #fd7e14;
+        color: white;
+    }
+
+    .papel-colaborador {
+        background: #6c757d;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar de Navegação -->
+        <div class="col-md-2 bg-light sidebar">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'lista_grupos' %}active{% endif %}"
+                            href="{% url 'lista_grupos' %}">
+                            <i class="fas fa-users"></i> Meus Grupos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'criar_grupo' %}">
+                            <i class="fas fa-plus"></i> Criar Grupo
+                        </a>
+                    </li>
+                </ul>
+
+                {% if grupo %}
+                <hr>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>{{ grupo.nome }}</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'detalhe_grupo' %}active{% endif %}"
+                            href="{% url 'detalhe_grupo' grupo.id %}">
+                            <i class="fas fa-home"></i> Visão Geral
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'grupo_kanban' %}active{% endif %}"
+                            href="{% url 'grupo_kanban' grupo.id %}">
+                            <i class="fas fa-columns"></i> Kanban
+                        </a>
+                    </li>
+                    {% if pode_gerenciar %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'gerenciar_membros' %}active{% endif %}"
+                            href="{% url 'gerenciar_membros' grupo.id %}">
+                            <i class="fas fa-user-friends"></i> Membros
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'editar_grupo' %}active{% endif %}"
+                            href="{% url 'editar_grupo' grupo.id %}">
+                            <i class="fas fa-cog"></i> Configurações
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <main role="main" class="col-md-10 ml-sm-auto px-4">
+            {% block grupos_content %}
+            {% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/grupos.js' %}"></script>
+{% endblock %}

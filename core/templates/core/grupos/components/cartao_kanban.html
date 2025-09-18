@@ -1,0 +1,75 @@
+<div class="kanban-card monday-card" draggable="true" data-cartao-id="{{ cartao.id }}">
+    <!-- Status indicator -->
+    <div class="card-status-indicator priority-{{ cartao.prioridade|default:'media' }}"></div>
+    
+    <div class="card-content-wrapper">
+        <div class="kanban-card-title">{{ cartao.titulo }}</div>
+        
+        {% if cartao.descricao %}
+        <div class="kanban-card-description">{{ cartao.descricao|truncatechars:80 }}</div>
+        {% endif %}
+        
+        <!-- Tags e metadados -->
+        <div class="kanban-card-tags">
+            {% if cartao.data_limite %}
+            <span class="monday-tag tag-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>{{ cartao.data_limite|date:"d M" }}</span>
+            </span>
+            {% endif %}
+            
+            {% if cartao.prioridade %}
+            <span class="monday-tag tag-priority priority-{{ cartao.prioridade }}">
+                <i class="fas fa-flag"></i>
+                <span>{{ cartao.get_prioridade_display }}</span>
+            </span>
+            {% endif %}
+        </div>
+        
+        <!-- Responsáveis -->
+        {% if cartao.responsaveis.all %}
+        <div class="monday-avatars">
+            <div class="avatars-list">
+                {% for responsavel in cartao.responsaveis.all|slice:":4" %}
+                <div class="monday-avatar" title="{{ responsavel.get_full_name }}">
+                    <span class="avatar-initials">{{ responsavel.first_name|first }}{{ responsavel.last_name|first }}</span>
+                </div>
+                {% endfor %}
+                {% if cartao.responsaveis.all|length > 4 %}
+                <div class="monday-avatar avatar-more" title="+{{ cartao.responsaveis.all|length|add:"-4" }} pessoas">
+                    <span class="avatar-initials">+{{ cartao.responsaveis.all|length|add:"-4" }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="responsible-names">
+                {% for responsavel in cartao.responsaveis.all|slice:":2" %}
+                <span class="responsible-name">{{ responsavel.first_name|default:responsavel.username }}</span>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                {% if cartao.responsaveis.all|length > 2 %}
+                <span class="responsible-more">e mais {{ cartao.responsaveis.all|length|add:"-2" }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="monday-avatars">
+            <div class="no-responsible">
+                <i class="fas fa-user-plus"></i>
+                <span>Sem responsável</span>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Ações do cartão -->
+        <div class="card-actions">
+            <button class="action-btn" title="Editar cartão" onclick="editarCartao({{ cartao.id }})">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="action-btn" title="Comentários" onclick="abrirComentarios({{ cartao.id }})">
+                <i class="fas fa-comment"></i>
+            </button>
+            <button class="action-btn" title="Anexos" onclick="abrirAnexos({{ cartao.id }})">
+                <i class="fas fa-paperclip"></i>
+            </button>
+        </div>
+    </div>
+</div>

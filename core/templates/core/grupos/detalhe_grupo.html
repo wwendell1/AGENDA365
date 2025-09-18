@@ -1,0 +1,250 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ grupo.nome }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .grupo-header {
+        background-color: {{ grupo.cor }};
+        color: white;
+        padding: 2rem;
+        border-radius: 5px;
+        margin-bottom: 1.5rem;
+    }
+    .grupo-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+    }
+    .tabs.is-boxed li.is-active a {
+        background-color: {{ grupo.cor }};
+        color: white;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.is-active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="grupo-header">
+        <div class="columns is-vcentered">
+            <div class="column is-narrow">
+                <figure class="image is-128x128">
+                    <img src="{{ grupo.get_avatar_url }}" alt="{{ grupo.nome }}" class="grupo-avatar">
+                </figure>
+            </div>
+            <div class="column">
+                <h1 class="title is-3">{{ grupo.nome }}</h1>
+                <p class="subtitle is-5">{{ grupo.descricao }}</p>
+                <div class="tags">
+                    <span class="tag is-light">{{ membros.count }} membros</span>
+                    <span class="tag is-light">Criado em {{ grupo.data_criacao|date:"d/m/Y" }}</span>
+                </div>
+            </div>
+            <div class="column is-narrow">
+                {% if user_role == 'admin' %}
+                    <div class="buttons">
+                        <a href="{% url 'editar_grupo' grupo.pk %}" class="button is-light">
+                            <span class="icon"><i class="fas fa-edit"></i></span>
+                            <span>Editar Grupo</span>
+                        </a>
+                        <a href="{% url 'excluir_grupo' grupo.pk %}" class="button is-danger is-light">
+                            <span class="icon"><i class="fas fa-trash"></i></span>
+                            <span>Excluir Grupo</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs is-boxed">
+        <ul>
+            <li class="is-active" data-tab="tarefas">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-tasks"></i></span>
+                    <span>Tarefas</span>
+                </a>
+            </li>
+            <li data-tab="chat">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-comments"></i></span>
+                    <span>Chat</span>
+                </a>
+            </li>
+            <li data-tab="arquivos">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-file"></i></span>
+                    <span>Arquivos</span>
+                </a>
+            </li>
+            <li data-tab="membros">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-users"></i></span>
+                    <span>Membros</span>
+                </a>
+            </li>
+            <li data-tab="configuracoes">
+                <a>
+                    <span class="icon is-small"><i class="fas fa-cog"></i></span>
+                    <span>Configurações</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-contents">
+        <!-- Tarefas -->
+        <div class="tab-content is-active" id="tarefas">
+            <div class="level">
+                <div class="level-left">
+                    <h2 class="title is-4">Tarefas do Grupo</h2>
+                </div>
+                <div class="level-right">
+                    {% if user_role in 'admin,moderador' %}
+                    <a href="{% url 'criar_tarefa' grupo.pk %}" class="button is-primary">
+                        <span class="icon"><i class="fas fa-plus"></i></span>
+                        <span>Nova Tarefa</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if tarefas %}
+                <div class="columns is-multiline">
+                    {% for tarefa in tarefas %}
+                    <div class="column is-4">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="content">
+                                    <h3 class="title is-5">{{ tarefa.titulo }}</h3>
+                                    <p>{{ tarefa.descricao|truncatechars:100 }}</p>
+                                    <div class="tags">
+                                        <span class="tag is-{{ tarefa.prioridade }}">{{ tarefa.get_prioridade_display }}</span>
+                                        <span class="tag is-{{ tarefa.status }}">{{ tarefa.get_status_display }}</span>
+                                    </div>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            {% if tarefa.responsavel_principal %}
+                                                <figure class="image is-32x32">
+                                                    <img src="{{ tarefa.responsavel_principal.perfil.get_avatar_url }}" class="is-rounded">
+                                                </figure>
+                                            {% endif %}
+                                        </div>
+                                        <div class="media-content">
+                                            <p class="subtitle is-6">
+                                                {{ tarefa.responsavel_principal.get_full_name|default:tarefa.responsavel_principal.username }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="notification is-light">
+                    Nenhuma tarefa criada ainda.
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Chat -->
+        <div class="tab-content" id="chat">
+            <div class="notification is-info">
+                Chat em desenvolvimento
+            </div>
+        </div>
+
+        <!-- Arquivos -->
+        <div class="tab-content" id="arquivos">
+            <div class="notification is-info">
+                Arquivos em desenvolvimento
+            </div>
+        </div>
+
+        <!-- Membros -->
+        <div class="tab-content" id="membros">
+            <div class="level">
+                <div class="level-left">
+                    <h2 class="title is-4">Membros do Grupo</h2>
+                </div>
+                <div class="level-right">
+                    {% if user_role == 'admin' %}
+                    <div class="buttons">
+                        <a href="{% url 'convidar_membros' grupo.pk %}" class="button is-primary">
+                            <span class="icon"><i class="fas fa-user-plus"></i></span>
+                            <span>Convidar Membros</span>
+                        </a>
+                        <a href="{% url 'gerenciar_membros' grupo.pk %}" class="button is-light">
+                            <span class="icon"><i class="fas fa-cog"></i></span>
+                            <span>Gerenciar Membros</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="columns is-multiline">
+                {% for membro in membros %}
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img src="{{ membro.user.perfil.get_avatar_url }}" class="is-rounded">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">{{ membro.user.get_full_name|default:membro.user.username }}</p>
+                                    <p class="subtitle is-6">{{ membro.get_role_display }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Configurações -->
+        <div class="tab-content" id="configuracoes">
+            <div class="notification is-info">
+                Configurações em desenvolvimento
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tabs li');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and tab contents
+                tabs.forEach(t => t.classList.remove('is-active'));
+                tabContents.forEach(tc => tc.classList.remove('is-active'));
+
+                // Add active class to clicked tab and corresponding tab content
+                tab.classList.add('is-active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('is-active');
+            });
+        });
+    });
+</script>
+{% endblock %}

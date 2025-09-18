@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Configurações - {{ grupo.nome }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .config-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+    .config-section-title {
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'listar_grupos' %}">Grupos</a></li>
+            <li><a href="{% url 'detalhes_grupo' grupo.pk %}">{{ grupo.nome }}</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Configurações</a></li>
+        </ul>
+    </nav>
+
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                <span class="icon mr-2"><i class="fas fa-cog"></i></span>
+                Configurações do Grupo - {{ grupo.nome }}
+            </p>
+        </header>
+        
+        <div class="card-content">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="config-section">
+                    <h3 class="title is-5 config-section-title">
+                        <span class="icon mr-2"><i class="fas fa-bell"></i></span>
+                        Configurações de Notificação
+                    </h3>
+                    
+                    <div class="field">
+                        <label class="checkbox">
+                            {{ form.notificar_novas_tarefas }}
+                            Receber notificações sobre novas tarefas
+                        </label>
+                    </div>
+                    
+                    <div class="field">
+                        <label class="checkbox">
+                            {{ form.notificar_mudanca_status_tarefa }}
+                            Receber notificações sobre mudanças de status de tarefas
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="title is-5 config-section-title">
+                        <span class="icon mr-2"><i class="fas fa-lock"></i></span>
+                        Configurações de Privacidade
+                    </h3>
+                    
+                    <div class="field">
+                        <label class="checkbox">
+                            {{ form.permitir_convites }}
+                            Permitir que membros convidem novos integrantes
+                        </label>
+                    </div>
+                    
+                    <div class="field">
+                        <label class="label">Visibilidade do Grupo</label>
+                        {{ form.visibilidade }}
+                        <p class="help">
+                            Público: Visível para todos<br>
+                            Privado: Visível apenas para membros<br>
+                            Restrito: Acesso limitado
+                        </p>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="title is-5 config-section-title">
+                        <span class="icon mr-2"><i class="fas fa-comments"></i></span>
+                        Configurações de Chat
+                    </h3>
+                    
+                    <div class="field">
+                        <label class="checkbox">
+                            {{ form.habilitar_chat }}
+                            Habilitar Chat do Grupo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="title is-5 config-section-title">
+                        <span class="icon mr-2"><i class="fas fa-file-upload"></i></span>
+                        Configurações de Arquivos
+                    </h3>
+                    
+                    <div class="field">
+                        <label class="label">Limite de Tamanho de Arquivo</label>
+                        <div class="control">
+                            {{ form.limite_tamanho_arquivo }}
+                            <p class="help">Tamanho máximo de arquivo em MB (1-100)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="title is-5 config-section-title">
+                        <span class="icon mr-2"><i class="fas fa-shield-alt"></i></span>
+                        Configurações de Moderação
+                    </h3>
+                    
+                    <div class="field">
+                        <label class="checkbox">
+                            {{ form.moderacao_automatica }}
+                            Habilitar Moderação Automática de Conteúdo
+                        </label>
+                        <p class="help">Filtra automaticamente conteúdo inadequado</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <button type="submit" class="button is-primary">
+                        <span class="icon"><i class="fas fa-save"></i></span>
+                        <span>Salvar Configurações</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "grupos/base_grupos.html" %}
+{% load static %}
+
+{% block title %}Criar Grupo{% endblock %}
+
+{% block grupos_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-plus"></i> Criar Novo Grupo
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'lista_grupos' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome do Grupo *</label>
+                        <input type="text" class="form-control" id="nome" name="nome" required 
+                               placeholder="Ex: Equipe de Marketing">
+                        <div class="form-text">O nome deve ser único no sistema</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição *</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3" required
+                                  placeholder="Descreva o propósito e objetivos do grupo..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="avatar" class="form-label">Avatar do Grupo</label>
+                                <input type="file" class="form-control" id="avatar" name="avatar" 
+                                       accept="image/*">
+                                <div class="form-text">Imagem que representará o grupo (opcional)</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cor_personalizada" class="form-label">Cor do Grupo</label>
+                                <input type="color" class="form-control form-control-color" 
+                                       id="cor_personalizada" name="cor_personalizada" value="#3498db">
+                                <div class="form-text">Cor que identificará o grupo</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'lista_grupos' %}" class="btn btn-outline-secondary me-md-2">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Criar Grupo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <div class="alert alert-info">
+                <h6><i class="fas fa-info-circle"></i> Informações Importantes</h6>
+                <ul class="mb-0">
+                    <li>Você será automaticamente definido como <strong>Administrador</strong> do grupo</li>
+                    <li>Administradores podem gerenciar membros, criar tarefas e configurar o grupo</li>
+                    <li>Após criar o grupo, você poderá convidar outros membros</li>
+                    <li>O grupo terá as abas: Tarefas, Chat, Arquivos, Membros e Configurações</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Arquivos - {{ grupo.nome }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .file-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .file-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .file-icon {
+        font-size: 2rem;
+        color: #3273dc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'listar_grupos' %}">Grupos</a></li>
+            <li><a href="{% url 'detalhes_grupo' grupo.pk %}">{{ grupo.nome }}</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Arquivos</a></li>
+        </ul>
+    </nav>
+
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                <span class="icon mr-2"><i class="fas fa-file"></i></span>
+                Arquivos do Grupo - {{ grupo.nome }}
+            </p>
+        </header>
+        
+        <div class="card-content">
+            {% if user_role in 'admin,moderador' %}
+            <div class="mb-4">
+                <h2 class="subtitle is-4">Enviar Novo Arquivo</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label class="label">Arquivo</label>
+                        <div class="file has-name is-fullwidth">
+                            <label class="file-label">
+                                {{ form.arquivo }}
+                                <span class="file-cta">
+                                    <span class="file-icon"><i class="fas fa-upload"></i></span>
+                                    <span class="file-label">Escolher arquivo</span>
+                                </span>
+                                <span class="file-name" id="file-name">Nenhum arquivo selecionado</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Nome do Arquivo (opcional)</label>
+                        {{ form.nome }}
+                    </div>
+                    <div class="field">
+                        <label class="label">Descrição (opcional)</label>
+                        {{ form.descricao }}
+                    </div>
+                    <div class="field">
+                        <button type="submit" class="button is-primary">
+                            <span class="icon"><i class="fas fa-upload"></i></span>
+                            <span>Enviar Arquivo</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <form method="get">
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" name="filtro" placeholder="Filtrar arquivos..." value="{{ filtro }}">
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-info">
+                                <span class="icon"><i class="fas fa-search"></i></span>
+                                <span>Buscar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if arquivos %}
+            <div class="columns is-multiline">
+                {% for arquivo in arquivos %}
+                <div class="column is-4">
+                    <div class="card file-card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <span class="icon file-icon">
+                                        <i class="fas fa-file-{{ arquivo.arquivo.name|slice:"-3:" }}"></i>
+                                    </span>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">{{ arquivo.nome }}</p>
+                                    <p class="subtitle is-6">
+                                        {{ arquivo.descricao|truncatechars:50 }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <small>
+                                    Enviado por {{ arquivo.enviado_por.get_full_name|default:arquivo.enviado_por.username }} 
+                                    em {{ arquivo.data_envio|date:"d/m/Y H:i" }}
+                                </small>
+                                <div class="mt-2">
+                                    <a href="{{ arquivo.arquivo.url }}" class="button is-small is-primary" download>
+                                        <span class="icon"><i class="fas fa-download"></i></span>
+                                        <span>Baixar</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if arquivos.has_other_pages %}
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                {% if arquivos.has_previous %}
+                    <a href="?page={{ arquivos.previous_page_number }}{% if filtro %}&filtro={{ filtro }}{% endif %}" class="pagination-previous">Anterior</a>
+                {% endif %}
+                {% if arquivos.has_next %}
+                    <a href="?page={{ arquivos.next_page_number }}{% if filtro %}&filtro={{ filtro }}{% endif %}" class="pagination-next">Próximo</a>
+                {% endif %}
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="notification is-light">
+                Nenhum arquivo encontrado.
+                {% if filtro %}
+                    <p>Tente remover o filtro de busca.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.querySelector('input[type="file"]');
+        const fileName = document.getElementById('file-name');
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+            } else {
+                fileName.textContent = 'Nenhum arquivo selecionado';
+            }
+        });
+    });
+</script>
+{% endblock %}

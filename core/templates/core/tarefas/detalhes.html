@@ -1,0 +1,249 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Detalhes da Tarefa -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ tarefa.titulo }}</h5>
+                    <div class="badge {% if tarefa.status == 'concluida' %}bg-success{% elif tarefa.status == 'atrasada' %}bg-danger{% else %}bg-warning{% endif %}">
+                        {{ tarefa.get_status_display }}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-2">Descrição</h6>
+                        <p>{{ tarefa.descricao|default:"Sem descrição" }}</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">Responsável</h6>
+                            <p>
+                                {% if tarefa.responsavel %}
+                                <i class="fas fa-user"></i> {{ tarefa.responsavel.username }}
+                                {% else %}
+                                <span class="text-muted">Não atribuído</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">Grupo</h6>
+                            <p>
+                                {% if tarefa.grupo %}
+                                <i class="fas fa-users"></i> {{ tarefa.grupo.nome }}
+                                {% else %}
+                                <span class="text-muted">Sem grupo</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">Data Limite</h6>
+                            <p>
+                                <i class="fas fa-calendar"></i> {{ tarefa.data_limite|date:"d/m/Y" }}
+                                <i class="fas fa-clock ms-2"></i> {{ tarefa.data_limite|time:"H:i" }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">Prioridade</h6>
+                            <p>
+                                {% if tarefa.prioridade == 'alta' %}
+                                <i class="fas fa-exclamation-circle text-danger"></i>
+                                {% elif tarefa.prioridade == 'media' %}
+                                <i class="fas fa-exclamation text-warning"></i>
+                                {% else %}
+                                <i class="fas fa-arrow-down text-success"></i>
+                                {% endif %}
+                                {{ tarefa.get_prioridade_display }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {% if tarefa.anexos.exists %}
+                    <div class="mb-4">
+                        <h6 class="text-muted mb-2">Anexos</h6>
+                        <div class="list-group">
+                            {% for anexo in tarefa.anexos.all %}
+                            <a href="{{ anexo.arquivo.url }}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-paperclip me-2"></i>
+                                {{ anexo.arquivo.name|split:"/"|last }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Histórico de Interações -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Histórico de Interações</h5>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for item in historico %}
+                        <div class="timeline-item">
+                            <div class="timeline-icon {% if item.tipo == 'comentario' %}bg-primary{% elif item.tipo == 'status' %}bg-warning{% else %}bg-info{% endif %}">
+                                {% if item.tipo == 'comentario' %}
+                                <i class="fas fa-comment"></i>
+                                {% elif item.tipo == 'status' %}
+                                <i class="fas fa-sync-alt"></i>
+                                {% else %}
+                                <i class="fas fa-plus"></i>
+                                {% endif %}
+                            </div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">{{ item.usuario }}</h6>
+                                    <small class="text-muted">{{ item.data|date:"d/m/Y H:i" }}</small>
+                                </div>
+                                <p class="mb-1">{{ item.descricao }}</p>
+                                {% if item.tipo == 'comentario' and item.mencoes %}
+                                <div class="mentions">
+                                    {% for mencao in item.mencoes %}
+                                    <span class="badge bg-light text-primary">@{{ mencao }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Comentário -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Adicionar Comentário</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'adicionar_comentario' tarefa.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea class="form-control" name="texto" rows="3" placeholder="Digite seu comentário..."></textarea>
+                            <small class="text-muted">Use @ para mencionar usuários</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comentar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Ações -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Ações</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'editar_tarefa' tarefa.id %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-edit me-2"></i> Editar Tarefa
+                    </a>
+                    <button class="list-group-item list-group-item-action" onclick="alterarStatus('{{ tarefa.id }}')">
+                        <i class="fas fa-check me-2"></i> Marcar como {% if tarefa.status == 'concluida' %}Pendente{% else %}Concluída{% endif %}
+                    </button>
+                    <button class="list-group-item list-group-item-action text-danger" onclick="confirmarExclusao('{{ tarefa.id }}')">
+                        <i class="fas fa-trash me-2"></i> Excluir Tarefa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista de Usuários para @mentions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Usuários</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for user in users %}
+                    <div class="list-group-item">
+                        <i class="fas fa-user me-2"></i>
+                        {{ user.username }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 30px;
+}
+
+.timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.mentions .badge {
+    margin-right: 5px;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function alterarStatus(tarefaId) {
+    const status = '{{ tarefa.status }}' === 'concluida' ? 'pendente' : 'concluida';
+    fetch(`/tarefas/${tarefaId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert('Erro ao atualizar status da tarefa');
+        }
+    })
+    .catch(error => {
+        alert('Erro ao atualizar status da tarefa');
+    });
+}
+
+function confirmarExclusao(tarefaId) {
+    if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+        window.location.href = `/tarefas/${tarefaId}/excluir/`;
+    }
+}
+</script>
+{% endblock %}
+{% endblock %}

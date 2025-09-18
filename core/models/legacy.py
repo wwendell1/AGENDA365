@@ -1,0 +1,281 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+from .grupo import Grupo
+
+class Tarefa(models.Model):
+    """
+    Modelo para representar uma tarefa no sistema.
+    
+    Atributos:
+        titulo (str): Título da tarefa
+        descricao (str): Descrição detalhada da tarefa
+        criado_por (User): Usuário que criou a tarefa
+        responsavel (User): Usuário responsável pela tarefa
+        grupo (Grupo): Grupo ao qual a tarefa pertence
+        data_limite (datetime): Data limite para conclusão
+        status (str): Status atual da tarefa
+        prioridade (str): Nível de prioridade da tarefa
+    """
+    STATUS_CHOICES = (
+        ('pendente', 'Pendente'),
+        ('concluida', 'Concluída'),
+        ('atrasada', 'Atrasada'),
+    )
+    PRIORIDADE_CHOICES = (
+        ('baixa', 'Baixa'),
+        ('media', 'Média'),
+        ('alta', 'Alta'),
+    )
+    
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField(blank=True)
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tarefas_criadas')
+    responsavel = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='tarefas_atribuidas')
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, null=True, blank=True)
+    data_limite = models.DateTimeField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pendente')
+    prioridade = models.CharField(max_length=10, choices=PRIORIDADE_CHOICES, default='media')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    historico_status = models.JSONField(default=list, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Verifica se é uma criação nova
+        if not self.pk:
+            super().save(*args, **kwargs)
+            return
+
+        # Obtém o estado anterior
+        old_status = Tarefa.objects.get(pk=self.pk).status
+        
+        # Atualiza status se estiver atrasada
+        if self.status != 'concluida' and self.data_limite < timezone.now():
+            self.status = 'atrasada'
+        
+        # Se houve mudança de status, registra no histórico
+        if old_status != self.status:
+            self.historico_status.append({
+                'de': old_status,
+                'para': self.status,
+                'data': timezone.now().isoformat(),
+                'usuario': self.responsavel.username if self.responsavel else 'sistema'
+            })
+        
+        super().save(*args, **kwargs)
+    
+    @property
+    def esta_atrasada(self):
+        return self.data_limite < timezone.now()
+    
+    def notificar_responsavel(self):
+        if self.responsavel:
+            from .notificacao import NotificacaoGrupo
+            NotificacaoGrupo.objects.create(
+                usuario=self.responsavel,
+                tipo='tarefa_proxima',
+                conteudo=f'A tarefa "{self.titulo}" vence em 24 horas'
+            )
+
+    def get_historico_completo(self):
+        """Retorna o histórico completo da tarefa, incluindo mudanças de status e comentários."""
+        from datetime import datetime
+        
+        historico = []
+        
+        # Adiciona a criação da tarefa
+        historico.append({
+            'tipo': 'criacao',
+            'data': self.criado_em,
+            'usuario': self.criado_por.username,
+            'descricao': f'Tarefa criada por {self.criado_por.username}'
+        })
+        
+        # Adiciona mudanças de status do histórico
+        for mudanca in self.historico_status:
+            historico.append({
+                'tipo': 'status',
+                'data': datetime.fromisoformat(mudanca['data']),
+                'usuario': mudanca['usuario'],
+                'descricao': f'Status alterado de {mudanca["de"]} para {mudanca["para"]}'
+            })
+        
+        # Ordena o histórico por data
+        return sorted(historico, key=lambda x: x['data'], reverse=True)
+
+class TransacaoFinanceira(models.Model):
+    """
+    Modelo para representar transações financeiras.
+    
+    Atributos:
+        usuario (User): Usuário que criou a transação
+        tipo (str): Tipo da transação (receita/despesa)
+        valor (decimal): Valor da transação
+        categoria (str): Categoria da transação
+        data (date): Data da transação
+    """
+    TIPOS_TRANSACAO = (
+        ('receita', 'Receita'),
+        ('despesa', 'Despesa'),
+    )
+    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, null=True, blank=True)
+    tipo = models.CharField(max_length=10, choices=TIPOS_TRANSACAO)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    categoria = models.CharField(max_length=50)
+    descricao = models.TextField(blank=True)
+    data = models.DateField()
+    criado_em = models.DateTimeField(auto_now_add=True)
+    parcelas = models.IntegerField(default=1, help_text="Número de parcelas (1 para pagamento único)")
+    anexo = models.FileField(upload_to='transacoes/', null=True, blank=True, help_text="Anexo opcional para a transação")
+    recorrente = models.BooleanField(default=False, help_text="Indica se a transação é recorrente")
+    pago = models.BooleanField(default=False, help_text="Indica se a transação foi paga")
+    data_pagamento = models.DateField(null=True, blank=True, help_text="Data em que a transação foi paga")
+
+    def valor_por_parcela(self):
+        """Calcula o valor de cada parcela."""
+        if self.parcelas > 1:
+            return self.valor / self.parcelas
+        return self.valor
+
+    def __str__(self):
+        return f"{self.tipo.capitalize()} - {self.categoria}: R$ {self.valor_formatado}"
+    @property
+    def valor_formatado(self):
+        return f'R$ {self.valor:,.2f}'
+    
+    @classmethod
+    def get_saldo_total(cls, usuario):
+        receitas = cls.objects.filter(
+            usuario=usuario, 
+            tipo='receita'
+        ).aggregate(total=models.Sum('valor'))['total'] or 0
+        
+        despesas = cls.objects.filter(
+            usuario=usuario, 
+            tipo='despesa'
+        ).aggregate(total=models.Sum('valor'))['total'] or 0
+        
+        return receitas - despesas
+
+class ConfiguracaoNotificacao(models.Model):
+    """
+    Modelo para armazenar as configurações de notificação do usuário.
+    """
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_tarefas = models.BooleanField(default=True)
+    email_grupos = models.BooleanField(default=True)
+    email_financas = models.BooleanField(default=True)
+    notificacao_browser = models.BooleanField(default=True)
+    antecedencia_tarefa = models.IntegerField(default=24)  # horas
+    notificar_despesas_recorrentes = models.BooleanField(default=True)
+    notificar_receitas_programadas = models.BooleanField(default=True)
+    notificar_transacoes_vencidas = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name = 'Configuração de Notificação'
+        verbose_name_plural = 'Configurações de Notificações'
+    
+    def __str__(self):
+        return f'Configurações de {self.usuario.username}'
+
+class QuadroKanban(models.Model):
+    """
+    Modelo para representar um quadro Kanban dentro de um grupo.
+    """
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='quadros')
+    responsavel = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='quadros_responsavel')
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quadros_criados')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Quadro Kanban'
+        verbose_name_plural = 'Quadros Kanban'
+    
+    def __str__(self):
+        return f'{self.nome} ({self.grupo.nome})'
+
+class ColunaKanban(models.Model):
+    """
+    Modelo para representar uma coluna dentro de um quadro Kanban.
+    """
+    COLUNAS_PADRAO = [
+        ('a_fazer', 'A Fazer'),
+        ('em_andamento', 'Em andamento'),
+        ('aguardando_feedback', 'Aguardando feedback'),
+        ('concluido', 'Concluído')
+    ]
+    
+    quadro = models.ForeignKey(QuadroKanban, on_delete=models.CASCADE, related_name='colunas')
+    nome = models.CharField(max_length=50)
+    slug = models.CharField(max_length=50)
+    ordem = models.PositiveIntegerField(default=0)
+    cor = models.CharField(max_length=20, default='#3498db')
+    limite_cartoes = models.PositiveIntegerField(null=True, blank=True, help_text='Limite máximo de cartões nesta coluna (opcional)')
+    
+    class Meta:
+        verbose_name = 'Coluna Kanban'
+        verbose_name_plural = 'Colunas Kanban'
+        ordering = ['ordem']
+    
+    def __str__(self):
+        return f'{self.nome} - {self.quadro.nome}'
+    
+    @classmethod
+    def criar_colunas_padrao(cls, quadro):
+        """Cria as colunas padrão para um novo quadro."""
+        for i, (slug, nome) in enumerate(cls.COLUNAS_PADRAO):
+            cls.objects.create(
+                quadro=quadro,
+                nome=nome,
+                slug=slug,
+                ordem=i
+            )
+
+class CartaoKanban(models.Model):
+    """
+    Modelo para representar um cartão em uma coluna Kanban.
+    Pode estar associado a uma tarefa existente ou ser independente.
+    """
+    coluna = models.ForeignKey(ColunaKanban, on_delete=models.CASCADE, related_name='cartoes')
+    tarefa = models.ForeignKey(Tarefa, on_delete=models.CASCADE, null=True, blank=True, related_name='cartao')
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField(blank=True)
+    responsaveis = models.ManyToManyField(User, related_name='cartoes_atribuidos', blank=True)
+    data_limite = models.DateTimeField(null=True, blank=True)
+    prioridade = models.CharField(max_length=10, choices=Tarefa.PRIORIDADE_CHOICES, default='media')
+    ordem = models.PositiveIntegerField(default=0)
+    criado_por = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cartoes_criados')
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Cartão Kanban'
+        verbose_name_plural = 'Cartões Kanban'
+        ordering = ['ordem']
+    
+    def __str__(self):
+        return self.titulo
+
+class HistoricoMovimentacao(models.Model):
+    """
+    Modelo para registrar o histórico de movimentações de cartões entre colunas.
+    """
+    cartao = models.ForeignKey(CartaoKanban, on_delete=models.CASCADE, related_name='historico')
+    coluna_origem = models.ForeignKey(ColunaKanban, on_delete=models.SET_NULL, null=True, related_name='movimentacoes_origem')
+    coluna_destino = models.ForeignKey(ColunaKanban, on_delete=models.SET_NULL, null=True, related_name='movimentacoes_destino')
+    movido_por = models.ForeignKey(User, on_delete=models.CASCADE)
+    data_movimentacao = models.DateTimeField(auto_now_add=True)
+    comentario = models.TextField(blank=True)
+    
+    class Meta:
+        verbose_name = 'Histórico de Movimentação'
+        verbose_name_plural = 'Históricos de Movimentações'
+        ordering = ['-data_movimentacao']
+    
+    def __str__(self):
+        return f'Movimentação de {self.cartao.titulo} em {self.data_movimentacao.strftime("%d/%m/%Y %H:%M")}'

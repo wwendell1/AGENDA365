@@ -8,11 +8,11 @@ from .models import (
     TransacaoFinanceira, 
     Perfil, 
     ConfiguracaoNotificacao,
-    Comentario,
+    ComentarioTarefa,
     QuadroKanban,
     ColunaKanban,
     CartaoKanban,
-    Membro
+    MembroGrupo
 )
 
 # Corrigindo a classe CustomLoginView
@@ -108,7 +108,7 @@ class TransacaoForm(forms.ModelForm):
 
 class ConviteForm(forms.Form):
     username = forms.CharField(max_length=150, label='Nome de usuário')
-    papel = forms.ChoiceField(choices=Membro.ROLES, label='Papel no grupo')
+    papel = forms.ChoiceField(choices=MembroGrupo.PAPEIS, label='Papel no grupo')
 
 class QuadroKanbanForm(forms.ModelForm):
     class Meta:
@@ -234,7 +234,7 @@ class ConfiguracaoNotificacaoForm(forms.ModelForm):
 
 class ComentarioForm(forms.ModelForm):
     class Meta:
-        model = Comentario
+        model = ComentarioTarefa
         fields = ['texto']
         widgets = {
             'texto': forms.Textarea(attrs={
@@ -272,10 +272,14 @@ class ComentarioForm(forms.ModelForm):
             
             # Cria notificações para usuários mencionados
             for usuario in mencoes:
-                Notificacao.objects.create(
+                from .models import NotificacaoGrupo
+                NotificacaoGrupo.objects.create(
                     usuario=usuario,
+                    grupo=comentario.tarefa.grupo,
                     tipo='mencao',
-                    conteudo=f'{comentario.autor.username} mencionou você em um comentário na tarefa "{comentario.tarefa.titulo}"'
+                    titulo='Você foi mencionado',
+                    conteudo=f'{comentario.autor.username} mencionou você em um comentário na tarefa "{comentario.tarefa.titulo}"',
+                    tarefa=comentario.tarefa
                 )
         return comentario
 

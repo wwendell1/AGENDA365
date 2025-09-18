@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/kanban.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>{{ quadro.nome }}</h2>
+            <p class="text-muted">{{ quadro.descricao }}</p>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoCartaoModal">
+                <i class="fas fa-plus"></i> Novo Cartão
+            </button>
+        </div>
+    </div>
+
+    <div class="kanban-quadro">
+        {% for coluna in colunas %}
+        <div class="kanban-coluna" data-nome="{{ coluna.nome }}">
+            <div class="kanban-coluna-header">
+                <h3 class="kanban-coluna-titulo">{{ coluna.nome }}</h3>
+                <span class="kanban-coluna-contador">{{ coluna.cartaokanban_set.count }}</span>
+            </div>
+            <div class="cartoes-container">
+                {% for cartao in coluna.cartaokanban_set.all %}
+                <div class="cartao" data-id="{{ cartao.id }}">
+                    <h3 class="cartao-titulo">{{ cartao.titulo }}</h3>
+                    <div class="cartao-responsaveis">
+                        {% for responsavel in cartao.responsaveis.all %}
+                        <span class="responsavel-tag">{{ responsavel.get_full_name|default:responsavel.username }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="cartao-prioridade prioridade-{{ cartao.prioridade }}">
+                        {{ cartao.get_prioridade_display }}
+                    </div>
+                    {% if cartao.data_limite %}
+                    <div class="cartao-data-limite">
+                        Prazo: {{ cartao.data_limite|date:"d/m/Y" }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal para criar novo cartão -->
+<div class="modal fade" id="novoCartaoModal" tabindex="-1" aria-labelledby="novoCartaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoCartaoModalLabel">Novo Cartão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="novoCartaoForm">
+                    <input type="hidden" name="grupo_id" value="{{ quadro.grupo.id }}">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="responsaveis" class="form-label">Responsáveis</label>
+                        <select class="form-select" id="responsaveis" name="responsaveis" multiple required>
+                            {% for membro in quadro.grupo.membro_set.all %}
+                            <option value="{{ membro.usuario.id }}">{{ membro.usuario.get_full_name|default:membro.usuario.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioridade" class="form-label">Prioridade</label>
+                        <select class="form-select" id="prioridade" name="prioridade" required>
+                            <option value="baixa">Baixa</option>
+                            <option value="media" selected>Média</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="data_limite" class="form-label">Data Limite</label>
+                        <input type="datetime-local" class="form-control" id="data_limite" name="data_limite">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="salvarCartao">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="{% static 'js/kanban.js' %}"></script>
+{% endblock %}

@@ -3,7 +3,8 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import transaction
-from .models import Perfil, Tarefa, Comentario, ConfiguracaoNotificacao
+from .models import Perfil, Tarefa, ConfiguracaoNotificacao
+# ComentarioTarefa será importado quando necessário
 
 @receiver(post_save, sender=User)
 def criar_perfil(sender, instance, created, **kwargs):
@@ -83,10 +84,11 @@ def atualizar_status_tarefa(sender, instance, **kwargs):
         elif instance.data_limite >= agora and instance.status not in ['pendente', 'concluida']:
             instance.status = 'pendente'
 
-@receiver(post_save, sender=Comentario)
-def limpar_mencoes_antigas(sender, instance, **kwargs):
-    # Remove menções que não existem mais no texto
-    mencoes_atuais = [user for user in instance.mencoes.all() 
-                     if f'@{user.username}' not in instance.texto]
-    for user in mencoes_atuais:
-        instance.mencoes.remove(user)
+# Signal para ComentarioTarefa será adicionado quando o model estiver disponível
+# @receiver(post_save, sender=ComentarioTarefa)
+# def limpar_mencoes_antigas(sender, instance, **kwargs):
+#     # Remove menções que não existem mais no texto
+#     mencoes_atuais = [user for user in instance.mencoes.all() 
+#                      if f'@{user.username}' not in instance.texto]
+#     for user in mencoes_atuais:
+#         instance.mencoes.remove(user)

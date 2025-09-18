@@ -1,0 +1,145 @@
+{% extends 'grupos/base_grupos.html' %}
+{% load static %}
+
+{% block grupos_content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>{{ grupo.nome }}</h2>
+            <p class="text-muted">{{ grupo.descricao }}</p>
+        </div>
+        <div class="col-auto">
+            {% if is_admin %}
+            <a href="{% url 'editar_grupo' grupo.id %}" class="btn btn-outline-primary">
+                <i class="fas fa-edit"></i> Editar Grupo
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Abas de navegação -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link{% if request.resolver_match.url_name == 'detalhe_grupo' %} active{% endif %}" href="{% url 'detalhe_grupo' grupo.id %}">
+                <i class="fas fa-info-circle"></i> Informações
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if request.resolver_match.url_name == 'grupo_kanban' %} active{% endif %}" href="{% url 'grupo_kanban' grupo.id %}">
+                <i class="fas fa-columns"></i> Quadro Kanban
+            </a>
+        </li>
+    </ul>
+
+    {% if not request.resolver_match.url_name == 'visualizar_quadro_kanban' %}
+    <!-- Informações do grupo -->
+    <div class="row">
+        <!-- Membros do grupo -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Membros</h5>
+                    {% if pode_gerenciar %}
+                    <a href="{% url 'gerenciar_membros' grupo.id %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for membro in membros %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ membro.usuario.perfil.get_avatar_url }}" 
+                                     alt="{{ membro.usuario.get_full_name|default:membro.usuario.username }}" 
+                                     class="rounded-circle me-2" 
+                                     width="32" 
+                                     height="32">
+                                <div>
+                                    <h6 class="mb-0">{{ membro.usuario.get_full_name|default:membro.usuario.username }}</h6>
+                                    <small class="text-muted">{{ membro.get_papel_display }}</small>
+                                </div>
+                            </div>
+                            <span class="badge papel-badge papel-{{ membro.papel }}">
+                                {{ membro.get_papel_display }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atividades recentes -->
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Atividades Recentes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for tarefa in tarefas_recentes %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ tarefa.titulo }}</h6>
+                                    <p class="mb-1 text-muted">{{ tarefa.descricao|truncatewords:10 }}</p>
+                                    <small class="text-muted">
+                                        Criada por {{ tarefa.criado_por.get_full_name|default:tarefa.criado_por.username }}
+                                        em {{ tarefa.criado_em|date:"d/m/Y" }}
+                                    </small>
+                                </div>
+                                <span class="badge prioridade-badge prioridade-{{ tarefa.prioridade }}">
+                                    {{ tarefa.get_prioridade_display }}
+                                </span>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-3">
+                            <p class="text-muted mb-0">Nenhuma tarefa criada ainda</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Estatísticas do grupo -->
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-primary">{{ stats.membros.total }}</h3>
+                <p class="card-text">Membros</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-warning">{{ stats.tarefas.abertas }}</h3>
+                <p class="card-text">Tarefas Abertas</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-success">{{ stats.tarefas.concluidas }}</h3>
+                <p class="card-text">Concluídas</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-info">{{ stats.tarefas.total }}</h3>
+                <p class="card-text">Total</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

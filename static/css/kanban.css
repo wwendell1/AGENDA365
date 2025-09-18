@@ -1,0 +1,148 @@
+.kanban-quadro {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+    min-height: calc(100vh - 200px);
+}
+
+.kanban-coluna {
+    flex: 0 0 300px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-coluna[data-nome="A Fazer"] {
+    background-color: #e3f2fd;
+}
+
+.kanban-coluna[data-nome="Em Andamento"] {
+    background-color: #fff3e0;
+}
+
+.kanban-coluna[data-nome="Aguardando Feedback"] {
+    background-color: #fbe9e7;
+}
+
+.kanban-coluna[data-nome="Concluído"] {
+    background-color: #e8f5e9;
+}
+
+.kanban-coluna-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.kanban-coluna-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.kanban-coluna-contador {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+.cartoes-container {
+    flex-grow: 1;
+    min-height: 100px;
+}
+
+.cartao {
+    background: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cartao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.cartao-ghost {
+    opacity: 0.5;
+}
+
+.cartao-chosen {
+    transform: scale(1.02);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.cartao-drag {
+    opacity: 0.8;
+    transform: rotate(2deg);
+}
+
+.cartao-titulo {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+}
+
+.cartao-responsaveis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.responsavel-tag {
+    background: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.cartao-prioridade {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.prioridade-baixa {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.prioridade-media {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.prioridade-alta {
+    background-color: #ffcdd2;
+    color: #c62828;
+}
+
+.cartao-data-limite {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .kanban-quadro {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kanban-coluna {
+        flex: none;
+        margin-bottom: 1rem;
+    }
+}

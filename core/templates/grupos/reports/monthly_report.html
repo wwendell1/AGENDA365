@@ -1,0 +1,283 @@
+{% extends "grupos/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/grupos.css' %}">
+<style>
+    .report-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+    }
+
+    .metric-card {
+        padding: 1.5rem;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #363636;
+    }
+
+    .metric-label {
+        font-size: 1rem;
+        color: #7a7a7a;
+    }
+
+    .chart-container {
+        height: 300px;
+        margin: 1rem 0;
+    }
+
+    .ranking-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    .ranking-position {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-right: 1rem;
+        color: #363636;
+        min-width: 2rem;
+    }
+
+    .ranking-info {
+        flex-grow: 1;
+    }
+
+    .ranking-score {
+        font-weight: bold;
+        color: #485fc7;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .status-todo { background-color: #ff3860; color: white; }
+    .status-in-progress { background-color: #ffdd57; color: rgba(0, 0, 0, 0.7); }
+    .status-waiting { background-color: #3298dc; color: white; }
+    .status-done { background-color: #48c774; color: white; }
+</style>
+{% endblock %}
+
+{% block grupo_content %}
+<div class="content">
+    <div class="level">
+        <div class="level-left">
+            <h1 class="title">Relatório Mensal - {{ group.name }}</h1>
+            <h2 class="subtitle">{{ month }}/{{ year }}</h2>
+        </div>
+        <div class="level-right">
+            <div class="buttons">
+                <button class="button is-primary" onclick="window.print()">
+                    <span class="icon">
+                        <i class="fas fa-print"></i>
+                    </span>
+                    <span>Imprimir</span>
+                </button>
+                <button class="button" onclick="exportToPDF()">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Exportar PDF</span>
+                </button>
+                <button class="button" onclick="exportToExcel()">
+                    <span class="icon">
+                        <i class="fas fa-file-excel"></i>
+                    </span>
+                    <span>Exportar Excel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métricas Principais -->
+    <div class="report-section">
+        <h3 class="title is-4">Métricas Principais</h3>
+        <div class="columns">
+            <div class="column">
+                <div class="metric-card has-text-centered">
+                    <div class="metric-value">{{ tasks_by_member.count }}</div>
+                    <div class="metric-label">Tarefas Concluídas</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="metric-card has-text-centered">
+                    <div class="metric-value">{{ avg_completion_time.days }}d {{ avg_completion_time.hours }}h</div>
+                    <div class="metric-label">Tempo Médio de Conclusão</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="metric-card has-text-centered">
+                    <div class="metric-value">{{ engagement_ranking.count }}</div>
+                    <div class="metric-label">Membros Ativos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Distribuição de Status -->
+    <div class="report-section">
+        <h3 class="title is-4">Distribuição por Status</h3>
+        <div class="columns">
+            {% for status in status_distribution %}
+            <div class="column">
+                <div class="metric-card">
+                    <div class="metric-value">{{ status.count }}</div>
+                    <div class="metric-label">
+                        <span class="status-badge status-{{ status.status }}">
+                            {{ status.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="chart-container" id="statusChart"></div>
+    </div>
+
+    <!-- Tarefas por Membro -->
+    <div class="report-section">
+        <h3 class="title is-4">Tarefas Concluídas por Membro</h3>
+        <div class="table-container">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Membro</th>
+                        <th>Tarefas Concluídas</th>
+                        <th>Porcentagem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in tasks_by_member %}
+                    <tr>
+                        <td>{{ member.assigned_to__username }}</td>
+                        <td>{{ member.completed_count }}</td>
+                        <td>
+                            <progress class="progress is-primary" 
+                                    value="{{ member.completed_count }}" 
+                                    max="{{ tasks_by_member.total_tasks }}">
+                                {{ member.percentage }}%
+                            </progress>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="chart-container" id="memberChart"></div>
+    </div>
+
+    <!-- Ranking de Engajamento -->
+    <div class="report-section">
+        <h3 class="title is-4">Ranking de Engajamento</h3>
+        <div class="box">
+            {% for member in engagement_ranking %}
+            <div class="ranking-item">
+                <div class="ranking-position">{{ forloop.counter }}</div>
+                <div class="ranking-info">
+                    <div class="is-flex is-align-items-center">
+                        <figure class="image is-32x32 mr-2">
+                            <img class="is-rounded" 
+                                 src="{{ member.avatar_url|default:'https://bulma.io/images/placeholders/128x128.png' }}" 
+                                 alt="{{ member.get_full_name }}">
+                        </figure>
+                        <div>
+                            <strong>{{ member.get_full_name }}</strong>
+                            <p class="is-size-7">
+                                {{ member.completed_tasks }} tarefas · 
+                                {{ member.comments_count }} comentários
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ranking-score">
+                    {{ member.engagement_score }} pontos
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gráfico de Status
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [{% for status in status_distribution %}'{{ status.get_status_display }}',{% endfor %}],
+            datasets: [{
+                data: [{% for status in status_distribution %}{{ status.count }},{% endfor %}],
+                backgroundColor: ['#ff3860', '#ffdd57', '#3298dc', '#48c774']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+
+    // Gráfico de Membros
+    const memberCtx = document.getElementById('memberChart').getContext('2d');
+    new Chart(memberCtx, {
+        type: 'bar',
+        data: {
+            labels: [{% for member in tasks_by_member %}'{{ member.assigned_to__username }}',{% endfor %}],
+            datasets: [{
+                label: 'Tarefas Concluídas',
+                data: [{% for member in tasks_by_member %}{{ member.completed_count }},{% endfor %}],
+                backgroundColor: '#485fc7'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+});
+
+function exportToPDF() {
+    // Implementar exportação para PDF
+    alert('Exportação para PDF em desenvolvimento');
+}
+
+function exportToExcel() {
+    // Implementar exportação para Excel
+    alert('Exportação para Excel em desenvolvimento');
+}
+</script>
+{% endblock %}

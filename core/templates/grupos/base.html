@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/grupos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="section">
+    <div class="container">
+        <div class="columns">
+            <!-- Sidebar de Navegação -->
+            <div class="column is-3">
+                <aside class="menu">
+                    <p class="menu-label">
+                        Meus Grupos
+                    </p>
+                    <ul class="menu-list">
+                        {% for grupo in request.user.groups.all %}
+                        <li>
+                            <a href="{% url 'group_detail' grupo.slug %}"
+                                class="{% if grupo == current_group %}is-active{% endif %}"
+                                style="border-left: 4px solid {{ grupo.color }}">
+                                {{ grupo.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <p class="menu-label">
+                        Ações
+                    </p>
+                    <ul class="menu-list">
+                        <li><a href="{% url 'group_create' %}">Criar Novo Grupo</a></li>
+                        <li><a href="{% url 'group_invitations' %}">Convites Pendentes</a></li>
+                    </ul>
+                </aside>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="column">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="notification {% if message.tags %}is-{{ message.tags }}{% endif %} is-light">
+                    <button class="delete"></button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% block grupo_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/grupos.js' %}"></script>
+<script>
+    // Fechar notificações
+    document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+            const $notification = $delete.parentNode;
+            $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+            });
+        });
+    });
+</script>
+{% endblock %}

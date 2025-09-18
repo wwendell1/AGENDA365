@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
-from ..models import Grupo, Membro, Tarefa, QuadroKanban, ColunaKanban, CartaoKanban, HistoricoMovimentacao
+from ..models import Grupo, MembroGrupo, Tarefa, QuadroKanban, ColunaKanban, CartaoKanban, HistoricoMovimentacao
 from ..forms import GrupoForm, ConviteForm, QuadroKanbanForm, CartaoKanbanForm
 from django.contrib.auth.models import User
 import json
@@ -60,7 +60,7 @@ def criar_grupo(request):
     return redirect('lista_grupos')
 
 @login_required
-def detalhe_grupo(request, grupo_id):
+def detalhe_grupo_old(request, grupo_id):
     """Exibe detalhes do grupo e suas tarefas"""
     grupo = get_object_or_404(Grupo, id=grupo_id)
     

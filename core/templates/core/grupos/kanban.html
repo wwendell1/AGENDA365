@@ -1,0 +1,149 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Kanban - {{ grupo.nome }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.kanban-board {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem;
+    gap: 1rem;
+    min-height: 70vh;
+}
+
+.kanban-column {
+    flex: 0 0 300px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.kanban-column.a-fazer { background-color: #EBF5FB; }
+.kanban-column.em-andamento { background-color: #FEF9E7; }
+.kanban-column.aguardando-feedback { background-color: #FDF2E9; }
+.kanban-column.concluido { background-color: #E9F7EF; }
+
+.kanban-card {
+    background: white;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: move;
+}
+
+.kanban-card-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.kanban-card-meta {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.kanban-column-header {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-column-count {
+    background: rgba(0,0,0,0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ grupo.nome }} - Quadro Kanban</h2>
+        {% if user.is_authenticated and grupo.is_admin_or_moderator %}
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoCartaoModal">
+            <i class="fas fa-plus"></i> Novo Cartão
+        </button>
+        {% endif %}
+    </div>
+
+    <div class="kanban-board" id="kanbanBoard">
+        <div class="kanban-column a-fazer" data-coluna="a_fazer">
+            <div class="kanban-column-header">
+                A Fazer <span class="kanban-column-count">0</span>
+            </div>
+            <div class="kanban-cards" data-coluna="a_fazer"></div>
+        </div>
+
+        <div class="kanban-column em-andamento" data-coluna="em_andamento">
+            <div class="kanban-column-header">
+                Em Andamento <span class="kanban-column-count">0</span>
+            </div>
+            <div class="kanban-cards" data-coluna="em_andamento"></div>
+        </div>
+
+        <div class="kanban-column aguardando-feedback" data-coluna="aguardando_feedback">
+            <div class="kanban-column-header">
+                Aguardando Feedback <span class="kanban-column-count">0</span>
+            </div>
+            <div class="kanban-cards" data-coluna="aguardando_feedback"></div>
+        </div>
+
+        <div class="kanban-column concluido" data-coluna="concluido">
+            <div class="kanban-column-header">
+                Concluído <span class="kanban-column-count">0</span>
+            </div>
+            <div class="kanban-cards" data-coluna="concluido"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Novo Cartão -->
+<div class="modal fade" id="novoCartaoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Cartão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="novoCartaoForm">
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descrição</label>
+                        <textarea class="form-control" name="descricao" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Responsável</label>
+                        <select class="form-control" name="responsavel" required>
+                            {% for membro in grupo.membros.all %}
+                            <option value="{{ membro.id }}">{{ membro.usuario.get_full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data de Entrega</label>
+                        <input type="date" class="form-control" name="data_entrega">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="salvarCartao">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="{% static 'js/kanban.js' %}"></script>
+{% endblock %}

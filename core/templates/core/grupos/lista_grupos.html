@@ -1,0 +1,98 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Meus Grupos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .grupo-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 5px solid;
+    }
+    .grupo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .grupo-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="section">
+        <div class="level">
+            <div class="level-left">
+                <h1 class="title is-3">Meus Grupos</h1>
+            </div>
+            <div class="level-right">
+                <a href="{% url 'criar_grupo' %}" class="button is-primary">
+                    <span class="icon"><i class="fas fa-plus"></i></span>
+                    <span>Criar Novo Grupo</span>
+                </a>
+            </div>
+        </div>
+
+        {% if grupos %}
+            <div class="columns is-multiline">
+                {% for grupo in grupos %}
+                <div class="column is-4">
+                    <div class="card grupo-card" style="border-left-color: {{ grupo.cor }};">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img src="{{ grupo.get_avatar_url }}" alt="{{ grupo.nome }}" class="grupo-avatar">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">{{ grupo.nome }}</p>
+                                    <p class="subtitle is-6">{{ grupo.membros.count }} membros</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                {{ grupo.descricao|truncatechars:100 }}
+                                <br>
+                                <small>Criado em {{ grupo.data_criacao|date:"d/m/Y" }}</small>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="{% url 'detalhes_grupo' grupo.pk %}" class="card-footer-item">
+                                <span class="icon"><i class="fas fa-eye"></i></span>
+                                <span>Detalhes</span>
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="notification is-info">
+                <p>Você ainda não está em nenhum grupo. Que tal <a href="{% url 'criar_grupo' %}">criar um grupo</a> ou aceitar um convite?</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const grupoCards = document.querySelectorAll('.grupo-card');
+        grupoCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "grupos/base_grupos.html" %}
+{% load static %}
+
+{% block title %}Meus Grupos{% endblock %}
+
+{% block grupos_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Meus Grupos</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'criar_grupo' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Criar Grupo
+        </a>
+    </div>
+</div>
+
+{% if grupos %}
+<div class="row">
+    {% for grupo in grupos %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card grupo-card h-100" style="--grupo-cor: {{ grupo.cor_personalizada }}">
+            <div class="card-header d-flex align-items-center">
+                {% if grupo.avatar %}
+                <img src="{{ grupo.avatar.url }}" class="rounded-circle me-2" width="32" height="32" alt="Avatar">
+                {% else %}
+                <div class="rounded-circle me-2 d-flex align-items-center justify-content-center" 
+                     style="width: 32px; height: 32px; background: {{ grupo.cor_personalizada }}; color: white;">
+                    {{ grupo.nome|first|upper }}
+                </div>
+                {% endif %}
+                <h6 class="card-title mb-0">{{ grupo.nome }}</h6>
+            </div>
+            
+            <div class="card-body">
+                <p class="card-text text-muted">{{ grupo.descricao|truncatewords:15 }}</p>
+                
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="text-primary">
+                            <i class="fas fa-users"></i>
+                            <div class="small">{{ grupo.total_membros }} membros</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-warning">
+                            <i class="fas fa-tasks"></i>
+                            <div class="small">{{ grupo.tarefas_abertas }} abertas</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-success">
+                            <i class="fas fa-check"></i>
+                            <div class="small">{{ grupo.tarefas_concluidas }} concluídas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        Criado em {{ grupo.criado_em|date:"d/m/Y" }}
+                    </small>
+                    <div class="btn-group btn-group-sm">
+                        <a href="{% url 'detalhe_grupo' grupo.id %}" class="btn btn-outline-primary">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{% url 'grupo_kanban' grupo.id %}" class="btn btn-outline-success">
+                            <i class="fas fa-columns"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        <strong>Total:</strong> {{ total_grupos }} grupo{{ total_grupos|pluralize }}
+    </div>
+</div>
+
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+    <h3>Nenhum grupo encontrado</h3>
+    <p class="text-muted">Você ainda não participa de nenhum grupo. Crie um novo grupo ou aguarde um convite!</p>
+    <a href="{% url 'criar_grupo' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Criar Meu Primeiro Grupo
+    </a>
+</div>
+{% endif %}
+{% endblock %}

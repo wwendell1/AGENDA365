@@ -1,7 +1,23 @@
-from django.urls import path
-from .views import auth, dashboard, tarefas, grupos, financas, notificacoes
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import auth, dashboard, tarefas, financas, notificacoes
+from .views.grupo_views import GrupoViewSet, ConviteViewSet
+from .views.tarefa_views import TarefaViewSet, ChecklistItemViewSet
+from .views import grupos_web
+
+# Configuração da API REST
+router = DefaultRouter()
+router.register(r'grupos', GrupoViewSet, basename='grupo')
+router.register(r'convites', ConviteViewSet, basename='convite')
+router.register(r'tarefas', TarefaViewSet, basename='tarefa')
+router.register(r'checklist', ChecklistItemViewSet, basename='checklist')
 
 urlpatterns = [
+    # API REST
+    path('api/', include(router.urls)),
+    path('api/grupos/<int:grupo_pk>/tarefas/', TarefaViewSet.as_view({'get': 'list', 'post': 'create'}), name='grupo-tarefas'),
+    path('api/grupos/<int:grupo_pk>/kanban/', TarefaViewSet.as_view({'get': 'kanban'}), name='grupo-kanban'),
+    
     # Autenticação
     path('login/', auth.login_view, name='login'),
     path('logout/', auth.logout_view, name='logout'),
@@ -14,31 +30,23 @@ urlpatterns = [
     # Dashboard
     path('', dashboard.dashboard, name='dashboard'),
     
-    # Tarefas
+    # Grupos - Interface Web
+    path('grupos/', grupos_web.lista_grupos, name='lista_grupos'),
+    path('grupos/criar/', grupos_web.criar_grupo, name='criar_grupo'),
+    path('grupos/<int:grupo_id>/', grupos_web.detalhe_grupo, name='detalhe_grupo'),
+    path('grupos/<int:grupo_id>/kanban/', grupos_web.kanban_view, name='grupo_kanban'),
+    path('grupos/<int:grupo_id>/editar/', grupos_web.editar_grupo, name='editar_grupo'),
+    path('grupos/<int:grupo_id>/membros/', grupos_web.gerenciar_membros, name='gerenciar_membros'),
+    path('grupos/convite/<uuid:token>/', grupos_web.processar_convite, name='processar_convite'),
+    path('grupos/<int:grupo_id>/mover-tarefa/', grupos_web.mover_tarefa_ajax, name='mover_tarefa_ajax'),
+    path('grupos/<int:grupo_id>/stats/', grupos_web.estatisticas_grupo_ajax, name='stats_grupo_ajax'),
+    
+    # Tarefas - Interface Web  
     path('tarefas/', tarefas.semana_tarefas, name='semana_tarefas'),
     path('tarefas/criar/', tarefas.criar_tarefa, name='criar_tarefa'),
     path('tarefas/<int:tarefa_id>/', tarefas.detalhe_tarefa, name='detalhe_tarefa'),
     path('tarefas/<int:tarefa_id>/editar/', tarefas.editar_tarefa, name='editar_tarefa'),
     path('tarefas/<int:tarefa_id>/excluir/', tarefas.excluir_tarefa, name='excluir_tarefa'),
-    path('tarefas/<int:tarefa_id>/status/', tarefas.atualizar_status_tarefa, name='atualizar_status_tarefa'),
-    path('tarefas/<int:tarefa_id>/comentar/', tarefas.adicionar_comentario, name='adicionar_comentario'),
-    
-    # Grupos
-    path('grupos/', grupos.lista_grupos, name='lista_grupos'),
-    path('grupos/criar/', grupos.criar_grupo, name='criar_grupo'),
-    path('grupos/<int:grupo_id>/', grupos.detalhe_grupo, name='detalhe_grupo'),
-    path('grupos/<int:grupo_id>/editar/', grupos.editar_grupo, name='editar_grupo'),
-    path('grupos/<int:grupo_id>/excluir/', grupos.excluir_grupo, name='excluir_grupo'),
-    path('grupos/<int:grupo_id>/membros/adicionar/', grupos.adicionar_membro, name='adicionar_membro'),
-    path('grupos/<int:grupo_id>/membros/<int:membro_id>/remover/', grupos.remover_membro, name='remover_membro'),
-    
-    # Kanban
-    path('grupos/<int:grupo_id>/quadros/criar/', grupos.criar_quadro_kanban, name='criar_quadro_kanban'),
-    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/', grupos.visualizar_quadro, name='visualizar_quadro'),
-    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/editar/', grupos.editar_quadro_kanban, name='editar_quadro_kanban'),
-    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/excluir/', grupos.excluir_quadro_kanban, name='excluir_quadro_kanban'),
-    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/criar/', grupos.criar_cartao, name='criar_cartao'),
-    path('grupos/<int:grupo_id>/quadros/<int:quadro_id>/cartoes/<int:cartao_id>/mover/', grupos.mover_cartao, name='mover_cartao'),
     
     # Finanças
     path('financas/', financas.lista_transacoes, name='lista_transacoes'),
@@ -48,6 +56,8 @@ urlpatterns = [
     path('financas/relatorio/', financas.relatorio_mensal, name='relatorio_mensal'),
     path('financas/exportar/excel/', financas.exportar_excel, name='exportar_excel'),
     path('financas/exportar/pdf/', financas.exportar_pdf, name='exportar_pdf'),
+    
+    # Notificações
     path('notificacoes/', notificacoes.lista_notificacoes, name='lista_notificacoes'),
     path('notificacoes/marcar-lida/<int:pk>/', notificacoes.marcar_como_lida, name='marcar_notificacao_lida'),
     path('notificacoes/configuracoes/', notificacoes.configurar_notificacoes, name='configurar_notificacoes'),

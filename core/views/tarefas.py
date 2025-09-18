@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
 from django.template.loader import render_to_string
-from ..models import Tarefa, Grupo, Comentario, User, Anexo
+from ..models import Tarefa, Grupo, ComentarioTarefa, AnexoTarefa
+from django.contrib.auth.models import User
 from ..forms import TarefaForm, ComentarioForm
 from datetime import datetime
 import json
@@ -94,7 +95,7 @@ def semana_tarefas(request):
     ).distinct()
     
     usuarios = User.objects.filter(
-        Q(grupos__membros=request.user) |
+        Q(grupos_participando__membros=request.user) |
         Q(tarefas_criadas__grupo__membros=request.user) |
         Q(tarefas_atribuidas__grupo__membros=request.user)
     ).distinct()

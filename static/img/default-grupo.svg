@@ -1,0 +1,8 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#E2E8F0"/>
+  <g transform="translate(50, 60)">
+    <circle cx="50" cy="30" r="25" fill="#718096"/>
+    <path d="M0 80 C0 60, 100 60, 100 80 L100 120 L0 120 Z" fill="#718096"/>
+  </g>
+  <text x="100" y="170" font-family="Arial" font-size="24" fill="#4A5568" text-anchor="middle">GRUPO</text>
+</svg>

@@ -1,0 +1,72 @@
+{% load static %}
+
+<div id="task-{{ task.id }}" class="kanban-card" draggable="true">
+    <div class="card-title">
+        {{ task.title }}
+    </div>
+
+    {% if task.description %}
+    <div class="card-content">
+        {{ task.description|truncatechars:100 }}
+    </div>
+    {% endif %}
+
+    <div class="card-meta">
+        <div class="due-date">
+            {% if task.due_date %}
+            <span class="icon is-small">
+                <i class="fas fa-clock"></i>
+            </span>
+            <span class="{% if task.is_overdue %}has-text-danger{% endif %}">
+                {{ task.due_date|date:"d/m/Y H:i" }}
+            </span>
+            {% endif %}
+        </div>
+        <div class="priority">
+            <span class="priority-indicator priority-{{ task.priority }}"
+                  title="{{ task.get_priority_display }}"></span>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="avatar-group">
+            {% if task.assigned_to %}
+            <img src="{{ task.assigned_to.avatar_url|default:'https://bulma.io/images/placeholders/128x128.png' }}"
+                 alt="{{ task.assigned_to.get_full_name }}"
+                 title="{{ task.assigned_to.get_full_name }}">
+            {% endif %}
+            {% for collaborator in task.collaborators.all|slice:":3" %}
+            <img src="{{ collaborator.avatar_url|default:'https://bulma.io/images/placeholders/128x128.png' }}"
+                 alt="{{ collaborator.get_full_name }}"
+                 title="{{ collaborator.get_full_name }}">
+            {% endfor %}
+            {% if task.collaborators.count > 3 %}
+            <span class="tag is-rounded">+{{ task.collaborators.count|add:"-3" }}</span>
+            {% endif %}
+        </div>
+
+        <div class="card-actions">
+            <button class="button is-small" onclick="editTask({{ task.id }})">
+                <span class="icon is-small">
+                    <i class="fas fa-edit"></i>
+                </span>
+            </button>
+            <button class="button is-small" onclick="openComments({{ task.id }})">
+                <span class="icon is-small">
+                    <i class="fas fa-comments"></i>
+                </span>
+                {% if task.comments.count > 0 %}
+                <span class="tag is-info is-rounded">{{ task.comments.count }}</span>
+                {% endif %}
+            </button>
+            <button class="button is-small" onclick="openFiles({{ task.id }})">
+                <span class="icon is-small">
+                    <i class="fas fa-paperclip"></i>
+                </span>
+                {% if task.files.count > 0 %}
+                <span class="tag is-info is-rounded">{{ task.files.count }}</span>
+                {% endif %}
+            </button>
+        </div>
+    </div>
+</div>

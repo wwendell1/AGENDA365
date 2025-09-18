@@ -1,0 +1,304 @@
+{% extends "grupos/base_grupos.html" %}
+{% load static %}
+
+{% block title %}Kanban - {{ grupo.nome }}{% endblock %}
+
+{% block grupos_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-columns"></i> Kanban - {{ grupo.nome }}
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if pode_gerenciar %}
+        <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#novaTarefaModal">
+            <i class="fas fa-plus"></i> Nova Tarefa
+        </button>
+        {% endif %}
+        <div class="btn-group">
+            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fas fa-filter"></i> Filtros
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" onclick="filtrarPorResponsavel('todos')">Todos</a></li>
+                <li><hr class="dropdown-divider"></li>
+                {% for membro in membros %}
+                <li><a class="dropdown-item" href="#" onclick="filtrarPorResponsavel('{{ membro.id }}')">{{ membro.get_full_name|default:membro.username }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Kanban Board -->
+<div class="row kanban-board" id="kanbanBoard">
+    <!-- Coluna A Fazer -->
+    <div class="col-md-3">
+        <div class="kanban-column" data-status="a_fazer">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-danger">
+                    <i class="fas fa-circle"></i> A Fazer
+                </h5>
+                <span class="badge bg-danger">{{ kanban_data.a_fazer|length }}</span>
+            </div>
+            <div class="kanban-cards" id="coluna-a_fazer">
+                {% for tarefa in kanban_data.a_fazer %}
+                {% include 'grupos/partials/kanban_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna Em Andamento -->
+    <div class="col-md-3">
+        <div class="kanban-column" data-status="em_andamento">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-warning">
+                    <i class="fas fa-circle"></i> Em Andamento
+                </h5>
+                <span class="badge bg-warning">{{ kanban_data.em_andamento|length }}</span>
+            </div>
+            <div class="kanban-cards" id="coluna-em_andamento">
+                {% for tarefa in kanban_data.em_andamento %}
+                {% include 'grupos/partials/kanban_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna Aguardando Feedback -->
+    <div class="col-md-3">
+        <div class="kanban-column" data-status="aguardando_feedback">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-info">
+                    <i class="fas fa-circle"></i> Aguardando Feedback
+                </h5>
+                <span class="badge bg-info">{{ kanban_data.aguardando_feedback|length }}</span>
+            </div>
+            <div class="kanban-cards" id="coluna-aguardando_feedback">
+                {% for tarefa in kanban_data.aguardando_feedback %}
+                {% include 'grupos/partials/kanban_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna Concluído -->
+    <div class="col-md-3">
+        <div class="kanban-column" data-status="concluido">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-success">
+                    <i class="fas fa-circle"></i> Concluído
+                </h5>
+                <span class="badge bg-success">{{ kanban_data.concluido|length }}</span>
+            </div>
+            <div class="kanban-cards" id="coluna-concluido">
+                {% for tarefa in kanban_data.concluido %}
+                {% include 'grupos/partials/kanban_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Nova Tarefa -->
+{% if pode_gerenciar %}
+<div class="modal fade" id="novaTarefaModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nova Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formNovaTarefa" method="post" action="{% url 'api:tarefa-list' %}">
+                {% csrf_token %}
+                <input type="hidden" name="grupo" value="{{ grupo.id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título *</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição *</label>
+                        <textarea class="form-control" id="descricao" name="descricao" rows="3" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="responsavel_principal" class="form-label">Responsável</label>
+                            <select class="form-select" id="responsavel_principal" name="responsavel_principal_id">
+                                <option value="">Selecione...</option>
+                                {% for membro in membros %}
+                                <option value="{{ membro.id }}">{{ membro.get_full_name|default:membro.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="prioridade" class="form-label">Prioridade</label>
+                            <select class="form-select" id="prioridade" name="prioridade">
+                                <option value="baixa">Baixa</option>
+                                <option value="media" selected>Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label for="prazo" class="form-label">Prazo</label>
+                        <input type="datetime-local" class="form-control" id="prazo" name="prazo">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Modal Detalhes da Tarefa -->
+<div class="modal fade" id="detalheTarefaModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detalheTarefaTitulo"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detalheTarefaConteudo">
+                <!-- Conteúdo carregado via AJAX -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+// Configuração do Drag & Drop
+document.addEventListener('DOMContentLoaded', function() {
+    initKanbanDragDrop();
+    
+    // Form de nova tarefa
+    document.getElementById('formNovaTarefa')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        criarNovaTarefa(this);
+    });
+});
+
+function initKanbanDragDrop() {
+    const cards = document.querySelectorAll('.kanban-card');
+    const columns = document.querySelectorAll('.kanban-cards');
+    
+    cards.forEach(card => {
+        card.draggable = true;
+        
+        card.addEventListener('dragstart', function(e) {
+            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', this.dataset.tarefaId);
+        });
+        
+        card.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+        });
+    });
+    
+    columns.forEach(column => {
+        column.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+        
+        column.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const tarefaId = e.dataTransfer.getData('text/plain');
+            const novaColuna = this.id.replace('coluna-', '');
+            
+            moverTarefa(tarefaId, novaColuna);
+        });
+    });
+}
+
+function moverTarefa(tarefaId, novaColuna) {
+    fetch(`/grupos/{{ grupo.id }}/mover-tarefa/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: `tarefa_id=${tarefaId}&nova_coluna=${novaColuna}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Recarrega a página para atualizar o Kanban
+            location.reload();
+        } else {
+            alert('Erro ao mover tarefa: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao mover tarefa');
+    });
+}
+
+function criarNovaTarefa(form) {
+    const formData = new FormData(form);
+    
+    fetch('/api/tarefas/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.id) {
+            // Fecha modal e recarrega página
+            bootstrap.Modal.getInstance(document.getElementById('novaTarefaModal')).hide();
+            location.reload();
+        } else {
+            alert('Erro ao criar tarefa');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao criar tarefa');
+    });
+}
+
+function filtrarPorResponsavel(responsavelId) {
+    const cards = document.querySelectorAll('.kanban-card');
+    
+    cards.forEach(card => {
+        if (responsavelId === 'todos' || card.dataset.responsavel === responsavelId) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function verDetalhes(tarefaId) {
+    fetch(`/api/tarefas/${tarefaId}/`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('detalheTarefaTitulo').textContent = data.titulo;
+        document.getElementById('detalheTarefaConteudo').innerHTML = `
+            <p><strong>Descrição:</strong> ${data.descricao}</p>
+            <p><strong>Status:</strong> ${data.status_display}</p>
+            <p><strong>Prioridade:</strong> ${data.prioridade_display}</p>
+            ${data.prazo ? `<p><strong>Prazo:</strong> ${new Date(data.prazo).toLocaleString()}</p>` : ''}
+            ${data.responsavel_nome ? `<p><strong>Responsável:</strong> ${data.responsavel_nome}</p>` : ''}
+        `;
+        
+        new bootstrap.Modal(document.getElementById('detalheTarefaModal')).show();
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao carregar detalhes da tarefa');
+    });
+}
+</script>
+{% endblock %}

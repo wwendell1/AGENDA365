@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #485fc7;
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        
+        .section {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #363636;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dbdbdb;
+        }
+        
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .task-item {
+            padding: 10px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-title {
+            font-weight: bold;
+            color: #485fc7;
+        }
+        
+        .task-meta {
+            font-size: 14px;
+            color: #7a7a7a;
+            margin-top: 5px;
+        }
+        
+        .priority-high {
+            color: #ff3860;
+        }
+        
+        .priority-medium {
+            color: #ffdd57;
+        }
+        
+        .priority-low {
+            color: #48c774;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-todo {
+            background-color: #ff3860;
+            color: white;
+        }
+        
+        .status-in-progress {
+            background-color: #ffdd57;
+            color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .status-waiting {
+            background-color: #3298dc;
+            color: white;
+        }
+        
+        .status-done {
+            background-color: #48c774;
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7a7a7a;
+            font-size: 14px;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #485fc7;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .button:hover {
+            background-color: #3e4db9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Resumo Diário - {{ group.name }}</h1>
+        <p>{{ date|date:"d/m/Y" }}</p>
+    </div>
+
+    {% if pending_tasks %}
+    <div class="section">
+        <h2 class="section-title">Tarefas Pendentes</h2>
+        <ul class="task-list">
+            {% for task in pending_tasks %}
+            <li class="task-item">
+                <div class="task-title">{{ task.title }}</div>
+                <div class="task-meta">
+                    <span class="status-badge status-{{ task.status }}">
+                        {{ task.get_status_display }}
+                    </span>
+                    {% if task.due_date %}
+                    · Prazo: {{ task.due_date|date:"d/m/Y H:i" }}
+                    {% endif %}
+                    · <span class="priority-{{ task.priority }}">
+                        {{ task.get_priority_display }}
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if completed_tasks %}
+    <div class="section">
+        <h2 class="section-title">Tarefas Concluídas Hoje</h2>
+        <ul class="task-list">
+            {% for task in completed_tasks %}
+            <li class="task-item">
+                <div class="task-title">{{ task.title }}</div>
+                <div class="task-meta">
+                    Concluída em {{ task.updated_at|date:"H:i" }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if new_tasks %}
+    <div class="section">
+        <h2 class="section-title">Novas Tarefas Atribuídas</h2>
+        <ul class="task-list">
+            {% for task in new_tasks %}
+            <li class="task-item">
+                <div class="task-title">{{ task.title }}</div>
+                <div class="task-meta">
+                    {% if task.due_date %}
+                    Prazo: {{ task.due_date|date:"d/m/Y H:i" }} ·
+                    {% endif %}
+                    <span class="priority-{{ task.priority }}">
+                        {{ task.get_priority_display }}
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if new_comments %}
+    <div class="section">
+        <h2 class="section-title">Novos Comentários</h2>
+        <ul class="task-list">
+            {% for task in new_comments %}
+            <li class="task-item">
+                <div class="task-title">{{ task.title }}</div>
+                <div class="task-meta">
+                    {{ task.comments.count }} novo(s) comentário(s)
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <p>
+            Este é um e-mail automático. Por favor, não responda.
+            <br>
+            Para acessar o grupo, clique no botão abaixo:
+        </p>
+        <a href="{{ group.get_absolute_url }}" class="button">
+            Acessar Grupo
+        </a>
+    </div>
+</body>
+</html>

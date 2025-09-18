@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Você foi adicionado a um Grupo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            padding: 30px;
+        }
+        .header {
+            background-color: #3273dc;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #3273dc;
+            color: white !important;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Novo Grupo</h1>
+        </div>
+        <div class="content">
+            <p>Olá {{ novo_membro_nome }},</p>
+            
+            <p>Você foi adicionado ao grupo <strong>{{ grupo_nome }}</strong> por <strong>{{ adicionado_por_nome }}</strong>.</p>
+            
+            <p>Para visualizar o grupo, clique no botão abaixo:</p>
+            
+            <a href="{{ url_grupo }}" class="button">Ver Grupo</a>
+            
+            <p>Se o botão não funcionar, copie e cole o link a seguir no seu navegador:</p>
+            
+            <p>{{ url_grupo }}</p>
+            
+            <p>Bem-vindo à equipe!</p>
+        </div>
+        <div class="footer">
+            <p>© {% now "Y" %} Produtiva. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

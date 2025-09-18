@@ -1,0 +1,178 @@
+/* Estilos do quadro Kanban */
+.kanban-quadro {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+    min-height: calc(100vh - 200px);
+    background-color: #f5f6f8;
+}
+
+/* Estilos das colunas */
+.kanban-coluna {
+    flex: 0 0 300px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+
+.kanban-coluna-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-coluna-titulo {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.kanban-coluna-contador {
+    background: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+/* Cores das colunas */
+.kanban-coluna[data-nome="A Fazer"] .kanban-coluna-header {
+    background-color: #e3f2fd;
+    border-radius: 8px 8px 0 0;
+}
+
+.kanban-coluna[data-nome="Em andamento"] .kanban-coluna-header {
+    background-color: #fff3e0;
+    border-radius: 8px 8px 0 0;
+}
+
+.kanban-coluna[data-nome="Aguardando feedback"] .kanban-coluna-header {
+    background-color: #fbe9e7;
+    border-radius: 8px 8px 0 0;
+}
+
+.kanban-coluna[data-nome="Concluído"] .kanban-coluna-header {
+    background-color: #e8f5e9;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Container de cartões */
+.cartoes-container {
+    padding: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Estilos dos cartões */
+.cartao {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    cursor: move;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.cartao:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cartao-titulo {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+}
+
+.cartao-responsaveis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.responsavel-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.cartao-prioridade {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.prioridade-alta {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+.prioridade-media {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.prioridade-baixa {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.cartao-data-limite {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Estilos para drag and drop */
+.cartao-ghost {
+    opacity: 0.5;
+    background: #f5f5f5;
+}
+
+.cartao-chosen {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cartao-drag {
+    opacity: 0.8;
+    transform: rotate(2deg);
+}
+
+/* Toast de erro */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: 4px;
+    color: #fff;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-erro {
+    background-color: #d32f2f;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
