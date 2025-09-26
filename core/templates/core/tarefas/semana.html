@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function atualizarStatus(checkbox, tarefaId, status) {
     const tarefaCard = checkbox.closest('.tarefa-card');
     
-    fetch(`/tarefas/${tarefaId}/status/`, {
+    fetch(`/tarefas/atualizar_status/${tarefaId}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

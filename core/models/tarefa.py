@@ -66,9 +66,15 @@ class TarefaGrupo(models.Model):
             # Não muda automaticamente para atrasada, mas pode ser usado para relatórios
             pass
         
-        # Sincroniza coluna_kanban com status
-        if self.status != self.coluna_kanban:
-            self.coluna_kanban = self.status
+        # Lógica mais inteligente para sincronização de coluna
+        if self.status == 'concluido':
+            self.coluna_kanban = 'concluido'
+        elif self.status == 'a_fazer':
+            self.coluna_kanban = 'a_fazer'
+        elif self.status == 'em_andamento':
+            self.coluna_kanban = 'em_andamento'
+        elif self.status == 'aguardando_feedback':
+            self.coluna_kanban = 'aguardando_feedback'
         
         super().save(*args, **kwargs)
         

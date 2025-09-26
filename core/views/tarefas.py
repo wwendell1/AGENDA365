@@ -4,11 +4,14 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q
 from django.template.loader import render_to_string
-from ..models import Tarefa, Grupo, ComentarioTarefa, AnexoTarefa
+from ..models import Tarefa, Grupo, ComentarioTarefa, AnexoTarefa, TarefaGrupo
 from django.contrib.auth.models import User
 from ..forms import TarefaForm, ComentarioForm
 from datetime import datetime
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def semana_tarefas(request):
@@ -17,24 +20,36 @@ def semana_tarefas(request):
     status_list = request.GET.getlist('status')
     responsavel_id = request.GET.get('responsavel')
     
-    # Query base - Incluir tarefas criadas pelo usuário
-    tarefas = Tarefa.objects.filter(
+    # Query base - Incluir tarefas de ambos os modelos
+    tarefas_grupo = TarefaGrupo.objects.filter(
+        Q(responsavel_principal=request.user) | 
+        Q(grupo__membros=request.user) |
+        Q(criado_por=request.user)
+    ).distinct()
+    
+    # Incluir tarefas do modelo antigo
+    tarefas_antigas = Tarefa.objects.filter(
         Q(responsavel=request.user) | 
         Q(grupo__membros=request.user) |
         Q(criado_por=request.user)
     ).distinct()
     
+    # Combinar tarefas
+    tarefas = list(tarefas_grupo) + list(tarefas_antigas)
+    
     # Aplicar filtros
     if grupo_id:
-        tarefas = tarefas.filter(grupo_id=grupo_id)
+        tarefas = [t for t in tarefas if 
+                   (hasattr(t, 'grupo') and t.grupo and str(t.grupo.id) == grupo_id)]
+    
     if status_list:
-        # Se houver múltiplos status, usar OR (|) para incluir tarefas com qualquer um dos status
-        status_query = Q()
-        for status in status_list:
-            status_query |= Q(status=status)
-        tarefas = tarefas.filter(status_query)
+        tarefas = [t for t in tarefas if 
+                   (hasattr(t, 'status') and t.status in status_list)]
+    
     if responsavel_id:
-        tarefas = tarefas.filter(responsavel_id=responsavel_id)
+        tarefas = [t for t in tarefas if 
+                   (hasattr(t, 'responsavel_principal') and t.responsavel_principal and str(t.responsavel_principal.id) == responsavel_id) or
+                   (hasattr(t, 'responsavel') and t.responsavel and str(t.responsavel.id) == responsavel_id)]
     
     # Organizar por dias da semana
     from datetime import datetime, timedelta
@@ -53,34 +68,34 @@ def semana_tarefas(request):
     }
     
     # Obter a primeira e última data das tarefas para definir o range
-    primeira_data = tarefas.order_by('data_limite').values_list('data_limite', flat=True).first()
-    ultima_data = tarefas.order_by('-data_limite').values_list('data_limite', flat=True).first()
+    datas = [
+        t.prazo.date() if hasattr(t, 'prazo') else 
+        t.data_limite.date() if hasattr(t, 'data_limite') else 
+        hoje 
+        for t in tarefas
+    ]
     
-    if primeira_data and ultima_data:
-        primeira_data = primeira_data.date()
-        ultima_data = ultima_data.date()
-        # Garantir que mostramos pelo menos 30 dias a partir de hoje
-        data_inicio = min(primeira_data, hoje - timedelta(days=7))  # Incluir 7 dias atrás
-        data_fim = max(ultima_data, hoje + timedelta(days=30))
-        dias_para_mostrar = (data_fim - data_inicio).days + 1
-        data_inicial = data_inicio
-    else:
-        # Se não há tarefas, mostrar 30 dias a partir de hoje
-        dias_para_mostrar = 30
-        data_inicial = hoje
+    primeira_data = min(datas) if datas else hoje
+    ultima_data = max(datas) if datas else hoje
+    
+    # Garantir que mostramos pelo menos 30 dias a partir de hoje
+    data_inicio = min(primeira_data, hoje - timedelta(days=7))  # Incluir 7 dias atrás
+    data_fim = max(ultima_data, hoje + timedelta(days=30))
+    dias_para_mostrar = (data_fim - data_inicio).days + 1
+    data_inicial = data_inicio
     
     for i in range(dias_para_mostrar):
         dia = data_inicial + timedelta(days=i)
-        # Filtrar tarefas do dia e ordenar por prioridade e data
-        tarefas_dia = tarefas.filter(data_limite__date=dia).order_by(
-            'prioridade',
-            'data_limite'
-        ).select_related('responsavel', 'grupo')
-        
-        # O status de tarefas atrasadas é gerenciado automaticamente pelo signal
+        # Filtrar tarefas do dia
+        tarefas_dia = [
+            t for t in tarefas 
+            if (hasattr(t, 'prazo') and t.prazo and t.prazo.date() == dia) or
+               (hasattr(t, 'data_limite') and t.data_limite and t.data_limite.date() == dia)
+        ]
         
         # Calcular tarefas concluídas
-        tarefas_concluidas = tarefas_dia.filter(status='concluida').count()
+        tarefas_concluidas = sum(1 for t in tarefas_dia if 
+            (hasattr(t, 'status') and t.status in ['concluido', 'concluida']))
         
         dias_semana.append({
             'data': dia,
@@ -96,8 +111,9 @@ def semana_tarefas(request):
     
     usuarios = User.objects.filter(
         Q(grupos_participando__membros=request.user) |
-        Q(tarefas_criadas__grupo__membros=request.user) |
-        Q(tarefas_atribuidas__grupo__membros=request.user)
+        Q(tarefas_grupo_criadas__grupo__membros=request.user) |
+        Q(tarefas_responsavel__grupo__membros=request.user) |
+        Q(tarefas_criadas__grupo__membros=request.user)
     ).distinct()
     
     context = {
@@ -160,37 +176,157 @@ def atualizar_status_tarefa(request, tarefa_id):
                 return JsonResponse({
                     'success': False,
                     'error': 'Sem permissão para atualizar esta tarefa'
-                })
+                }, status=403)
             
-            if novo_status in ['pendente', 'concluida', 'atrasada']:
-                # Se estiver marcando como concluída, ignorar a verificação de data
+            # Mapeamento de status para garantir consistência
+            status_map = {
+                'pendente': 'pendente',
+                'concluida': 'concluida',
+                'concluido': 'concluida',
+                'atrasada': 'atrasada',
+                'atrasado': 'atrasada'
+            }
+            
+            # Validar e definir o status
+            if novo_status in status_map:
+                tarefa.status = status_map[novo_status]
+                
+                # Lógica adicional para tarefas concluídas
                 if novo_status == 'concluida':
-                    tarefa.status = 'concluida'
+                    tarefa.data_conclusao = timezone.now()
                 else:
-                    # Para outros status, manter a lógica do signal
-                    tarefa.status = novo_status
+                    tarefa.data_conclusao = None
                 
                 tarefa.save()
+                
                 return JsonResponse({
                     'success': True,
-                    'status': novo_status
+                    'status': tarefa.status,
+                    'message': 'Status da tarefa atualizado com sucesso'
                 })
             
             return JsonResponse({
                 'success': False,
                 'error': 'Status inválido'
-            })
+            }, status=400)
             
         except Exception as e:
             return JsonResponse({
                 'success': False,
                 'error': str(e)
-            })
+            }, status=500)
     
     return JsonResponse({
         'success': False,
         'error': 'Método não permitido'
-    })
+    }, status=405)
+
+@login_required
+def atualizar_status_tarefa_grupo(request, tarefa_id):
+    if request.method == 'POST':
+        try:
+            # Log de depuração detalhado
+            logger.info(f"Recebida solicitação de atualização de status para tarefa {tarefa_id}")
+            logger.info(f"Corpo da requisição: {request.body}")
+            logger.info(f"Tipo de conteúdo: {request.content_type}")
+            logger.info(f"Método: {request.method}")
+            
+            # Tentar parse do JSON com tratamento de erro
+            try:
+                data = json.loads(request.body)
+            except json.JSONDecodeError as e:
+                logger.error(f"Erro ao decodificar JSON: {e}")
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Formato de dados inválido'
+                }, status=400)
+            
+            novo_status = data.get('status')
+            
+            # Log de depuração
+            logger.info(f"Novo status solicitado: {novo_status}")
+            
+            # Verificar se a tarefa existe
+            try:
+                tarefa = TarefaGrupo.objects.get(id=tarefa_id)
+            except TarefaGrupo.DoesNotExist:
+                logger.error(f"Tarefa com ID {tarefa_id} não encontrada")
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Tarefa não encontrada'
+                }, status=404)
+            
+            # Verificar permissão
+            if not (request.user == tarefa.criado_por or 
+                    request.user == tarefa.responsavel_principal or 
+                    (tarefa.grupo and request.user in tarefa.grupo.membros.all())):
+                logger.warning(f"Usuário {request.user} sem permissão para atualizar tarefa {tarefa_id}")
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Sem permissão para atualizar esta tarefa'
+                }, status=403)
+            
+            # Mapeamento de status para garantir consistência
+            status_map = {
+                'a_fazer': 'a_fazer',
+                'em_andamento': 'em_andamento',
+                'concluido': 'concluido',
+                'aguardando_feedback': 'aguardando_feedback'
+            }
+            
+            # Validar e definir o status
+            if novo_status in status_map:
+                status_anterior = tarefa.status
+                tarefa.status = status_map[novo_status]
+                
+                # Log de depuração
+                logger.info(f"Status anterior: {status_anterior}, Novo status: {tarefa.status}")
+                
+                # Registrar mudança de status
+                tarefa.registrar_mudanca_status(status_anterior, novo_status, request.user)
+                
+                try:
+                    tarefa.save()
+                except Exception as save_error:
+                    logger.error(f"Erro ao salvar tarefa: {save_error}")
+                    return JsonResponse({
+                        'success': False,
+                        'error': 'Erro ao salvar a tarefa'
+                    }, status=500)
+                
+                # Log de depuração
+                logger.info(f"Tarefa {tarefa_id} atualizada com sucesso")
+                
+                return JsonResponse({
+                    'success': True,
+                    'status': tarefa.status,
+                    'message': 'Status da tarefa atualizado com sucesso'
+                })
+            
+            # Log de depuração
+            logger.warning(f"Status inválido: {novo_status}")
+            
+            return JsonResponse({
+                'success': False,
+                'error': 'Status inválido'
+            }, status=400)
+            
+        except Exception as e:
+            # Log de depuração
+            logger.error(f"Erro ao atualizar status da tarefa {tarefa_id}: {str(e)}")
+            
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            }, status=500)
+    
+    # Log de depuração
+    logger.warning("Método não permitido para atualização de status")
+    
+    return JsonResponse({
+        'success': False,
+        'error': 'Método não permitido'
+    }, status=405)
 
 @login_required
 def adicionar_comentario(request, tarefa_id):

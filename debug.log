@@ -1,0 +1,770 @@
+INFO 2025-09-25 16:30:47,938 autoreload 28200 28468 Watching for file changes with StatReloader
+INFO 2025-09-25 16:30:53,855 basehttp 28200 3916 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 20414
+INFO 2025-09-25 16:30:54,683 basehttp 28200 27112 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:30:54,701 basehttp 28200 27112 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:30:55,523 basehttp 28200 27112 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:30:56,728 basehttp 28200 27112 "GET / HTTP/1.1" 200 12464
+INFO 2025-09-25 16:30:57,327 basehttp 28200 27112 "GET / HTTP/1.1" 200 12464
+INFO 2025-09-25 16:30:57,340 basehttp 28200 27112 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:30:57,870 basehttp 28200 27112 "GET / HTTP/1.1" 200 12464
+INFO 2025-09-25 16:30:58,335 basehttp 28200 27112 "GET / HTTP/1.1" 200 12464
+INFO 2025-09-25 16:31:01,838 basehttp 28200 23924 "GET / HTTP/1.1" 200 12464
+INFO 2025-09-25 16:31:01,859 basehttp 28200 23924 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:31:02,394 basehttp 28200 23924 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:06,332 basehttp 28200 23924 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 20414
+INFO 2025-09-25 16:31:07,382 basehttp 28200 23924 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:07,397 basehttp 28200 23924 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:31:08,705 basehttp 28200 23924 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:08,971 basehttp 28200 23924 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,165 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,298 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,479 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,642 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,784 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:09,951 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:10,097 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:10,234 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:31:10,395 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+WARNING 2025-09-25 16:31:11,826 log 28200 29540 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:31:11,827 basehttp 28200 29540 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:31:13,815 basehttp 28200 29540 "GET /tarefas/ HTTP/1.1" 200 64392
+WARNING 2025-09-25 16:31:13,849 log 28200 29540 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:31:13,852 basehttp 28200 29540 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:31:13,994 basehttp 28200 13236 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 16:31:13,998 basehttp 28200 27416 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 16:31:14,001 basehttp 28200 1424 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-25 16:31:14,003 basehttp 28200 1164 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-25 16:31:14,004 basehttp 28200 4900 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+WARNING 2025-09-25 16:31:14,070 log 28200 4900 Not Found: /favicon.ico
+WARNING 2025-09-25 16:31:14,071 basehttp 28200 4900 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-25 16:31:15,800 autoreload 28200 28468 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\produtiva\settings.py changed, reloading.
+INFO 2025-09-25 16:31:16,736 autoreload 20264 27632 Watching for file changes with StatReloader
+INFO 2025-09-25 16:33:00,023 basehttp 20264 14536 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:00,225 basehttp 20264 14536 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+INFO 2025-09-25 16:33:00,951 basehttp 20264 14536 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:04,985 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:07,572 basehttp 20264 31532 "POST /tarefas/criar/ HTTP/1.1" 200 221
+INFO 2025-09-25 16:33:08,581 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:09,931 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:09,948 basehttp 20264 31532 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:33:10,230 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:10,450 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:11,331 basehttp 20264 31532 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:33:12,947 basehttp 20264 31532 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:17,875 basehttp 20264 25176 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 20414
+INFO 2025-09-25 16:33:18,729 basehttp 20264 25176 "GET /tarefas/? HTTP/1.1" 200 20414
+INFO 2025-09-25 16:33:19,948 basehttp 20264 25176 "GET /tarefas/ HTTP/1.1" 200 64392
+INFO 2025-09-25 16:33:19,962 basehttp 20264 25176 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:35:08,260 autoreload 20264 27632 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-25 16:35:09,857 autoreload 31484 16948 Watching for file changes with StatReloader
+INFO 2025-09-25 16:36:33,284 autoreload 26916 24476 Watching for file changes with StatReloader
+INFO 2025-09-25 16:36:35,540 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:35,692 basehttp 26916 30724 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-25 16:36:38,735 log 26916 30724 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:36:38,736 basehttp 26916 30724 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 16:36:40,786 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:41,485 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:41,931 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:42,238 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:42,596 basehttp 26916 30724 "GET /tarefas/ HTTP/1.1" 200 84270
+WARNING 2025-09-25 16:36:46,383 log 26916 28292 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:36:46,384 basehttp 26916 28292 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-25 16:36:48,716 log 26916 28292 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:36:48,717 basehttp 26916 28292 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:36:50,313 basehttp 26916 28292 "GET /tarefas/ HTTP/1.1" 200 84270
+WARNING 2025-09-25 16:36:50,355 log 26916 26432 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:36:50,356 basehttp 26916 26432 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:36:50,687 basehttp 26916 25576 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-25 16:36:50,706 basehttp 26916 25140 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+INFO 2025-09-25 16:36:50,713 basehttp 26916 28292 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 16:36:50,716 basehttp 26916 18964 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-25 16:36:50,717 basehttp 26916 30936 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 16:36:53,069 basehttp 26916 30936 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:36:57,286 basehttp 26916 31508 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:37:00,939 basehttp 26916 480 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:37:01,071 basehttp 26916 480 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+INFO 2025-09-25 16:37:01,122 basehttp 26916 2884 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+WARNING 2025-09-25 16:37:03,032 log 26916 480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:37:03,034 basehttp 26916 480 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:37:05,351 basehttp 26916 480 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:37:05,399 basehttp 26916 30848 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+WARNING 2025-09-25 16:37:05,407 log 26916 480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-25 16:37:05,408 basehttp 26916 12032 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 16:37:05,409 basehttp 26916 21840 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-25 16:37:05,410 basehttp 26916 480 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:37:05,411 basehttp 26916 31456 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+INFO 2025-09-25 16:37:05,412 basehttp 26916 31220 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-25 16:37:05,420 basehttp 26916 2884 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+INFO 2025-09-25 16:37:08,456 basehttp 26916 24180 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:09,084 basehttp 26916 24180 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:24,376 basehttp 26916 24584 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:37:28,526 basehttp 26916 24584 "GET /tarefas/ HTTP/1.1" 200 84270
+WARNING 2025-09-25 16:37:36,774 log 26916 24584 Not Found: /favicon.ico
+WARNING 2025-09-25 16:37:36,778 basehttp 26916 24584 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-25 16:37:41,447 log 26916 24584 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:37:41,447 basehttp 26916 24584 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 16:37:43,823 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:43,846 basehttp 26916 24584 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:37:43,869 basehttp 26916 31332 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-25 16:37:44,391 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:44,557 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:44,703 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:44,851 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:44,996 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:45,141 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:45,279 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:45,435 basehttp 26916 24584 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:37:45,763 basehttp 26916 24584 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-25 16:37:45,787 basehttp 26916 24584 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-25 16:37:45,801 basehttp 26916 24584 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-25 16:37:45,802 basehttp 26916 30100 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-25 16:37:45,803 basehttp 26916 30936 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-25 16:37:45,809 basehttp 26916 31332 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-25 16:38:22,208 basehttp 26916 31272 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-25 16:38:22,279 basehttp 26916 31272 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-25 16:38:22,558 log 26916 31272 Not Found: /favicon.ico
+WARNING 2025-09-25 16:38:22,559 basehttp 26916 31272 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-25 16:38:23,831 basehttp 26916 31272 "GET /tarefas/ HTTP/1.1" 200 84270
+WARNING 2025-09-25 16:38:30,752 log 26916 516 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:38:30,754 basehttp 26916 516 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-25 16:38:34,279 log 26916 516 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:38:34,280 basehttp 26916 516 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:38:35,821 basehttp 26916 516 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:38:35,854 basehttp 26916 516 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 16:38:35,858 basehttp 26916 7048 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-25 16:38:35,860 basehttp 26916 21764 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 16:38:35,867 basehttp 26916 24568 "GET /static/core/js/main.js HTTP/1.1" 200 4829
+WARNING 2025-09-25 16:38:35,874 log 26916 4492 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:38:35,876 basehttp 26916 4492 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:38:35,877 basehttp 26916 24208 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-25 16:38:35,978 log 26916 24208 Not Found: /favicon.ico
+WARNING 2025-09-25 16:38:35,979 basehttp 26916 24208 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-25 16:38:39,927 log 26916 11460 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:38:39,928 basehttp 26916 11460 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 16:49:24,490 basehttp 26916 27084 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:49:24,574 basehttp 26916 27084 "GET /static/core/js/main.js HTTP/1.1" 200 4830
+WARNING 2025-09-25 16:49:26,488 log 26916 27084 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:49:26,489 basehttp 26916 27084 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:49:27,906 basehttp 26916 27084 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:49:27,938 basehttp 26916 22820 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 16:49:27,945 basehttp 26916 29852 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-25 16:49:27,947 log 26916 27084 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-25 16:49:27,947 basehttp 26916 28412 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 16:49:27,947 basehttp 26916 23896 "GET /static/core/js/main.js HTTP/1.1" 200 4830
+WARNING 2025-09-25 16:49:27,949 basehttp 26916 27084 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 16:49:27,951 basehttp 26916 28716 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-25 16:49:28,032 log 26916 28716 Not Found: /favicon.ico
+WARNING 2025-09-25 16:49:28,033 basehttp 26916 28716 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-25 16:49:33,397 log 26916 18148 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 16:49:33,397 basehttp 26916 18148 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 16:49:35,170 basehttp 26916 18148 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 16:49:35,187 basehttp 26916 18148 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-25 16:49:37,438 log 26916 18148 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 16:49:37,439 basehttp 26916 18148 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 17:28:42,041 basehttp 26916 7088 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 17:28:42,101 basehttp 26916 7088 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-25 17:28:45,566 log 26916 7088 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 17:28:45,567 basehttp 26916 7088 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 17:36:33,918 autoreload 26916 24476 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\models\tarefa.py changed, reloading.
+INFO 2025-09-25 17:36:35,931 autoreload 30608 30968 Watching for file changes with StatReloader
+INFO 2025-09-25 17:36:58,348 autoreload 30608 30968 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\models\tarefa.py changed, reloading.
+INFO 2025-09-25 17:36:59,009 autoreload 29272 33528 Watching for file changes with StatReloader
+INFO 2025-09-25 17:37:01,017 basehttp 29272 26528 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 17:37:01,130 basehttp 29272 26528 "GET /static/core/js/main.js HTTP/1.1" 200 6633
+WARNING 2025-09-25 17:37:03,497 log 29272 26528 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 17:37:03,498 basehttp 29272 26528 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 17:37:04,822 basehttp 29272 26528 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 17:37:04,863 basehttp 29272 26232 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 17:37:04,865 basehttp 29272 19492 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 17:37:04,867 basehttp 29272 32248 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-25 17:37:04,868 basehttp 29272 26560 "GET /static/core/js/main.js HTTP/1.1" 200 6633
+WARNING 2025-09-25 17:37:04,872 log 29272 26528 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 17:37:04,874 basehttp 29272 26528 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 17:37:04,875 basehttp 29272 12604 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-25 17:37:04,977 log 29272 12604 Not Found: /favicon.ico
+WARNING 2025-09-25 17:37:04,977 basehttp 29272 12604 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-25 17:37:08,212 log 29272 26436 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 17:37:08,213 basehttp 29272 26436 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-25 17:38:06,926 autoreload 29272 33528 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-25 17:38:08,407 autoreload 4196 30572 Watching for file changes with StatReloader
+INFO 2025-09-25 17:38:17,613 autoreload 4196 30572 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-25 17:38:18,653 autoreload 22556 15212 Watching for file changes with StatReloader
+INFO 2025-09-25 17:38:36,061 autoreload 22556 15212 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-25 17:38:36,709 autoreload 26812 20784 Watching for file changes with StatReloader
+INFO 2025-09-25 17:38:45,263 basehttp 26812 27912 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 17:38:45,475 basehttp 26812 27912 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-25 17:38:48,247 log 26812 27912 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 17:38:48,247 basehttp 26812 27912 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-25 17:38:50,551 log 26812 27912 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 17:38:50,552 basehttp 26812 27912 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 17:38:51,954 basehttp 26812 27912 "GET /tarefas/ HTTP/1.1" 200 84270
+INFO 2025-09-25 17:38:51,984 basehttp 26812 27912 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-25 17:38:51,984 basehttp 26812 1644 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-25 17:38:51,988 basehttp 26812 5592 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-25 17:38:51,991 basehttp 26812 2568 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-25 17:38:51,994 log 26812 22552 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-25 17:38:51,995 basehttp 26812 22552 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-25 17:38:51,996 basehttp 26812 14352 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-25 17:38:52,097 log 26812 22552 Not Found: /favicon.ico
+WARNING 2025-09-25 17:38:52,098 basehttp 26812 22552 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-25 17:38:57,079 log 26812 8164 Not Found: /tarefas/2/status/
+WARNING 2025-09-25 17:38:57,079 basehttp 26812 8164 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 12:52:04,945 autoreload 23268 13020 Watching for file changes with StatReloader
+INFO 2025-09-26 12:52:09,385 basehttp 23268 13692 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:09,528 basehttp 23268 13692 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 12:52:09,535 basehttp 23268 13692 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 12:52:09,536 basehttp 23268 21036 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 12:52:09,541 basehttp 23268 21036 "GET /static/core/js/main.js HTTP/1.1" 200 8887
+INFO 2025-09-26 12:52:09,543 basehttp 23268 13692 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 12:52:09,857 log 23268 13692 Not Found: /favicon.ico
+WARNING 2025-09-26 12:52:09,857 basehttp 23268 13692 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 12:52:11,611 basehttp 23268 13692 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:15,599 basehttp 23268 13692 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:15,619 basehttp 23268 13692 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:52:15,837 basehttp 23268 13692 "GET /tarefas/ HTTP/1.1" 200 85374
+WARNING 2025-09-26 12:52:18,763 log 23268 13692 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 12:52:18,765 basehttp 23268 13692 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 12:52:22,455 basehttp 23268 27916 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:22,491 basehttp 23268 27916 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 12:52:22,494 basehttp 23268 14656 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 12:52:22,498 basehttp 23268 20640 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 12:52:22,503 log 23268 25684 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 12:52:22,504 basehttp 23268 4032 "GET /static/core/js/main.js HTTP/1.1" 200 8887
+WARNING 2025-09-26 12:52:22,504 basehttp 23268 25684 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 12:52:22,506 basehttp 23268 22136 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 12:52:22,690 log 23268 22136 Not Found: /favicon.ico
+WARNING 2025-09-26 12:52:22,691 basehttp 23268 22136 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 12:52:29,556 basehttp 23268 31732 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:34,801 basehttp 23268 31732 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:34,811 basehttp 23268 31732 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:52:43,239 basehttp 23268 29084 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:43,254 basehttp 23268 29084 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:52:48,883 basehttp 23268 29084 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:49,501 basehttp 23268 26724 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:50,139 basehttp 23268 26724 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:50,419 basehttp 23268 26724 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:50,650 basehttp 23268 26724 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:50,855 basehttp 23268 26724 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:51,036 basehttp 23268 26724 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 12:52:51,060 basehttp 23268 26724 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 12:52:51,062 basehttp 23268 27892 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 12:52:51,064 basehttp 23268 27704 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 12:52:51,065 basehttp 23268 4512 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 12:52:51,944 basehttp 23268 4512 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:52,678 basehttp 23268 4512 "GET /financas/ HTTP/1.1" 200 59585
+INFO 2025-09-26 12:52:53,059 basehttp 23268 4512 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 12:52:54,188 basehttp 23268 4512 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:54,207 basehttp 23268 4512 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:52:55,105 basehttp 23268 4512 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:55,728 basehttp 23268 4512 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:55,969 basehttp 23268 4512 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:56,151 basehttp 23268 4512 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:52:56,543 basehttp 23268 4512 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:52:58,870 basehttp 23268 4512 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:53:04,091 basehttp 23268 25660 "GET /tarefas/ HTTP/1.1" 200 85374
+INFO 2025-09-26 12:53:10,475 autoreload 23268 13020 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\models\tarefa.py changed, reloading.
+INFO 2025-09-26 12:53:11,366 autoreload 9272 27752 Watching for file changes with StatReloader
+INFO 2025-09-26 12:53:19,857 autoreload 9272 27752 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 12:53:20,549 autoreload 22080 3316 Watching for file changes with StatReloader
+INFO 2025-09-26 12:53:28,364 basehttp 22080 1528 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:28,417 basehttp 22080 1528 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 12:53:33,651 log 22080 1528 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 12:53:33,652 basehttp 22080 1528 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 12:53:34,233 basehttp 22080 1528 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:34,251 basehttp 22080 1528 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:53:36,167 basehttp 22080 1528 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:36,178 basehttp 22080 1528 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 12:53:37,420 log 22080 1528 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 12:53:37,422 basehttp 22080 1528 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 12:53:38,854 basehttp 22080 1528 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:38,884 basehttp 22080 1528 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 12:53:38,885 basehttp 22080 27404 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 12:53:38,886 basehttp 22080 28236 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 12:53:38,887 basehttp 22080 22032 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 12:53:38,896 log 22080 20988 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 12:53:38,897 basehttp 22080 20988 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 12:53:38,898 basehttp 22080 17100 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 12:53:38,989 log 22080 17100 Not Found: /favicon.ico
+WARNING 2025-09-26 12:53:38,990 basehttp 22080 17100 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 12:53:47,678 basehttp 22080 6280 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:47,716 basehttp 22080 31400 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 12:53:47,720 log 22080 6280 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 12:53:47,721 basehttp 22080 16112 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 12:53:47,722 basehttp 22080 28292 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 12:53:47,723 basehttp 22080 6280 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 12:53:47,724 basehttp 22080 26716 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 12:53:47,727 basehttp 22080 31688 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 12:53:47,802 log 22080 31688 Not Found: /favicon.ico
+WARNING 2025-09-26 12:53:47,803 basehttp 22080 31688 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 12:53:50,617 basehttp 22080 31688 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 12:53:50,644 basehttp 22080 26716 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 12:53:50,644 basehttp 22080 31688 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 12:53:50,645 basehttp 22080 6280 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 12:53:50,646 basehttp 22080 28292 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 12:53:51,300 basehttp 22080 28292 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:53:51,319 basehttp 22080 28292 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 12:53:51,694 basehttp 22080 28292 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 12:53:56,651 basehttp 22080 28292 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 12:53:56,672 basehttp 22080 28292 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:03:35,131 autoreload 22080 3316 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:03:36,037 autoreload 28216 532 Watching for file changes with StatReloader
+INFO 2025-09-26 13:03:51,939 autoreload 28216 532 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:03:52,437 autoreload 11768 28024 Watching for file changes with StatReloader
+INFO 2025-09-26 13:03:56,879 basehttp 11768 23556 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:03:56,982 basehttp 11768 23556 "GET /static/core/js/main.js HTTP/1.1" 200 8249
+INFO 2025-09-26 13:03:57,652 basehttp 11768 23556 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:03:57,829 basehttp 11768 23556 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:03:57,992 basehttp 11768 23556 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:03:58,146 basehttp 11768 23556 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:04:00,542 log 11768 13844 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:04:00,543 basehttp 11768 13844 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:04:02,168 basehttp 11768 13844 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:04:02,182 basehttp 11768 13844 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 13:04:08,510 log 11768 13844 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:04:08,510 basehttp 11768 13844 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:04:10,487 basehttp 11768 26984 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:04:10,497 basehttp 11768 26984 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:04:11,351 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:11,633 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:11,834 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:11,985 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:12,142 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:12,298 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:12,442 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:12,609 basehttp 11768 26984 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:04:13,011 basehttp 11768 26984 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:04:14,292 basehttp 11768 26984 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 31308
+WARNING 2025-09-26 13:04:15,304 log 11768 26984 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:04:15,308 log 11768 29384 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:04:15,309 basehttp 11768 26984 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:04:15,310 basehttp 11768 29384 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:05:53,252 basehttp 11768 21112 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:05:53,273 basehttp 11768 21112 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:05:53,889 basehttp 11768 21112 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:05:54,114 basehttp 11768 21112 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:05:54,279 basehttp 11768 21112 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:05:54,428 basehttp 11768 21112 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:08:16,941 autoreload 11768 28024 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:08:17,988 autoreload 13684 17700 Watching for file changes with StatReloader
+INFO 2025-09-26 13:08:20,869 basehttp 13684 3260 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:08:20,898 basehttp 13684 3260 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 13:08:22,471 log 13684 3260 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:08:22,472 basehttp 13684 3260 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:08:24,208 basehttp 13684 3260 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:08:24,256 log 13684 3260 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:08:24,258 basehttp 13684 3260 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:08:24,565 basehttp 13684 29632 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:08:24,571 basehttp 13684 1976 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-26 13:08:24,589 basehttp 13684 29252 "GET /static/core/js/main.js HTTP/1.1" 200 8249
+INFO 2025-09-26 13:08:24,598 basehttp 13684 3268 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:08:24,604 basehttp 13684 22636 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 13:08:24,700 log 13684 22636 Not Found: /favicon.ico
+WARNING 2025-09-26 13:08:24,701 basehttp 13684 22636 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:08:27,308 basehttp 13684 21648 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 31308
+WARNING 2025-09-26 13:08:28,228 log 13684 13392 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:08:28,229 basehttp 13684 13392 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:08:28,233 log 13684 21648 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:08:28,234 basehttp 13684 21648 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:09:30,801 autoreload 20832 14700 Watching for file changes with StatReloader
+INFO 2025-09-26 13:09:33,370 basehttp 20832 23440 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:09:33,436 basehttp 20832 23440 "GET /static/core/js/main.js HTTP/1.1" 200 8372
+INFO 2025-09-26 13:09:34,119 basehttp 20832 23440 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:09:34,135 basehttp 20832 23440 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 13:09:35,988 log 20832 23440 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:09:35,989 basehttp 20832 23440 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:09:38,182 log 20832 23440 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:09:38,184 basehttp 20832 23440 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:09:40,252 basehttp 20832 23440 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:09:40,292 basehttp 20832 29080 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:09:40,293 basehttp 20832 23440 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:09:40,294 basehttp 20832 30752 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:09:40,296 basehttp 20832 23592 "GET /static/core/js/main.js HTTP/1.1" 200 8372
+WARNING 2025-09-26 13:09:40,306 log 20832 29372 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:09:40,307 basehttp 20832 29372 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:09:40,308 basehttp 20832 2340 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:09:40,388 log 20832 29372 Not Found: /favicon.ico
+WARNING 2025-09-26 13:09:40,389 basehttp 20832 29372 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:09:45,406 log 20832 6160 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:09:45,407 basehttp 20832 6160 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:09:57,884 basehttp 20832 2580 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 31308
+WARNING 2025-09-26 13:09:59,242 log 20832 2580 Not Found: /tarefas/4/status/
+WARNING 2025-09-26 13:09:59,243 basehttp 20832 2580 "POST /tarefas/4/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:09:59,246 log 20832 27464 Not Found: /tarefas/4/status/
+WARNING 2025-09-26 13:09:59,247 basehttp 20832 27464 "POST /tarefas/4/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:10:01,708 log 20832 28008 Not Found: /tarefas/4/status/
+WARNING 2025-09-26 13:10:01,709 log 20832 29536 Not Found: /tarefas/4/status/
+WARNING 2025-09-26 13:10:01,710 basehttp 20832 28008 "POST /tarefas/4/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:10:01,710 basehttp 20832 29536 "POST /tarefas/4/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:11:01,915 autoreload 20832 14700 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:11:02,621 autoreload 19516 22888 Watching for file changes with StatReloader
+INFO 2025-09-26 13:11:04,920 autoreload 19516 22888 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:11:05,461 autoreload 23192 29432 Watching for file changes with StatReloader
+INFO 2025-09-26 13:11:39,161 basehttp 23192 1968 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:11:39,310 basehttp 23192 1968 "GET /static/core/js/main.js HTTP/1.1" 200 8648
+INFO 2025-09-26 13:11:39,920 basehttp 23192 1968 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:11:39,942 basehttp 23192 1968 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 13:11:42,272 log 23192 21888 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:11:42,273 basehttp 23192 21888 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:11:44,699 log 23192 21888 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:11:44,700 basehttp 23192 21888 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:11:46,188 basehttp 23192 21888 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:11:46,220 basehttp 23192 6160 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:11:46,221 basehttp 23192 4344 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:11:46,221 basehttp 23192 21888 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:11:46,225 basehttp 23192 23164 "GET /static/core/js/main.js HTTP/1.1" 200 8648
+WARNING 2025-09-26 13:11:46,233 log 23192 20704 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:11:46,234 basehttp 23192 31324 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:11:46,235 basehttp 23192 20704 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 13:11:46,322 log 23192 20704 Not Found: /favicon.ico
+WARNING 2025-09-26 13:11:46,323 basehttp 23192 20704 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:11:48,550 log 23192 20704 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:11:48,551 basehttp 23192 20704 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:11:50,560 log 23192 20704 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:11:50,561 basehttp 23192 20704 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:15:32,292 autoreload 23192 29432 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:15:33,260 autoreload 16396 14300 Watching for file changes with StatReloader
+INFO 2025-09-26 13:16:23,083 autoreload 16396 14300 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:16:23,741 autoreload 31544 19100 Watching for file changes with StatReloader
+INFO 2025-09-26 13:17:26,853 basehttp 31544 29160 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:17:27,108 basehttp 31544 29160 "GET /static/core/js/main.js HTTP/1.1" 200 8710
+INFO 2025-09-26 13:17:27,672 basehttp 31544 29160 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:17:31,037 log 31544 29160 Not Found: /tarefas/3/atualizar_status/
+WARNING 2025-09-26 13:17:31,038 basehttp 31544 29160 "POST /tarefas/3/atualizar_status/ HTTP/1.1" 404 9632
+INFO 2025-09-26 13:17:32,483 basehttp 31544 28608 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:17:34,091 log 31544 28608 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:17:34,092 basehttp 31544 28608 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:17:36,578 basehttp 31544 28608 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:17:36,618 basehttp 31544 22168 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:17:36,620 basehttp 31544 27012 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 13:17:36,626 log 31544 28608 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:17:36,627 basehttp 31544 3168 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 13:17:36,628 basehttp 31544 28608 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:17:36,628 basehttp 31544 19868 "GET /static/core/js/main.js HTTP/1.1" 200 8710
+INFO 2025-09-26 13:17:36,631 basehttp 31544 18992 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:17:36,823 log 31544 18992 Not Found: /favicon.ico
+WARNING 2025-09-26 13:17:36,825 basehttp 31544 18992 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:17:45,418 log 31544 2204 Not Found: /tarefas/2/atualizar_status/
+WARNING 2025-09-26 13:17:45,419 basehttp 31544 2204 "POST /tarefas/2/atualizar_status/ HTTP/1.1" 404 9632
+INFO 2025-09-26 13:17:47,635 basehttp 31544 2204 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:20:16,113 basehttp 31544 21948 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:20:16,225 basehttp 31544 21948 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 13:20:20,205 log 31544 17228 Not Found: /tarefas/3/atualizar_status/
+WARNING 2025-09-26 13:20:20,206 basehttp 31544 17228 "POST /tarefas/3/atualizar_status/ HTTP/1.1" 404 9632
+INFO 2025-09-26 13:20:22,703 basehttp 31544 17228 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:20:36,440 autoreload 31544 19100 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:20:37,545 autoreload 22216 28336 Watching for file changes with StatReloader
+INFO 2025-09-26 13:20:55,814 autoreload 22216 28336 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:20:56,562 autoreload 31452 1596 Watching for file changes with StatReloader
+INFO 2025-09-26 13:21:14,258 basehttp 31452 11704 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:21:14,413 basehttp 31452 11704 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:21:15,114 basehttp 31452 11704 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:21:29,784 log 31452 5940 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:21:29,785 basehttp 31452 5940 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:23:27,807 log 31452 2444 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:23:27,812 basehttp 31452 2444 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:25:41,391 autoreload 31452 1596 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:25:43,537 autoreload 27980 8456 Watching for file changes with StatReloader
+INFO 2025-09-26 13:25:52,704 autoreload 27980 8456 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:25:53,677 autoreload 29408 31516 Watching for file changes with StatReloader
+INFO 2025-09-26 13:26:09,801 autoreload 29408 31516 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefas.py changed, reloading.
+INFO 2025-09-26 13:26:10,857 autoreload 20636 17960 Watching for file changes with StatReloader
+INFO 2025-09-26 13:26:15,799 basehttp 20636 25672 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:26:15,877 basehttp 20636 25672 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:26:16,687 basehttp 20636 25672 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:26:16,909 basehttp 20636 25672 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:26:17,020 basehttp 20636 25672 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:26:17,161 basehttp 20636 25672 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:26:19,223 log 20636 20392 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:26:19,224 basehttp 20636 20392 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:26:21,056 log 20636 20392 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:26:21,057 basehttp 20636 20392 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:26:25,231 log 20636 20392 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:25,232 basehttp 20636 20392 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:26,064 basehttp 20636 20392 "GET / HTTP/1.1" 200 13878
+WARNING 2025-09-26 13:26:26,119 log 20636 20392 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:26,124 basehttp 20636 20392 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:26,485 basehttp 20636 29480 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:26:26,493 basehttp 20636 22476 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:26:26,498 basehttp 20636 15316 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:26:26,500 basehttp 20636 19320 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-26 13:26:26,507 basehttp 20636 29900 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:26:27,549 basehttp 20636 29900 "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-09-26 13:26:27,559 basehttp 20636 29900 "GET /login/ HTTP/1.1" 200 5344
+WARNING 2025-09-26 13:26:27,624 log 20636 29900 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:27,625 basehttp 20636 29900 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:29,612 basehttp 20636 29900 "GET /login/ HTTP/1.1" 200 5344
+WARNING 2025-09-26 13:26:29,658 log 20636 29900 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:26:29,660 basehttp 20636 13596 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+WARNING 2025-09-26 13:26:29,662 basehttp 20636 29900 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:29,665 basehttp 20636 20264 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:26:29,666 basehttp 20636 26996 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:26:29,667 basehttp 20636 17452 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:26:29,669 basehttp 20636 27688 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:26:29,746 log 20636 17452 Not Found: /favicon.ico
+WARNING 2025-09-26 13:26:29,747 basehttp 20636 17452 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:26:30,699 basehttp 20636 17452 "GET /login/ HTTP/1.1" 200 5344
+INFO 2025-09-26 13:26:30,732 basehttp 20636 20264 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:26:30,734 basehttp 20636 26996 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:26:30,734 basehttp 20636 27688 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:26:30,737 basehttp 20636 13596 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 13:26:30,741 log 20636 17452 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:30,743 basehttp 20636 17452 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:30,745 basehttp 20636 29900 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:26:30,790 log 20636 29900 Not Found: /favicon.ico
+WARNING 2025-09-26 13:26:30,791 basehttp 20636 29900 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:26:32,016 basehttp 20636 29900 "GET /login/ HTTP/1.1" 200 5344
+INFO 2025-09-26 13:26:32,048 basehttp 20636 13596 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:26:32,048 basehttp 20636 17452 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+WARNING 2025-09-26 13:26:32,053 log 20636 29900 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:26:32,053 basehttp 20636 26996 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:26:32,054 basehttp 20636 20264 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 13:26:32,055 basehttp 20636 29900 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:32,057 basehttp 20636 27688 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:26:32,113 log 20636 29900 Not Found: /favicon.ico
+WARNING 2025-09-26 13:26:32,114 basehttp 20636 29900 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:26:32,957 basehttp 20636 29900 "POST /login/ HTTP/1.1" 302 0
+INFO 2025-09-26 13:26:32,981 basehttp 20636 29900 "GET / HTTP/1.1" 200 13878
+WARNING 2025-09-26 13:26:33,038 log 20636 29900 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:33,039 basehttp 20636 29900 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:26:34,102 basehttp 20636 29900 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:26:34,155 log 20636 29900 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:26:34,157 basehttp 20636 29900 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 13:26:36,762 log 20636 29900 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:26:36,763 basehttp 20636 29900 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:27:18,212 log 20636 13240 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:27:18,215 basehttp 20636 13240 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:27:20,300 basehttp 20636 13240 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:27:20,360 log 20636 13240 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:27:20,361 basehttp 20636 13240 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:27:20,373 basehttp 20636 13240 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:27:20,374 basehttp 20636 4028 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:27:20,375 basehttp 20636 25896 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:27:20,376 basehttp 20636 15676 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:27:20,378 basehttp 20636 29560 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:27:20,540 log 20636 29560 Not Found: /favicon.ico
+WARNING 2025-09-26 13:27:20,541 basehttp 20636 29560 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:27:28,487 basehttp 20636 29640 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:27:28,551 basehttp 20636 29640 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:27:28,576 basehttp 20636 29640 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:27:28,580 basehttp 20636 27980 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:27:28,583 basehttp 20636 30132 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:27:28,583 basehttp 20636 27372 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:27:28,782 log 20636 27372 Not Found: /favicon.ico
+WARNING 2025-09-26 13:27:28,783 basehttp 20636 27372 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:27:31,317 log 20636 27372 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:27:31,317 basehttp 20636 27372 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:27:32,767 basehttp 20636 27372 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:27:32,802 basehttp 20636 30132 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+WARNING 2025-09-26 13:27:32,807 log 20636 27372 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:27:32,808 basehttp 20636 29640 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 13:27:32,809 basehttp 20636 27372 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:27:32,810 basehttp 20636 27980 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:27:32,811 basehttp 20636 28572 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:27:32,812 basehttp 20636 5848 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:27:32,908 log 20636 28572 Not Found: /favicon.ico
+WARNING 2025-09-26 13:27:32,909 basehttp 20636 28572 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 13:27:35,053 basehttp 20636 28572 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:27:38,028 log 20636 25732 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:27:38,028 basehttp 20636 25732 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:30:30,629 basehttp 20636 7496 "GET /tarefas/ HTTP/1.1" 200 85378
+INFO 2025-09-26 13:30:30,728 basehttp 20636 2796 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:30:30,730 basehttp 20636 13548 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:30:30,731 basehttp 20636 17940 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 13:30:30,735 log 20636 7496 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:30:30,736 basehttp 20636 8648 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 13:30:30,736 basehttp 20636 7496 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:30:30,738 basehttp 20636 30492 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:30:30,940 log 20636 7496 Not Found: /favicon.ico
+WARNING 2025-09-26 13:30:30,942 basehttp 20636 7496 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:30:32,958 log 20636 7496 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:30:32,959 basehttp 20636 7496 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:30:37,449 basehttp 20636 7496 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:30:38,051 basehttp 20636 12936 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 13:30:38,083 basehttp 20636 12936 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 13:30:38,084 basehttp 20636 1808 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 13:30:38,085 basehttp 20636 11712 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 13:30:38,085 basehttp 20636 20516 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 13:30:38,500 basehttp 20636 20516 "GET / HTTP/1.1" 200 13878
+INFO 2025-09-26 13:30:38,982 basehttp 20636 20516 "GET /tarefas/ HTTP/1.1" 200 85378
+WARNING 2025-09-26 13:30:43,274 log 20636 20516 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:30:43,274 basehttp 20636 20516 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:30:46,346 log 20636 20516 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 13:30:46,347 basehttp 20636 20516 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:30:52,700 basehttp 20636 29152 "POST /tarefas/criar/ HTTP/1.1" 200 216
+INFO 2025-09-26 13:30:53,826 basehttp 20636 29152 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:31:02,605 log 20636 976 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:31:02,605 basehttp 20636 976 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:31:40,041 log 20636 11800 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:31:40,042 basehttp 20636 11800 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 13:31:48,812 log 20636 12956 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:31:48,812 basehttp 20636 12956 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:32:17,770 log 20636 27548 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:32:17,771 basehttp 20636 27548 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:33:26,396 basehttp 20636 24336 "GET / HTTP/1.1" 200 15169
+INFO 2025-09-26 13:33:26,454 basehttp 20636 24336 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:33:59,846 basehttp 20636 13984 "GET / HTTP/1.1" 200 15169
+INFO 2025-09-26 13:34:01,004 basehttp 20636 13984 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:34:02,829 log 20636 13984 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:34:02,829 basehttp 20636 13984 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:34:04,336 basehttp 20636 13984 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:34:04,365 log 20636 13984 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:34:04,371 basehttp 20636 13984 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:34:04,379 basehttp 20636 21148 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:34:04,380 basehttp 20636 12596 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 13:34:04,381 basehttp 20636 23096 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 13:34:04,383 basehttp 20636 2808 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:34:04,384 basehttp 20636 14684 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:34:04,501 log 20636 2808 Not Found: /favicon.ico
+WARNING 2025-09-26 13:34:04,502 basehttp 20636 2808 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:34:09,566 log 20636 29224 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 13:34:09,566 basehttp 20636 29224 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:34:11,391 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,067 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,257 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,403 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,561 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,704 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,848 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:12,993 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:13,149 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:13,295 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:34:13,440 basehttp 20636 29224 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:34:15,364 log 20636 29224 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 13:34:15,364 basehttp 20636 29224 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:34:18,760 log 20636 14988 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:34:18,761 basehttp 20636 14988 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:34:22,276 log 20636 14988 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:34:22,276 basehttp 20636 14988 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:34:27,884 log 20636 14988 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:34:27,885 basehttp 20636 14988 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 13:34:29,378 log 20636 14552 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:34:29,379 basehttp 20636 14552 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:37:18,175 basehttp 20636 18776 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:18,227 basehttp 20636 18776 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 13:37:18,778 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:18,931 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:19,064 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:19,203 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:37:21,649 log 20636 30680 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:37:21,650 basehttp 20636 30680 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:37:23,207 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:23,365 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:23,527 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:23,667 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:23,809 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 13:37:25,266 log 20636 30680 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 13:37:25,268 basehttp 20636 30680 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:37:27,225 basehttp 20636 30680 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:27,255 basehttp 20636 23064 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 13:37:27,257 basehttp 20636 31604 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 13:37:27,261 log 20636 30680 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 13:37:27,263 basehttp 20636 19804 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 13:37:27,263 basehttp 20636 30680 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 13:37:27,265 basehttp 20636 17084 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 13:37:27,266 basehttp 20636 18208 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 13:37:27,345 log 20636 18208 Not Found: /favicon.ico
+WARNING 2025-09-26 13:37:27,346 basehttp 20636 18208 "GET /favicon.ico HTTP/1.1" 404 9583
+WARNING 2025-09-26 13:37:31,168 log 20636 18208 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:37:31,168 basehttp 20636 18208 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:37:34,188 log 20636 18208 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 13:37:34,188 basehttp 20636 18208 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 13:37:40,058 log 20636 29624 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 13:37:40,058 basehttp 20636 29624 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 13:37:41,585 basehttp 20636 29624 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:42,097 basehttp 20636 29624 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:42,241 basehttp 20636 29624 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:42,401 basehttp 20636 29624 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 13:37:43,125 basehttp 20636 29624 "GET / HTTP/1.1" 200 15169
+INFO 2025-09-26 13:47:41,376 autoreload 20636 17960 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefa_views.py changed, reloading.
+INFO 2025-09-26 13:47:43,040 autoreload 13128 31892 Watching for file changes with StatReloader
+INFO 2025-09-26 14:09:52,921 autoreload 13128 31892 C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\tarefa_views.py changed, reloading.
+INFO 2025-09-26 14:09:54,344 autoreload 29468 32364 Watching for file changes with StatReloader
+INFO 2025-09-26 14:09:58,519 basehttp 29468 23604 "GET / HTTP/1.1" 200 15169
+INFO 2025-09-26 14:09:58,732 basehttp 29468 20272 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-26 14:09:58,735 basehttp 29468 19668 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 14:09:58,737 basehttp 29468 23604 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 14:09:58,738 basehttp 29468 27404 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 14:09:58,738 basehttp 29468 24516 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 14:09:58,853 log 29468 24516 Not Found: /favicon.ico
+WARNING 2025-09-26 14:09:58,853 basehttp 29468 24516 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 14:09:59,870 basehttp 29468 24516 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 14:10:03,374 log 29468 24516 Not Found: /tarefas/2/status/
+WARNING 2025-09-26 14:10:03,375 basehttp 29468 24516 "POST /tarefas/2/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 14:10:05,069 basehttp 29468 24516 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 14:10:08,120 log 29468 10516 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:10:08,122 basehttp 29468 10516 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:10:09,877 basehttp 29468 10516 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 14:10:09,934 log 29468 10516 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:10:09,934 basehttp 29468 10516 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:10:09,945 basehttp 29468 28696 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 14:10:09,946 basehttp 29468 20524 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 14:10:09,946 basehttp 29468 29432 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 14:10:09,949 basehttp 29468 2424 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 14:10:09,953 basehttp 29468 17136 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 14:10:10,099 log 29468 17136 Not Found: /favicon.ico
+WARNING 2025-09-26 14:10:10,100 basehttp 29468 17136 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 14:10:13,559 basehttp 29468 17136 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 14:10:13,790 basehttp 29468 2424 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 14:10:13,791 basehttp 29468 17136 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 14:10:13,997 basehttp 29468 28696 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 14:10:14,009 basehttp 29468 20524 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 14:10:15,384 basehttp 29468 20524 "GET /tarefas/ HTTP/1.1" 200 87753
+INFO 2025-09-26 14:10:16,054 basehttp 29468 20524 "GET /financas/ HTTP/1.1" 200 59585
+INFO 2025-09-26 14:10:17,640 basehttp 29468 2616 "GET /tarefas/ HTTP/1.1" 200 87753
+WARNING 2025-09-26 14:10:23,504 log 29468 2616 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 14:10:23,505 basehttp 29468 2616 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 14:14:47,946 log 29468 13912 Not Found: /tarefas/3/status/
+WARNING 2025-09-26 14:14:47,953 basehttp 29468 13912 "POST /tarefas/3/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 14:14:59,590 log 29468 28880 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:14:59,591 basehttp 29468 28880 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:15:12,614 basehttp 29468 19744 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 33074
+INFO 2025-09-26 14:15:15,082 basehttp 29468 19744 "GET /tarefas/?status=concluida HTTP/1.1" 200 29172
+INFO 2025-09-26 14:15:16,376 basehttp 29468 19744 "GET /tarefas/?status=pendente&status=atrasada HTTP/1.1" 200 33074
+WARNING 2025-09-26 14:15:17,227 log 29468 8876 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 14:15:17,229 log 29468 15588 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 14:15:17,230 basehttp 29468 8876 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 14:15:17,230 basehttp 29468 15588 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 14:15:22,846 log 29468 15588 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 14:15:22,848 log 29468 8876 Not Found: /tarefas/5/status/
+WARNING 2025-09-26 14:15:22,848 basehttp 29468 15588 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+WARNING 2025-09-26 14:15:22,849 basehttp 29468 8876 "POST /tarefas/5/status/ HTTP/1.1" 404 9602
+INFO 2025-09-26 14:17:27,084 basehttp 29468 8412 "GET /tarefas/ HTTP/1.1" 200 87763
+INFO 2025-09-26 14:17:27,122 basehttp 29468 8412 "GET /static/core/js/main.js HTTP/1.1" 304 0
+WARNING 2025-09-26 14:17:28,994 log 29468 8412 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:17:28,994 basehttp 29468 8412 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:17:30,543 basehttp 29468 8412 "GET /tarefas/ HTTP/1.1" 200 87763
+INFO 2025-09-26 14:17:30,583 basehttp 29468 8412 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 14:17:30,584 basehttp 29468 492 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 14:17:30,585 basehttp 29468 14104 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 14:17:30,587 basehttp 29468 32556 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 14:17:30,591 basehttp 29468 20176 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 14:17:30,594 log 29468 19548 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:17:30,594 basehttp 29468 19548 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 14:17:30,664 log 29468 19548 Not Found: /favicon.ico
+WARNING 2025-09-26 14:17:30,664 basehttp 29468 19548 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 14:17:34,032 basehttp 29468 27176 "POST /tarefas/atualizar_status/2/ HTTP/1.1" 200 94
+INFO 2025-09-26 14:17:36,782 basehttp 29468 27176 "GET / HTTP/1.1" 200 13854
+INFO 2025-09-26 14:17:37,966 basehttp 29468 27176 "GET / HTTP/1.1" 200 13854
+INFO 2025-09-26 14:17:38,686 basehttp 29468 27176 "GET / HTTP/1.1" 200 13854
+WARNING 2025-09-26 14:17:39,834 log 29468 27176 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:17:39,835 basehttp 29468 27176 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:17:41,390 basehttp 29468 27176 "GET / HTTP/1.1" 200 13854
+WARNING 2025-09-26 14:17:41,411 log 29468 27176 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:17:41,414 basehttp 29468 27176 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:17:41,416 basehttp 29468 11540 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 14:17:41,417 basehttp 29468 3268 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 14:17:41,418 basehttp 29468 4028 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 14:17:41,418 basehttp 29468 27288 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 14:17:41,420 basehttp 29468 32316 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 14:17:41,493 log 29468 27288 Not Found: /favicon.ico
+WARNING 2025-09-26 14:17:41,494 basehttp 29468 27288 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 14:17:43,343 basehttp 29468 29120 "GET /tarefas/ HTTP/1.1" 200 87770
+INFO 2025-09-26 14:17:46,858 basehttp 29468 29120 "POST /tarefas/atualizar_status/3/ HTTP/1.1" 200 94
+INFO 2025-09-26 14:17:47,889 basehttp 29468 29120 "POST /tarefas/atualizar_status/4/ HTTP/1.1" 200 94
+INFO 2025-09-26 14:17:50,996 basehttp 29468 29120 "POST /tarefas/atualizar_status/5/ HTTP/1.1" 200 94
+INFO 2025-09-26 14:17:51,936 basehttp 29468 29120 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 14:17:55,123 basehttp 29468 5952 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 14:17:55,143 basehttp 29468 5952 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 14:17:55,143 basehttp 29468 13572 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 14:17:55,151 basehttp 29468 28544 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 14:17:55,152 basehttp 29468 17996 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438

@@ -45,11 +45,20 @@
                             <div class="level is-mobile">
                                 <div class="level-left">
                                     <input type="checkbox" 
-                                           class="mr-2" 
-                                           {% if tarefa.status == 'concluida' %}checked{% endif %}>
-                                    <span class="{% if tarefa.status == 'concluida' %}has-text-grey-light{% endif %}">
+                                           class="mr-2 task-checkbox" 
+                                           data-task-id="{{ tarefa.id|default:tarefa.pk|default:tarefa.tarefa_id }}"
+                                           data-task-status="{{ tarefa.status }}"
+                                           {% if tarefa.status == 'concluido' %}checked{% endif %}>
+                                    <span class="task-title {% if tarefa.status == 'concluido' %}has-text-grey-light{% endif %}">
                                         {{ tarefa.titulo }}
                                     </span>
+                                    <script>
+                                        console.log('Tarefa:', {
+                                            id: {{ tarefa.id }},
+                                            titulo: '{{ tarefa.titulo }}',
+                                            status: '{{ tarefa.status }}'
+                                        });
+                                    </script>
                                 </div>
                                 
                                 <div class="level-right">

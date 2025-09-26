@@ -286,6 +286,19 @@ class TarefaViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(tarefas, many=True)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['post'])
+    def toggle_concluido(self, request, pk=None):
+        """
+        Alterna status de conclusão da tarefa
+        """
+        try:
+            tarefa = get_object_or_404(TarefaGrupo, pk=pk)
+            tarefa.status = 'concluida' if tarefa.status != 'concluida' else 'pendente'
+            tarefa.save()
+            return Response({'success': True, 'status': tarefa.status}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 class ChecklistItemViewSet(viewsets.ModelViewSet):
     """
     ViewSet para operações em itens do checklist

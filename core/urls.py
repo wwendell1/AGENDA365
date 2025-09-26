@@ -47,6 +47,8 @@ urlpatterns = [
     path('tarefas/<int:tarefa_id>/', tarefas.detalhe_tarefa, name='detalhe_tarefa'),
     path('tarefas/<int:tarefa_id>/editar/', tarefas.editar_tarefa, name='editar_tarefa'),
     path('tarefas/<int:tarefa_id>/excluir/', tarefas.excluir_tarefa, name='excluir_tarefa'),
+    path('tarefas/atualizar_status/<int:tarefa_id>/', tarefas.atualizar_status_tarefa, name='atualizar_status_tarefa'),
+    path('tarefas/atualizar_status_tarefa_grupo/<int:tarefa_id>/', tarefas.atualizar_status_tarefa_grupo, name='atualizar_status_tarefa_grupo'),
     
     # Finanças
     path('financas/', financas.lista_transacoes, name='lista_transacoes'),
