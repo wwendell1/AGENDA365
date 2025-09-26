@@ -70,3 +70,14 @@
 .btn-delete:hover {
     color: #ff3860;
 }
+
+.logo-navbar {
+    height: 28px;   /* menor que antes */
+    width: auto;    /* mantém proporção */
+    margin-right: 6px; /* espaço entre logo e texto */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}

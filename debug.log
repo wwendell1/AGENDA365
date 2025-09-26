@@ -768,3 +768,837 @@ INFO 2025-09-26 14:17:55,143 basehttp 29468 5952 "GET /static/css/style.css HTTP
 INFO 2025-09-26 14:17:55,143 basehttp 29468 13572 "GET /static/css/grupos.css HTTP/1.1" 200 11367
 INFO 2025-09-26 14:17:55,151 basehttp 29468 28544 "GET /static/js/grupos.js HTTP/1.1" 200 20216
 INFO 2025-09-26 14:17:55,152 basehttp 29468 17996 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+WARNING 2025-09-26 14:18:55,252 log 29468 5540 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:18:55,253 basehttp 29468 5540 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:18:56,599 basehttp 29468 5540 "GET /grupos/ HTTP/1.1" 200 14983
+WARNING 2025-09-26 14:18:56,629 log 29468 5540 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 14:18:56,630 basehttp 29468 5540 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 14:18:56,634 basehttp 29468 16292 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 14:18:56,637 basehttp 29468 5064 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 14:18:56,640 basehttp 29468 30836 "GET /static/logo.png HTTP/1.1" 200 117207
+INFO 2025-09-26 14:18:56,647 basehttp 29468 5064 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 14:18:56,652 basehttp 29468 30836 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+WARNING 2025-09-26 14:18:56,777 log 29468 30836 Not Found: /favicon.ico
+WARNING 2025-09-26 14:18:56,778 basehttp 29468 30836 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 14:18:58,925 basehttp 29468 30836 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 14:18:58,951 basehttp 29468 16292 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 14:18:58,951 basehttp 29468 30836 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 14:18:58,952 basehttp 29468 5540 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 14:18:58,952 basehttp 29468 5064 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 14:18:59,608 basehttp 29468 5064 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 14:19:00,549 basehttp 29468 5064 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 14:19:01,954 basehttp 29468 5064 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 14:19:02,467 basehttp 29468 5064 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 14:19:05,811 basehttp 29468 5064 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 14:19:51,348 basehttp 29468 28544 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:44:43,698 basehttp 29468 11756 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:44:43,789 basehttp 29468 11756 "GET /static/core/js/main.js HTTP/1.1" 304 0
+INFO 2025-09-26 15:45:30,034 basehttp 29468 12060 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:47:52,282 basehttp 29468 14148 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:47:52,770 basehttp 29468 14148 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:47:52,974 basehttp 29468 14148 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:47:53,193 basehttp 29468 14148 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:50:55,616 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:50:56,159 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:50:56,393 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:50:57,292 basehttp 29468 29804 "GET /tarefas/ HTTP/1.1" 200 87791
+INFO 2025-09-26 15:50:59,106 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:50:59,529 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:00,057 basehttp 29468 29804 "GET / HTTP/1.1" 200 9701
+WARNING 2025-09-26 15:51:01,867 log 29468 23676 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 15:51:01,869 basehttp 29468 23676 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 15:51:03,663 basehttp 29468 23676 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:03,733 basehttp 29468 23460 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 15:51:03,734 basehttp 29468 17400 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 15:51:03,736 basehttp 29468 30172 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 15:51:03,743 log 29468 23676 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 15:51:03,745 basehttp 29468 4312 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 15:51:03,746 basehttp 29468 23676 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 15:51:03,748 basehttp 29468 5024 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 15:51:03,813 log 29468 5024 Not Found: /favicon.ico
+WARNING 2025-09-26 15:51:03,814 basehttp 29468 5024 "GET /favicon.ico HTTP/1.1" 404 9583
+ERROR 2025-09-26 15:51:24,354 log 29468 16808 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\dashboard.py", line 50, in dashboard
+    return render(request, 'core/dashboard/home.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 200, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 484, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 482, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 698, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 606, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'tarefa_cor'
+ERROR 2025-09-26 15:51:24,372 basehttp 29468 16808 "GET / HTTP/1.1" 500 315206
+ERROR 2025-09-26 15:51:25,042 log 29468 16808 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\dashboard.py", line 50, in dashboard
+    return render(request, 'core/dashboard/home.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 200, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 484, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 482, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 698, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 606, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'tarefa_cor'
+ERROR 2025-09-26 15:51:25,045 basehttp 29468 16808 "GET / HTTP/1.1" 500 315206
+ERROR 2025-09-26 15:51:25,313 log 29468 16808 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\dashboard.py", line 50, in dashboard
+    return render(request, 'core/dashboard/home.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 200, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 484, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 482, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 698, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 606, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'tarefa_cor'
+ERROR 2025-09-26 15:51:25,315 basehttp 29468 16808 "GET / HTTP/1.1" 500 315206
+ERROR 2025-09-26 15:51:25,485 log 29468 16808 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\dashboard.py", line 50, in dashboard
+    return render(request, 'core/dashboard/home.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 200, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 484, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 482, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 698, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 606, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'tarefa_cor'
+ERROR 2025-09-26 15:51:25,488 basehttp 29468 16808 "GET / HTTP/1.1" 500 315206
+ERROR 2025-09-26 15:51:25,614 log 29468 16808 Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\core\views\dashboard.py", line 50, in dashboard
+    return render(request, 'core/dashboard/home.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 175, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 200, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 293, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\loader_tags.py", line 232, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 513, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\defaulttags.py", line 853, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 484, in parse
+    raise self.error(token, e)
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 482, in parse
+    filter_expression = self.compile_filter(token.contents)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 600, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 698, in __init__
+    filter_func = parser.find_filter(filter_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wendel.ferreira\Desktop\EclesiaUnity\produtiva\venv\Lib\site-packages\django\template\base.py", line 606, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.exceptions.TemplateSyntaxError: Invalid filter: 'tarefa_cor'
+ERROR 2025-09-26 15:51:25,617 basehttp 29468 16808 "GET / HTTP/1.1" 500 315206
+INFO 2025-09-26 15:51:39,495 basehttp 29468 20104 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:40,336 basehttp 29468 20104 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:44,375 basehttp 29468 12812 "GET /grupos/ HTTP/1.1" 200 12658
+INFO 2025-09-26 15:51:44,414 basehttp 29468 12812 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 15:51:44,415 basehttp 29468 8412 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 15:51:49,570 basehttp 29468 8412 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:51:49,588 basehttp 29468 8412 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 15:51:49,592 basehttp 29468 12812 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 15:51:50,701 basehttp 29468 12812 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:51,742 basehttp 29468 31724 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:51:52,895 basehttp 29468 31724 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:51:53,499 basehttp 29468 31724 "GET /financas/ HTTP/1.1" 200 59585
+INFO 2025-09-26 15:52:50,738 basehttp 29468 20300 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:52:51,390 basehttp 29468 20300 "GET /tarefas/ HTTP/1.1" 200 87791
+INFO 2025-09-26 15:52:55,781 basehttp 29468 20300 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:52:57,354 basehttp 29468 20300 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:55:58,478 basehttp 29468 28832 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:55:59,145 basehttp 29468 28832 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:56:04,525 basehttp 29468 28832 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:56:05,860 basehttp 29468 28832 "GET /tarefas/ HTTP/1.1" 200 87791
+INFO 2025-09-26 15:56:11,186 basehttp 29468 4084 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:56:38,298 basehttp 29468 28868 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:56:39,141 basehttp 29468 28868 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:57:28,214 basehttp 29468 31624 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:57:30,349 basehttp 29468 31624 "GET /grupos/2/ HTTP/1.1" 200 10881
+INFO 2025-09-26 15:57:33,305 basehttp 29468 31624 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 15:57:35,604 basehttp 29468 31624 "GET /grupos/3/ HTTP/1.1" 200 10886
+INFO 2025-09-26 15:57:37,158 basehttp 29468 32480 "GET /grupos/criar/ HTTP/1.1" 200 11475
+INFO 2025-09-26 15:57:41,838 basehttp 29468 32480 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 15:58:50,175 basehttp 29468 23564 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:05:39,551 basehttp 29468 30500 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:05:40,273 basehttp 29468 30500 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:05:40,743 basehttp 29468 30500 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:05:41,127 basehttp 29468 30500 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:05:41,297 basehttp 29468 30500 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:05:43,788 basehttp 29468 30500 "GET /grupos/ HTTP/1.1" 200 14983
+WARNING 2025-09-26 16:05:45,365 log 29468 30500 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:05:45,366 basehttp 29468 30500 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:05:46,758 basehttp 29468 30500 "GET /grupos/ HTTP/1.1" 200 14983
+WARNING 2025-09-26 16:05:46,781 log 29468 30500 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:05:46,782 basehttp 29468 30500 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:05:46,801 basehttp 29468 30500 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:05:46,802 basehttp 29468 26736 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:05:46,804 basehttp 29468 29936 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 16:05:46,805 basehttp 29468 26484 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:05:46,806 basehttp 29468 29484 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:05:46,894 log 29468 29936 Not Found: /favicon.ico
+WARNING 2025-09-26 16:05:46,894 basehttp 29468 29936 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:05:49,198 basehttp 29468 27080 "GET / HTTP/1.1" 200 9701
+WARNING 2025-09-26 16:05:49,243 log 29468 27080 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:05:49,245 basehttp 29468 27080 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:05:49,254 basehttp 29468 31160 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:05:49,254 basehttp 29468 32260 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:05:49,255 basehttp 29468 5968 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 16:05:49,255 basehttp 29468 32152 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:06:02,227 basehttp 29468 12524 "GET /grupos/ HTTP/1.1" 200 14983
+WARNING 2025-09-26 16:06:02,274 log 29468 12524 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:06:02,275 basehttp 29468 12524 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:06:02,714 basehttp 29468 12524 "GET /grupos/ HTTP/1.1" 200 14983
+WARNING 2025-09-26 16:06:02,739 log 29468 12524 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:06:02,740 basehttp 29468 12524 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:10:29,886 basehttp 29468 17744 "GET / HTTP/1.1" 200 10869
+WARNING 2025-09-26 16:10:29,973 log 29468 17744 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:10:29,974 basehttp 29468 17744 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:10:30,842 basehttp 29468 17744 "GET / HTTP/1.1" 200 10869
+WARNING 2025-09-26 16:10:30,864 log 29468 17744 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:10:30,865 basehttp 29468 17744 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:10:32,669 basehttp 29468 17744 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:33,122 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:33,381 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:33,575 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:33,749 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:33,895 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:34,049 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:34,221 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:34,461 basehttp 29468 22612 "GET / HTTP/1.1" 200 10869
+INFO 2025-09-26 16:10:50,355 basehttp 29468 17456 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:10:50,924 basehttp 29468 17456 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:10:51,116 basehttp 29468 17456 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:10:51,275 basehttp 29468 17456 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:10:51,656 basehttp 29468 17456 "GET / HTTP/1.1" 200 10933
+WARNING 2025-09-26 16:10:53,050 log 29468 17456 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:10:53,051 basehttp 29468 17456 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:10:54,631 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:10:54,666 basehttp 29468 14920 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:10:54,667 basehttp 29468 23864 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:10:54,668 basehttp 29468 28972 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:10:54,670 basehttp 29468 5060 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:10:54,674 basehttp 29468 16112 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 16:10:54,677 basehttp 29468 23864 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:10:54,677 basehttp 29468 30780 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:10:54,680 log 29468 14920 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:10:54,680 basehttp 29468 14920 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 16:10:54,783 log 29468 14920 Not Found: /favicon.ico
+WARNING 2025-09-26 16:10:54,783 basehttp 29468 14920 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:11:01,753 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:11:02,230 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:11:02,357 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:11:02,515 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:11:02,675 basehttp 29468 14920 "GET / HTTP/1.1" 200 10933
+WARNING 2025-09-26 16:11:03,743 log 29468 19796 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:11:03,744 basehttp 29468 19796 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:11:05,207 basehttp 29468 19796 "GET / HTTP/1.1" 200 10933
+INFO 2025-09-26 16:11:05,240 basehttp 29468 12720 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:11:05,243 basehttp 29468 10680 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:11:05,244 basehttp 29468 26276 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:11:05,247 basehttp 29468 20880 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+WARNING 2025-09-26 16:11:05,252 log 29468 19796 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 16:11:05,253 basehttp 29468 12720 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 16:11:05,253 basehttp 29468 19796 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:11:05,254 basehttp 29468 10680 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:11:05,256 basehttp 29468 20928 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:11:05,334 log 29468 20928 Not Found: /favicon.ico
+WARNING 2025-09-26 16:11:05,335 basehttp 29468 20928 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:11:18,104 basehttp 29468 29580 "GET / HTTP/1.1" 200 10991
+INFO 2025-09-26 16:11:18,524 basehttp 29468 29580 "GET / HTTP/1.1" 200 10991
+INFO 2025-09-26 16:11:18,683 basehttp 29468 29580 "GET / HTTP/1.1" 200 10991
+INFO 2025-09-26 16:11:18,813 basehttp 29468 29580 "GET / HTTP/1.1" 200 10991
+INFO 2025-09-26 16:11:18,956 basehttp 29468 29580 "GET / HTTP/1.1" 200 10991
+INFO 2025-09-26 16:12:03,020 basehttp 29468 27860 "GET / HTTP/1.1" 200 11000
+INFO 2025-09-26 16:12:03,042 basehttp 29468 27860 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:12:24,053 basehttp 29468 32008 "GET / HTTP/1.1" 200 11005
+INFO 2025-09-26 16:12:24,480 basehttp 29468 32008 "GET / HTTP/1.1" 200 11005
+INFO 2025-09-26 16:12:24,684 basehttp 29468 32008 "GET / HTTP/1.1" 200 11005
+INFO 2025-09-26 16:12:30,326 basehttp 29468 32008 "GET / HTTP/1.1" 200 10939
+INFO 2025-09-26 16:12:42,248 basehttp 29468 30180 "GET / HTTP/1.1" 200 10938
+INFO 2025-09-26 16:12:42,514 basehttp 29468 30180 "GET / HTTP/1.1" 200 10938
+INFO 2025-09-26 16:12:51,751 basehttp 29468 27604 "GET / HTTP/1.1" 200 10865
+INFO 2025-09-26 16:12:52,304 basehttp 29468 27604 "GET / HTTP/1.1" 200 10865
+INFO 2025-09-26 16:13:02,781 basehttp 29468 5280 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:13:08,363 basehttp 29468 28724 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:13:08,404 basehttp 29468 28724 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+WARNING 2025-09-26 16:13:10,425 log 29468 28724 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:13:10,425 basehttp 29468 28724 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:14:15,834 basehttp 29468 17412 "GET / HTTP/1.1" 200 12550
+WARNING 2025-09-26 16:14:15,880 log 29468 17412 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:14:15,880 basehttp 29468 17412 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:14:16,378 basehttp 29468 17412 "GET / HTTP/1.1" 200 12550
+WARNING 2025-09-26 16:14:16,402 log 29468 17412 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:14:16,403 basehttp 29468 17412 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:14:16,858 basehttp 29468 17412 "GET / HTTP/1.1" 200 12550
+WARNING 2025-09-26 16:14:16,879 log 29468 17412 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:14:16,880 basehttp 29468 17412 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:16:09,104 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:16:09,133 log 29468 27480 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:16:09,134 basehttp 29468 27480 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:16:11,876 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:16:12,181 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:16:12,371 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:16:12,515 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:16:12,676 basehttp 29468 27480 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:16:27,606 basehttp 29468 22992 "GET /tarefas/ HTTP/1.1" 200 88882
+INFO 2025-09-26 16:16:29,959 basehttp 29468 22992 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:16:30,565 basehttp 29468 22992 "GET /financas/ HTTP/1.1" 200 62990
+INFO 2025-09-26 16:16:32,397 basehttp 29468 22992 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:18:27,728 basehttp 29468 26276 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:20:25,238 basehttp 29468 4084 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:20:26,149 basehttp 29468 4084 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:20:26,473 basehttp 29468 4084 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:20:26,632 basehttp 29468 4084 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:20:27,783 log 29468 4084 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:20:27,783 basehttp 29468 4084 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:20:32,058 basehttp 29468 4084 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:20:32,112 basehttp 29468 3304 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:20:32,115 basehttp 29468 31916 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:20:32,124 basehttp 29468 4936 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+WARNING 2025-09-26 16:20:32,129 log 29468 4084 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 16:20:32,130 basehttp 29468 5440 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:20:32,131 basehttp 29468 29244 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+WARNING 2025-09-26 16:20:32,132 basehttp 29468 4084 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:20:32,133 basehttp 29468 31916 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:20:32,135 basehttp 29468 3304 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:20:32,220 log 29468 3304 Not Found: /favicon.ico
+WARNING 2025-09-26 16:20:32,221 basehttp 29468 3304 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:21:36,936 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:37,562 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:37,718 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:37,845 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:37,993 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:38,133 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:38,264 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:38,426 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:21:38,565 basehttp 29468 484 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:21:40,620 log 29468 484 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:21:40,621 basehttp 29468 484 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 16:22:45,140 log 29468 32740 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:22:45,141 basehttp 29468 32740 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:23:23,362 basehttp 29468 28656 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:23:23,402 basehttp 29468 28656 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 16:23:24,549 basehttp 29468 19596 "GET /tarefas/ HTTP/1.1" 200 88882
+INFO 2025-09-26 16:23:25,087 basehttp 29468 19596 "GET /financas/ HTTP/1.1" 200 62990
+INFO 2025-09-26 16:24:44,697 basehttp 29468 20132 "GET /financas/ HTTP/1.1" 200 62990
+INFO 2025-09-26 16:24:45,211 basehttp 29468 20132 "GET /financas/ HTTP/1.1" 200 62990
+INFO 2025-09-26 16:24:45,727 basehttp 29468 20132 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:24:46,121 basehttp 29468 20132 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:24:46,506 basehttp 29468 20132 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:24:46,664 basehttp 29468 20132 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:24:50,155 log 29468 20132 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:24:50,156 basehttp 29468 20132 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:24:51,779 basehttp 29468 20132 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:24:51,812 basehttp 29468 20132 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:24:51,813 basehttp 29468 25732 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:24:51,822 basehttp 29468 7384 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:24:51,824 basehttp 29468 32448 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:24:51,825 basehttp 29468 17664 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:24:51,826 basehttp 29468 20132 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:24:51,831 basehttp 29468 2728 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:24:51,834 log 29468 25732 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:24:51,835 basehttp 29468 25732 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 16:24:51,904 log 29468 25732 Not Found: /favicon.ico
+WARNING 2025-09-26 16:24:51,905 basehttp 29468 25732 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:24:59,260 basehttp 29468 23336 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:24:59,287 log 29468 23336 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:24:59,287 basehttp 29468 23336 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:24:59,793 basehttp 29468 23336 "GET / HTTP/1.1" 200 13115
+WARNING 2025-09-26 16:24:59,816 log 29468 23336 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:24:59,817 basehttp 29468 23336 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:30:25,431 basehttp 29468 27236 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:30:29,837 basehttp 29468 27236 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:30:29,867 basehttp 29468 27236 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 16:30:31,761 basehttp 29468 27236 "GET /tarefas/ HTTP/1.1" 200 88882
+INFO 2025-09-26 16:30:32,449 basehttp 29468 27236 "GET /financas/ HTTP/1.1" 200 62990
+INFO 2025-09-26 16:30:35,265 basehttp 29468 27236 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:26,226 basehttp 29468 2860 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:26,930 basehttp 29468 2860 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:27,228 basehttp 29468 2860 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:27,404 basehttp 29468 2860 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:27,565 basehttp 29468 2860 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:37,175 basehttp 29468 29016 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:37,746 basehttp 29468 29016 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:37,951 basehttp 29468 29016 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:38,110 basehttp 29468 29016 "GET / HTTP/1.1" 200 13115
+INFO 2025-09-26 16:32:49,181 basehttp 29468 21988 "GET / HTTP/1.1" 200 9701
+INFO 2025-09-26 16:32:49,204 basehttp 29468 21988 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 16:34:54,102 basehttp 29468 32076 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:39:25,219 basehttp 29468 15656 "GET / HTTP/1.1" 200 10849
+INFO 2025-09-26 16:39:26,269 basehttp 29468 32020 "GET / HTTP/1.1" 200 10849
+INFO 2025-09-26 16:40:27,503 basehttp 29468 3536 "GET / HTTP/1.1" 200 11190
+INFO 2025-09-26 16:40:28,277 basehttp 29468 3536 "GET / HTTP/1.1" 200 11190
+INFO 2025-09-26 16:40:43,263 basehttp 29468 26840 "GET / HTTP/1.1" 200 11117
+INFO 2025-09-26 16:40:43,748 basehttp 29468 26840 "GET / HTTP/1.1" 200 11117
+INFO 2025-09-26 16:40:43,923 basehttp 29468 26840 "GET / HTTP/1.1" 200 11117
+INFO 2025-09-26 16:40:44,097 basehttp 29468 26840 "GET / HTTP/1.1" 200 11117
+INFO 2025-09-26 16:40:47,076 basehttp 29468 32032 "GET / HTTP/1.1" 200 11190
+INFO 2025-09-26 16:40:51,123 basehttp 29468 32032 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:40:52,155 basehttp 29468 32032 "GET / HTTP/1.1" 200 11190
+INFO 2025-09-26 16:41:41,181 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:41,747 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:41,967 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,143 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,289 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,434 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,576 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,720 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:42,884 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:43,029 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:43,154 basehttp 29468 3368 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:41:56,464 basehttp 29468 9212 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:42:00,209 basehttp 29468 9212 "GET / HTTP/1.1" 200 11430
+INFO 2025-09-26 16:42:34,607 basehttp 29468 29964 "GET / HTTP/1.1" 200 11428
+INFO 2025-09-26 16:42:35,026 basehttp 29468 29964 "GET / HTTP/1.1" 200 11428
+INFO 2025-09-26 16:42:35,169 basehttp 29468 29964 "GET / HTTP/1.1" 200 11428
+INFO 2025-09-26 16:42:35,327 basehttp 29468 29964 "GET / HTTP/1.1" 200 11428
+WARNING 2025-09-26 16:42:51,519 log 29468 11600 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:42:51,519 basehttp 29468 11600 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:43:05,699 basehttp 29468 28916 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:43:41,279 basehttp 29468 13096 "GET / HTTP/1.1" 200 11428
+INFO 2025-09-26 16:49:34,516 basehttp 29468 32648 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:35,181 basehttp 29468 32648 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:35,251 basehttp 29468 32648 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:36,097 basehttp 29468 32648 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:58,177 basehttp 29468 13608 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:58,740 basehttp 29468 13608 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:49:59,110 basehttp 29468 13608 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:02,609 basehttp 29468 13608 "GET / HTTP/1.1" 200 11469
+WARNING 2025-09-26 16:50:04,386 log 29468 13608 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:50:04,387 basehttp 29468 13608 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:50:06,234 basehttp 29468 13608 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:06,271 basehttp 29468 26832 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:50:06,277 basehttp 29468 31932 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:50:06,277 basehttp 29468 3540 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:50:06,278 basehttp 29468 12524 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+WARNING 2025-09-26 16:50:06,282 log 29468 13608 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-09-26 16:50:06,286 basehttp 29468 26832 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+WARNING 2025-09-26 16:50:06,287 basehttp 29468 13608 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:50:06,290 basehttp 29468 12524 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:50:06,291 basehttp 29468 22836 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:50:06,397 log 29468 12524 Not Found: /favicon.ico
+WARNING 2025-09-26 16:50:06,398 basehttp 29468 12524 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:50:08,821 basehttp 29468 12952 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:11,413 basehttp 29468 12952 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:50:11,437 basehttp 29468 12952 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:50:11,441 basehttp 29468 12952 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 16:50:20,312 basehttp 29468 30276 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:20,684 basehttp 29468 30276 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:20,854 basehttp 29468 30276 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:20,979 basehttp 29468 30276 "GET / HTTP/1.1" 200 11469
+WARNING 2025-09-26 16:50:22,252 log 29468 30276 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:50:22,252 basehttp 29468 30276 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:50:23,650 basehttp 29468 30276 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:23,673 basehttp 29468 32536 "GET /static/core/css/tarefas.css HTTP/1.1" 200 12625
+INFO 2025-09-26 16:50:23,675 basehttp 29468 30276 "GET /static/core/css/style.css HTTP/1.1" 200 7297
+INFO 2025-09-26 16:50:23,680 basehttp 29468 29456 "GET /static/css/style.css HTTP/1.1" 200 4331
+INFO 2025-09-26 16:50:23,680 basehttp 29468 30940 "GET /static/core/css/footer.css HTTP/1.1" 200 2080
+INFO 2025-09-26 16:50:23,682 basehttp 29468 22588 "GET /static/core/js/main.js HTTP/1.1" 200 7358
+INFO 2025-09-26 16:50:23,684 basehttp 29468 30276 "GET /media/avatares/1742229009028.jpeg HTTP/1.1" 200 13438
+INFO 2025-09-26 16:50:23,686 basehttp 29468 19484 "GET /static/logo.png HTTP/1.1" 200 117207
+WARNING 2025-09-26 16:50:23,688 log 29468 32536 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:50:23,688 basehttp 29468 32536 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+WARNING 2025-09-26 16:50:23,824 log 29468 32536 Not Found: /favicon.ico
+WARNING 2025-09-26 16:50:23,824 basehttp 29468 32536 "GET /favicon.ico HTTP/1.1" 404 9583
+INFO 2025-09-26 16:50:27,081 basehttp 29468 16092 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:50:27,108 basehttp 29468 16092 "GET /static/css/grupos.css HTTP/1.1" 200 11367
+INFO 2025-09-26 16:50:27,112 basehttp 29468 27760 "GET /static/js/grupos.js HTTP/1.1" 200 20216
+INFO 2025-09-26 16:50:28,085 basehttp 29468 27760 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:29,129 basehttp 29468 27760 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:50:30,174 basehttp 29468 27760 "GET /tarefas/ HTTP/1.1" 200 89611
+INFO 2025-09-26 16:50:31,355 basehttp 29468 27760 "GET /financas/ HTTP/1.1" 200 61344
+WARNING 2025-09-26 16:50:33,966 log 29468 27760 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-26 16:50:33,967 basehttp 29468 27760 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 9694
+INFO 2025-09-26 16:50:42,264 basehttp 29468 25736 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:50:52,426 basehttp 29468 18576 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:50:53,624 basehttp 29468 18576 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:52:58,271 basehttp 29468 9696 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:52:59,863 basehttp 29468 9696 "GET /tarefas/ HTTP/1.1" 200 89611
+INFO 2025-09-26 16:53:01,083 basehttp 29468 9696 "GET /financas/ HTTP/1.1" 200 61344
+INFO 2025-09-26 16:53:02,192 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:03,370 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:04,214 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:04,388 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:04,564 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:04,791 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:04,932 basehttp 29468 9696 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:53:19,480 basehttp 29468 28644 "GET / HTTP/1.1" 200 11398
+INFO 2025-09-26 16:53:20,595 basehttp 29468 28644 "GET / HTTP/1.1" 200 11398
+INFO 2025-09-26 16:53:20,818 basehttp 29468 28644 "GET / HTTP/1.1" 200 11398
+INFO 2025-09-26 16:53:26,160 basehttp 29468 28644 "GET / HTTP/1.1" 200 11398
+INFO 2025-09-26 16:53:27,643 basehttp 29468 27840 "GET /tarefas/ HTTP/1.1" 200 89540
+INFO 2025-09-26 16:53:28,258 basehttp 29468 27840 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:53:30,065 basehttp 29468 27840 "GET /tarefas/ HTTP/1.1" 200 89540
+INFO 2025-09-26 16:53:30,868 basehttp 29468 27840 "GET /financas/ HTTP/1.1" 200 61273
+INFO 2025-09-26 16:53:31,705 basehttp 29468 27840 "GET /tarefas/ HTTP/1.1" 200 89540
+INFO 2025-09-26 16:53:32,430 basehttp 29468 27840 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:53:33,251 basehttp 29468 27840 "GET / HTTP/1.1" 200 11398
+INFO 2025-09-26 16:53:34,690 basehttp 29468 27840 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:54:55,647 basehttp 29468 9764 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:54:56,735 basehttp 29468 9764 "GET / HTTP/1.1" 200 11413
+INFO 2025-09-26 16:54:57,171 basehttp 29468 9764 "GET / HTTP/1.1" 200 11413
+INFO 2025-09-26 16:54:57,685 basehttp 29468 9764 "GET / HTTP/1.1" 200 11413
+INFO 2025-09-26 16:54:57,782 basehttp 29468 9764 "GET / HTTP/1.1" 200 11413
+INFO 2025-09-26 16:54:58,583 basehttp 29468 9764 "GET / HTTP/1.1" 200 11413
+INFO 2025-09-26 16:55:10,193 basehttp 29468 13020 "GET / HTTP/1.1" 200 11469
+INFO 2025-09-26 16:55:43,640 basehttp 29468 26732 "GET / HTTP/1.1" 200 11443
+INFO 2025-09-26 16:55:45,181 basehttp 29468 26732 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:55:45,791 basehttp 29468 26732 "GET /tarefas/ HTTP/1.1" 200 89585
+INFO 2025-09-26 16:55:46,371 basehttp 29468 26732 "GET /financas/ HTTP/1.1" 200 61318
+INFO 2025-09-26 16:55:47,716 basehttp 29468 29544 "GET / HTTP/1.1" 200 11443
+INFO 2025-09-26 16:55:48,302 basehttp 29468 29544 "GET / HTTP/1.1" 200 11443
+INFO 2025-09-26 16:55:49,016 basehttp 29468 29544 "GET / HTTP/1.1" 200 11443
+INFO 2025-09-26 16:55:49,367 basehttp 29468 29544 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:55:49,817 basehttp 29468 29544 "GET /tarefas/ HTTP/1.1" 200 89585
+INFO 2025-09-26 16:55:50,702 basehttp 29468 29544 "GET /financas/ HTTP/1.1" 200 61318
+INFO 2025-09-26 16:55:51,559 basehttp 29468 29544 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:55:52,201 basehttp 29468 29544 "GET /financas/ HTTP/1.1" 200 61318
+INFO 2025-09-26 16:55:55,289 basehttp 29468 29544 "GET / HTTP/1.1" 200 11443
+INFO 2025-09-26 16:55:55,822 basehttp 29468 29544 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:55:57,806 basehttp 29468 29544 "GET /grupos/criar/ HTTP/1.1" 200 11475
+INFO 2025-09-26 16:55:59,403 basehttp 29468 29544 "GET /grupos/ HTTP/1.1" 200 14983
+INFO 2025-09-26 16:56:00,863 basehttp 29468 29544 "GET /grupos/2/ HTTP/1.1" 200 10881
+INFO 2025-09-26 16:56:02,570 basehttp 29468 16964 "GET / HTTP/1.1" 200 11443
